@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.0.1
+
+- The lock's idle window is measured against the wall clock as well as the
+  monotonic one, which does not run while the machine is suspended. A laptop
+  unlocked and then closed for the night used to come back unlocked.
+- A middle click set to take a snapshot opens the menu when the lock is on,
+  where it can be answered, instead of going around it.
+- Cancelling an authorization window while polkit is still asking no longer
+  lets the answer, when it arrives, be reported a second time or written into
+  a window that has gone.
+
 ## 1.0.0
 
 First release.
