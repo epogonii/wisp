@@ -14,7 +14,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
     env:
-      ZIP: wisp.zip
+      ASSET: wisp.zip
     steps:
       - uses: actions/checkout@v5
 
@@ -50,9 +50,9 @@ jobs:
             if [ -s notes.md ]; then
               gh release edit "$GITHUB_REF_NAME" --title "$version" --notes-file notes.md
             fi
-            gh release upload "$GITHUB_REF_NAME" "$ZIP" --clobber
+            gh release upload "$GITHUB_REF_NAME" "$ASSET" --clobber
           elif [ -s notes.md ]; then
-            gh release create "$GITHUB_REF_NAME" --title "$version" --notes-file notes.md "$ZIP"
+            gh release create "$GITHUB_REF_NAME" --title "$version" --notes-file notes.md "$ASSET"
           else
-            gh release create "$GITHUB_REF_NAME" --title "$version" --generate-notes "$ZIP"
+            gh release create "$GITHUB_REF_NAME" --title "$version" --generate-notes "$ASSET"
           fi

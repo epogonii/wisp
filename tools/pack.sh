@@ -7,6 +7,12 @@
 # a line of their time spent on something that does not run.
 set -euo pipefail
 
+# zip takes default options from $ZIP and $ZIPOPT. An environment that happens
+# to hold a variable called ZIP - a workflow naming the asset it is about to
+# upload, say - has zip read it as the archive name, and the archive is written
+# somewhere other than where it was asked for.
+unset ZIP ZIPOPT
+
 src=$(cd "$(dirname "$0")/.." && pwd)
 out=$src/wisp.zip
 work=$(mktemp -d)
