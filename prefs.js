@@ -32,6 +32,7 @@ const PANEL_BOXES = ['left', 'center', 'right'];
 const VISIBILITY = ['always', 'when-usable'];
 const MIDDLE_CLICK = ['none', 'take-snapshot', 'settings'];
 const DATE_STYLES = ['relative', 'absolute'];
+const MESSAGE_STYLES = ['pill', 'notification'];
 const LOCKS = ['never', 'after-idle', 'always'];
 
 const PROJECT_URL = 'https://github.com/epogonii/wisp';
@@ -628,6 +629,20 @@ export default class WispPreferences extends ExtensionPreferences {
             settings.set_boolean('show-cleanup', cleanup.active));
         menu.add(cleanup);
 
+        const messages = new Adw.PreferencesGroup({
+            title: _('Messages'),
+            description: _('What a snapshot taken and a command copied are answered with. Anything that changed the disk - a rollback, files put back - is a notification either way, since that is worth finding again later.'),
+        });
+        page.add(messages);
+
+        messages.add(this._combo({
+            title: _('Say it with'),
+            subtitle: _('The pill appears under the panel and is gone in a couple of seconds'),
+            labels: [_('A pill under the panel'), _('A notification')],
+            key: 'message-style',
+            values: MESSAGE_STYLES,
+        }));
+
         const protection = new Adw.PreferencesGroup({
             title: _('Lock'),
             description: _('Being allowed to read a config is granted once and belongs to the account from then on, so nothing here can take that back. What it can do is put a lock in front of the menu, asked for by polkit - the same password, or the same finger, that authorising anything else on this machine takes.'),
@@ -1221,21 +1236,21 @@ export default class WispPreferences extends ExtensionPreferences {
      */
     _spaceGroup(configs) {
         const group = new Adw.PreferencesGroup({
-            title: _('Snapshots'),
-            description: _('How much of the filesystem above the snapshots themselves are holding on to. It is worked out from btrfs quota groups, and asking costs a rescan.'),
+            title: _('Space taken by snapshots'),
+            description: _('A snapshot costs nothing when it is taken and grows as the files it froze are changed or deleted, since the old copies have to be kept somewhere. What is counted here is what a config\u2019s snapshots would give back between them if they all went. btrfs can only answer it where counting is turned on, and going through the filesystem to count takes a while.'),
         });
 
         const entries = configs.map(({name}) => {
             const row = new Adw.ActionRow({
                 title: name,
-                subtitle: _('Not added up yet'),
+                subtitle: _('Not counted yet'),
             });
             group.add(row);
             return {name, row, button: null};
         });
 
         const add = new Gtk.Button({
-            label: _('Add it up'),
+            label: _('Count the size'),
             valign: Gtk.Align.CENTER,
             css_classes: ['flat'],
         });
@@ -1259,7 +1274,7 @@ export default class WispPreferences extends ExtensionPreferences {
             if (this._closed)
                 return;
 
-            entry.row.subtitle = _('Adding it up…');
+            entry.row.subtitle = _('Counting…');
             const {count, bytes, said} = await Configs.snapshotSpace(entry.name);
             if (this._closed)
                 return;
@@ -1271,8 +1286,8 @@ export default class WispPreferences extends ExtensionPreferences {
             }
 
             if (bytes !== null) {
-                entry.row.subtitle = ngettext('%d snapshot, holding %s',
-                    '%d snapshots, holding %s', count)
+                entry.row.subtitle = ngettext('%d snapshot, taking %s between them',
+                    '%d snapshots, taking %s between them', count)
                     .format(count, Btrfs.size(bytes));
                 if (entry.button) {
                     entry.row.remove(entry.button);
@@ -1283,13 +1298,13 @@ export default class WispPreferences extends ExtensionPreferences {
 
             entry.row.subtitle = count === 0
                 ? _('Nothing has been snapshotted yet')
-                : ngettext('%d snapshot, and no quota groups to weigh it with',
-                    '%d snapshots, and no quota groups to weigh them with', count)
+                : ngettext('%d snapshot. btrfs is not counting sizes here yet',
+                    '%d snapshots. btrfs is not counting sizes here yet', count)
                     .format(count);
 
             if (count > 0 && !entry.button) {
                 entry.button = new Gtk.Button({
-                    label: _('Set up quotas'),
+                    label: _('Turn counting on'),
                     valign: Gtk.Align.CENTER,
                 });
                 entry.button.connect('clicked', () => this._confirmQuota(entry));
@@ -1304,12 +1319,12 @@ export default class WispPreferences extends ExtensionPreferences {
      */
     _confirmQuota(entry) {
         const dialog = new Adw.AlertDialog({
-            heading: _('Set up btrfs quotas for %s?').format(entry.name),
-            body: _('Quota groups are what btrfs counts a snapshot\u2019s own space with, and this turns them on for the subvolume. Nothing is deleted and no snapshot changes, but btrfs rescans the filesystem afterwards, which takes a while and is felt while it runs. It is root\u2019s to do:\n\n%s')
+            heading: _('Count snapshot sizes on %s?').format(entry.name),
+            body: _('btrfs keeps no running total of what a snapshot is holding unless it is asked to. Being asked is a quota group - btrfs\u2019s own bookkeeping for one subvolume - and it is off until somebody turns it on. This turns it on. Nothing is deleted and no snapshot changes; btrfs then goes through the filesystem once to count what is there already, which takes a while and is felt while it runs. It is root\u2019s to do:\n\n%s')
                 .format(commandLine(Configs.setupQuotaArgv(entry.name))),
         });
         dialog.add_response('cancel', _('Cancel'));
-        dialog.add_response('setup', _('Set up'));
+        dialog.add_response('setup', _('Turn it on'));
         dialog.set_response_appearance('setup', Adw.ResponseAppearance.SUGGESTED);
         dialog.set_default_response('setup');
         dialog.set_close_response('cancel');
@@ -1336,7 +1351,7 @@ export default class WispPreferences extends ExtensionPreferences {
         if (result.status !== 0)
             return;
 
-        this._toast(_('Quotas set up. The first figure may be low until btrfs has finished its rescan.'));
+        this._toast(_('Counting is on. The first figure may be low until btrfs has finished going through the filesystem.'));
         await this._addUp([entry]);
     }
 

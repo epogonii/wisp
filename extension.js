@@ -371,7 +371,7 @@ class Advice extends PopupMenu.PopupBaseMenuItem {
     activate(event) {
         if (this._command) {
             St.Clipboard.get_default().set_text(St.ClipboardType.CLIPBOARD, this._command);
-            Toast.show(_('Command copied'));
+            Toast.announce(_('Command copied'));
         }
         super.activate(event);
     }
@@ -846,6 +846,7 @@ class Indicator extends PanelMenu.Button {
 export default class WispExtension extends Extension {
     enable() {
         this._settings = this.getSettings();
+        Toast.watch(this._settings);
         this._place();
         this._placeIds = ['panel-box', 'panel-index'].map(key =>
             this._settings.connect(`changed::${key}`, () => this._place()));

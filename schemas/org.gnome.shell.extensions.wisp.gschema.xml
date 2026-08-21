@@ -18,6 +18,10 @@
     <value value="0" nick="relative"/>
     <value value="1" nick="absolute"/>
   </enum>
+  <enum id="org.gnome.shell.extensions.wisp.message-style">
+    <value value="0" nick="pill"/>
+    <value value="1" nick="notification"/>
+  </enum>
   <enum id="org.gnome.shell.extensions.wisp.lock">
     <value value="0" nick="never"/>
     <value value="1" nick="after-idle"/>
@@ -67,6 +71,18 @@
         Relative reads as an age, which is how a snapshot is usually thought
         about. Absolute gives the date and time it was taken, which is what
         matters when it has to be matched against something else.
+      </description>
+    </key>
+    <key name="message-style" enum="org.gnome.shell.extensions.wisp.message-style">
+      <default>'pill'</default>
+      <summary>How a finished action says so</summary>
+      <description>
+        A snapshot taken and a command copied are answers to something asked a
+        moment earlier, and the pill under the panel says them and is gone.
+        Notifications stay in the message list instead, which is worth having
+        where the answer is wanted later or where the pill is missed.
+        Notifications about something that changed on disk - a rollback, files
+        put back - are notifications either way.
       </description>
     </key>
     <key name="show-cleanup" type="b">

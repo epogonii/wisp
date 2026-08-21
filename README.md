@@ -60,7 +60,7 @@ What changed since a snapshot, with the files to put back picked out of it:
 | --- | --- |
 | `snapper` and one config | **Required.** Not installed by default on most distributions, and there is nothing to list until a config exists |
 | `polkit` | Anything that belongs to root: a snapshot for a config this account may not change, restoring files, rolling back, and the lock in front of the menu |
-| `util-linux`, `btrfs-progs` | The Storage page. What a snapshot takes, on its own or per config, also wants btrfs quotas on - the Storage page offers to set them up |
+| `util-linux`, `btrfs-progs` | The Storage page. Sizes for the snapshots themselves need btrfs counting them, which is off by default - the Storage page turns it on |
 | `btrfsmaintenance` | Balance, scrub, defrag and trim on the Schedule page. snapper does not need it |
 
 GNOME Shell 46 or newer, Wayland or X11. polkit and util-linux are on
@@ -152,10 +152,10 @@ gnome-extensions prefs wisp@epogonii.github.io
 
 | Page | What is on it |
 | --- | --- |
-| Appearance | Where the indicator sits and whether it is shown, what a middle click does, how many snapshots each config lists, ages or dates, and the lock: never, after a while, or every time |
+| Appearance | Where the indicator sits and whether it is shown, what a middle click does, how many snapshots each config lists, ages or dates, whether a finished action answers with a pill under the panel or a notification, and the lock: never, after a while, or every time |
 | Snapshots | One row per config with the subvolume it snapshots, whether it shows in the menu, whether this account may read it, and the timeline and numbered limits snapper cleans up by |
 | Schedule | snapper's three timers, and how often btrfsmaintenance balances, scrubs, defragments and trims |
-| Storage | What the filesystem is doing: size, what btrfs has handed out to chunks, what is written, what is free, and the same per chunk type. Also what each config's snapshots are holding on to, and a way to set up the btrfs quotas that figure needs |
+| Storage | What the filesystem is doing: size, what btrfs has handed out to chunks, what is written, what is free, and the same per chunk type. Also what each config's snapshots are taking between them, once btrfs is counting - which it is not by default, so there is a button that turns it on |
 | About | The version, the project page, and the links below |
 
 ---
