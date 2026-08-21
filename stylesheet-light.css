@@ -366,6 +366,21 @@
     color: #1c71d8; /* sh-var: accent */
 }
 
+/* The offer to look at one file. Only the row under the pointer or the key
+   focus carries it, and it goes invisible rather than away, so the check
+   marks keep their column. */
+.wisp-file-open {
+    padding: 3px;
+    margin: 0 6px 0 2px;
+    border-radius: 99px;
+    color: rgba(0, 0, 0, 0.55); /* sh-var: dim */
+}
+
+.wisp-file-open:hover,
+.wisp-file-open:focus {
+    background-color: rgba(0, 0, 0, 0.1); /* sh-var: hover */
+}
+
 .wisp-more {
     font-size: 0.9em;
     color: rgba(0, 0, 0, 0.55); /* sh-var: dim */
