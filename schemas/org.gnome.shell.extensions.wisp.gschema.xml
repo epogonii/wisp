@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <enum id="org.gnome.shell.extensions.wisp.panel-box">
+    <value value="0" nick="left"/>
+    <value value="1" nick="center"/>
+    <value value="2" nick="right"/>
+  </enum>
+  <enum id="org.gnome.shell.extensions.wisp.indicator-visibility">
+    <value value="0" nick="always"/>
+    <value value="1" nick="when-usable"/>
+  </enum>
+  <enum id="org.gnome.shell.extensions.wisp.middle-click">
+    <value value="0" nick="none"/>
+    <value value="1" nick="take-snapshot"/>
+    <value value="2" nick="settings"/>
+  </enum>
+  <enum id="org.gnome.shell.extensions.wisp.date-style">
+    <value value="0" nick="relative"/>
+    <value value="1" nick="absolute"/>
+  </enum>
+  <enum id="org.gnome.shell.extensions.wisp.lock">
+    <value value="0" nick="never"/>
+    <value value="1" nick="after-idle"/>
+    <value value="2" nick="always"/>
+  </enum>
+  <schema id="org.gnome.shell.extensions.wisp"
+          path="/org/gnome/shell/extensions/wisp/">
+    <key name="panel-box" enum="org.gnome.shell.extensions.wisp.panel-box">
+      <default>'right'</default>
+      <summary>Which end of the panel the indicator sits at</summary>
+      <description>
+        The left, centre or right box of the top bar.
+      </description>
+    </key>
+    <key name="panel-index" type="i">
+      <default>0</default>
+      <range min="0" max="20"/>
+      <summary>Where in that end of the panel it goes</summary>
+      <description>
+        Counted from the edge the indicator sits at. Zero puts it outermost;
+        raising it moves the indicator past the ones already there, and a
+        number higher than the number of indicators leaves it last.
+      </description>
+    </key>
+    <key name="indicator-visibility"
+         enum="org.gnome.shell.extensions.wisp.indicator-visibility">
+      <default>'always'</default>
+      <summary>When to show the indicator at all</summary>
+      <description>
+        Always, or only once there is something to show: snapper installed,
+        answering, and with at least one config. Hidden this way the indicator
+        comes back on its own as soon as that changes.
+      </description>
+    </key>
+    <key name="middle-click"
+         enum="org.gnome.shell.extensions.wisp.middle-click">
+      <default>'none'</default>
+      <summary>What a middle click on the indicator does</summary>
+      <description>
+        Taking a snapshot uses the first config shown in the menu.
+      </description>
+    </key>
+    <key name="date-style" enum="org.gnome.shell.extensions.wisp.date-style">
+      <default>'relative'</default>
+      <summary>How a snapshot's age is written</summary>
+      <description>
+        Relative reads as an age, which is how a snapshot is usually thought
+        about. Absolute gives the date and time it was taken, which is what
+        matters when it has to be matched against something else.
+      </description>
+    </key>
+    <key name="show-cleanup" type="b">
+      <default>false</default>
+      <summary>Show which cleanup rule owns each snapshot</summary>
+      <description>
+        Whether a row says that a snapshot is a timeline one, one of a
+        numbered set, or kept until somebody deletes it. This is what decides
+        when snapper will remove it on its own.
+      </description>
+    </key>
+    <key name="snapshot-count" type="i">
+      <default>5</default>
+      <range min="1" max="50"/>
+      <summary>How many snapshots each config shows</summary>
+      <description>
+        Timeline snapshots are taken every hour and a config holds dozens of
+        them, more than a menu can show. The newest this many are listed and
+        the rest are counted in one line underneath.
+      </description>
+    </key>
+    <key name="lock" enum="org.gnome.shell.extensions.wisp.lock">
+      <default>'never'</default>
+      <summary>Whether the list has to be unlocked before it is shown</summary>
+      <description>
+        Being allowed to read a config's snapshots is a permanent arrangement:
+        it is granted once and it applies to the account, not to this session.
+        This puts a lock in front of the menu anyway, asked for by polkit, so
+        a machine left open is not a machine whose snapshots can be read and
+        deleted by whoever walks past it.
+      </description>
+    </key>
+    <key name="lock-timeout" type="i">
+      <default>15</default>
+      <range min="1" max="240"/>
+      <summary>Minutes before it asks again</summary>
+      <description>
+        Counted from the last time it was unlocked.
+      </description>
+    </key>
+    <key name="hidden-configs" type="as">
+      <default>[]</default>
+      <summary>Configs left out of the menu</summary>
+      <description>
+        The names of snapper configs not to show. Everything snapper knows
+        about is shown while this is empty.
+      </description>
+    </key>
+  </schema>
+</schemalist>

@@ -1,0 +1,12 @@
+# Built by tools/install-local.sh and tools/pack.sh from the schema xml.
+schemas/gschemas.compiled
+
+# What tools/pack.sh produces. Releases carry it; the repository does not.
+wisp.zip
+
+# Compiled translations. Both scripts build them from po/*.po on the way to
+# where they are installed, and only the po files belong here.
+po/*.mo
+
+# Left behind by the python helpers in tools/.
+__pycache__/

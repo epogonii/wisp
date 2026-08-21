@@ -1,0 +1,394 @@
+/* Generated from stylesheet.css by tools/gen-stylesheets.py.
+   Edit the base file, then run the script. */
+
+/* Colours that have to change with the system's light and dark setting are
+   marked with a trailing sh-var comment naming which colour they are, and
+   tools/gen-stylesheets.py writes the light and dark variants of this file
+   from those marks. What is left in here is the dark set, which is what a
+   shell too old to look for a variant will use. */
+
+/* ---- the panel ---- */
+
+.wisp-indicator {
+    -natural-hpadding: 10px;
+    -minimum-hpadding: 5px;
+}
+
+/* The ghost is drawn to the edges of its box, with none of the built-in
+   breathing room a glyph-shaped symbolic icon has, so it needs a little of
+   its own or it crowds whatever sits next to it in the panel. */
+.wisp-indicator .system-status-icon {
+    padding: 0;
+    margin: 0 1px;
+}
+
+/* ---- the menu ---- */
+
+/* A config's worth of hourly snapshots is a long list, and the shell's own
+   menu row is padded for a menu of five or six things. Snapshot rows are a
+   table more than they are commands, so they are set tighter: the two class
+   names are both needed to outweigh the theme's own rule. */
+.popup-menu-item.wisp-snapshot {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+/* The list scrolls when it is taller than the screen, and a scrollbar that
+   appears must not shove the rows sideways as it does. */
+.wisp-list StScrollBar {
+    padding: 0 2px;
+}
+
+/* Buttons that sit beside something else rather than in a row of their own:
+   the offer to take a snapshot at the end of the rule carrying a config's
+   name, and the selection controls over a list of files. What they do is what
+   somebody came to the menu to do rather than to look at, so they are pills
+   that read as buttons - full-strength text on a background of their own, not
+   a line of grey waiting to be found. */
+.wisp-pill {
+    padding: 2px 10px;
+    margin-left: 8px;
+    border-radius: 99px;
+    font-size: 0.9em;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.85); /* sh-var: text */
+    background-color: rgba(0, 0, 0, 0.05); /* sh-var: sunken */
+}
+
+.wisp-pill StIcon {
+    icon-size: 12px;
+    padding-right: 5px;
+}
+
+.wisp-pill:hover,
+.wisp-pill:focus {
+    background-color: rgba(0, 0, 0, 0.10); /* sh-var: hover */
+}
+
+/* Nothing picked, nothing to drop. */
+.wisp-pill:insensitive {
+    color: rgba(0, 0, 0, 0.55); /* sh-var: dim */
+    background-color: transparent;
+}
+
+/* The row the pills sit in, over a list of files. */
+.wisp-tools {
+    padding: 4px 2px 0 2px;
+}
+
+/* Waiting for an answer that arrives whole, with no progress on the way: what
+   the stripe crossing the bar says is that the wait is still going. */
+.wisp-wait {
+    height: 4px;
+    margin: 8px 4px 0 4px;
+    border-radius: 99px;
+    background-color: rgba(0, 0, 0, 0.05); /* sh-var: sunken */
+}
+
+.wisp-wait-stripe {
+    border-radius: 99px;
+    background-color: #1c71d8; /* sh-var: accent */
+}
+
+/* The settings button is the width of the menu, so the row around it carries
+   no padding of its own beyond what keeps it off the edges. */
+.popup-menu-item.wisp-settings-row {
+    padding: 4px 8px 6px 8px;
+}
+
+/* The shell's own button padding is set for a dialog, where a button sits
+   beside other buttons; alone on a line under a list it reads as a strip, so
+   it is given the height of a row instead. */
+.wisp-settings {
+    padding: 10px 16px;
+    font-weight: bold;
+}
+
+/* A floor under the menu, so it stops changing width as the descriptions
+   coming out of snapper change length. */
+.popup-menu-content .wisp-number {
+    min-width: 2.6em;
+}
+
+/* Snapshot numbers count up for as long as the machine lives and are read
+   against each other, so they are set in tabular figures and pushed to the
+   right of a column wide enough for four digits. */
+.wisp-number {
+    font-feature-settings: "tnum";
+    text-align: right;
+    color: rgba(0, 0, 0, 0.55); /* sh-var: dim */
+}
+
+/* The width the description wraps at. Without a cap on it the menu grew
+   sideways to fit whatever was typed into a snapshot, and a menu as wide as the
+   screen is a worse answer than a row two lines tall. */
+.wisp-description {
+    padding-left: 12px;
+    max-width: 22em;
+}
+
+.wisp-age {
+    padding-left: 12px;
+    font-size: 0.9em;
+    color: rgba(0, 0, 0, 0.55); /* sh-var: dim */
+}
+
+/* A snapshot taken in the last couple of minutes, tinted so the one that was
+   just made can be found in a list where every other row is hours old. The mark
+   comes off by itself. Hover and focus are repeated because three classes
+   outrank the shell's own rule for them, and a row that stopped answering the
+   pointer for two minutes would be a strange way to say a snapshot is new. */
+.popup-menu-item.wisp-snapshot.wisp-fresh {
+    background-color: rgba(46, 194, 126, 0.16); /* sh-var: fresh */
+}
+
+.popup-menu-item.wisp-snapshot.wisp-fresh:hover,
+.popup-menu-item.wisp-snapshot.wisp-fresh:focus,
+.popup-menu-item.wisp-snapshot.wisp-fresh:active {
+    background-color: rgba(0, 0, 0, 0.10); /* sh-var: hover */
+}
+
+.wisp-fresh .wisp-age {
+    color: #2ec27e; /* sh-var: added */
+}
+
+.wisp-kept {
+    icon-size: 14px;
+    padding-left: 6px;
+}
+
+.wisp-delete {
+    padding: 3px;
+    margin-left: 8px;
+    border-radius: 99px;
+    color: rgba(0, 0, 0, 0.55); /* sh-var: dim */
+}
+
+.wisp-delete StIcon {
+    icon-size: 14px;
+}
+
+.wisp-delete:hover {
+    background-color: rgba(0, 0, 0, 0.10); /* sh-var: hover */
+}
+
+/* Held down, and about to ask about something that does not come back. */
+.wisp-delete:active,
+.wisp-delete:checked {
+    background-color: #e01b24;
+    color: #ffffff;
+}
+
+/* ---- saying what is missing ---- */
+
+.wisp-advice {
+    padding: 8px 12px;
+    max-width: 22em;
+}
+
+.wisp-advice-text {
+    padding-bottom: 6px;
+}
+
+.wisp-advice-hint {
+    padding-top: 6px;
+    font-size: 0.85em;
+    color: rgba(0, 0, 0, 0.55); /* sh-var: dim */
+}
+
+/* A command is read before it is pasted, so it is set apart from the sentence
+   that led to it. */
+.wisp-command {
+    font-family: monospace;
+    font-size: 0.9em;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.05); /* sh-var: sunken */
+}
+
+/* ---- dialogs ---- */
+
+.wisp-dialog .message-dialog-content {
+    max-width: 30em;
+    spacing: 12px;
+}
+
+/* The shell paints a dialog's description in a grey meant for a sentence
+   nobody has to read. Here it is the line that says what is being compared
+   with what, so it is painted like a line worth reading. */
+.wisp-dialog .message-dialog-description {
+    color: rgba(0, 0, 0, 0.85); /* sh-var: text */
+}
+
+.wisp-body {
+    min-width: 24em;
+    spacing: 18px;
+    padding: 6px 0 2px 0;
+}
+
+/* Room for a screenful of rows and not more: a comparison can run to hundreds
+   and the dialog is not allowed to grow past the screen. */
+.wisp-scroll {
+    max-height: 24em;
+}
+
+.wisp-card-title {
+    font-weight: bold;
+    font-size: 0.9em;
+    padding: 0 4px 6px 4px;
+    color: rgba(0, 0, 0, 0.55); /* sh-var: dim */
+}
+
+.wisp-card {
+    border-radius: 12px;
+    background-color: rgba(0, 0, 0, 0.05); /* sh-var: sunken */
+}
+
+.wisp-separator {
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.1); /* sh-var: line */
+}
+
+.wisp-row {
+    padding: 10px 14px;
+    spacing: 12px;
+}
+
+.wisp-row-title {
+    font-weight: 500;
+}
+
+.wisp-row-subtitle {
+    padding-top: 2px;
+    font-size: 0.85em;
+    color: rgba(0, 0, 0, 0.55); /* sh-var: dim */
+}
+
+.wisp-row-icon {
+    icon-size: 16px;
+    color: rgba(0, 0, 0, 0.55); /* sh-var: dim */
+}
+
+/* The button is the whole row, and the row already carries the padding, so
+   this only has to say what happens when it is pointed at. The first and last
+   rows would square off the corners of the card they sit in if the highlight
+   were not rounded to match. */
+.wisp-row-button {
+    border-radius: 12px;
+    transition-duration: 100ms;
+}
+
+.wisp-row-button:hover,
+.wisp-row-button:focus {
+    background-color: rgba(0, 0, 0, 0.10); /* sh-var: hover */
+}
+
+.wisp-row-danger .wisp-row-title,
+.wisp-row-danger .wisp-row-icon {
+    color: #cf222e; /* sh-var: danger */
+}
+
+.wisp-row-entry {
+    spacing: 8px;
+}
+
+.wisp-entry {
+    border-radius: 8px;
+}
+
+/* What a dialog is waiting for, or what went wrong, or how many files there
+   are. It is the line somebody reads while nothing else is happening, so it is
+   painted at full strength rather than in the grey the shell keeps for
+   secondary text. */
+.wisp-note {
+    padding: 4px 4px 0 4px;
+    font-size: 0.9em;
+    color: rgba(0, 0, 0, 0.85); /* sh-var: text */
+}
+
+.wisp-note-warning {
+    color: #cf222e; /* sh-var: danger */
+}
+
+.wisp-danger {
+    color: #cf222e; /* sh-var: danger */
+}
+
+/* ---- what changed between two snapshots ---- */
+
+.wisp-search {
+    margin: 4px 0 0 0;
+    border-radius: 8px;
+}
+
+.wisp-search-icon {
+    icon-size: 16px;
+}
+
+.wisp-file {
+    padding: 7px 12px;
+    border-radius: 12px;
+    transition-duration: 100ms;
+}
+
+.wisp-file:hover,
+.wisp-file:focus {
+    background-color: rgba(0, 0, 0, 0.10); /* sh-var: hover */
+}
+
+.wisp-file:selected {
+    background-color: rgba(0, 0, 0, 0.10); /* sh-var: hover */
+}
+
+.wisp-file-path {
+    font-family: monospace;
+    font-size: 0.85em;
+    padding: 0 10px;
+}
+
+.wisp-file StIcon {
+    icon-size: 14px;
+}
+
+.wisp-file-added {
+    color: #2ec27e; /* sh-var: added */
+}
+
+.wisp-file-removed {
+    color: #cf222e; /* sh-var: danger */
+}
+
+.wisp-file-changed {
+    color: rgba(0, 0, 0, 0.55); /* sh-var: dim */
+}
+
+.wisp-file-check {
+    color: #1c71d8; /* sh-var: accent */
+}
+
+.wisp-more {
+    font-size: 0.9em;
+    color: rgba(0, 0, 0, 0.55); /* sh-var: dim */
+}
+
+/* The cleanup rule is a footnote on the snapshot it belongs to, not something
+   to read before the date, so it stays quiet next to it. */
+.wisp-cleanup {
+    font-size: 0.8em;
+    color: rgba(0, 0, 0, 0.55); /* sh-var: dim */
+    padding-left: 6px;
+}
+
+/* ---- the pill that says a snapshot has been taken ---- */
+
+/* It wears the shell's own OSD classes so that it matches the volume and
+   brightness pills under any theme, and overrules the two things about them
+   that are meant for the foot of the screen: the margin that lifts them clear
+   of a dock, and an icon sized to be read across a room. */
+.osd-window.wisp-toast {
+    margin-bottom: 0;
+}
+
+.osd-window.wisp-toast StIcon {
+    icon-size: 20px;
+}

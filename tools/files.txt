@@ -1,0 +1,33 @@
+# What the extension is made of, as opposed to what the repository holds.
+# Both the local install and the packed zip are built from this list, so
+# there is one place to add a file to and no way to add it to only one of
+# them. Blank lines and lines starting with # are ignored.
+#
+# Generated files are not here: the compiled schemas and the compiled
+# translations are built into place by the script that does the installing.
+
+metadata.json
+extension.js
+prefs.js
+LICENSE
+stylesheet.css
+stylesheet-light.css
+stylesheet-dark.css
+icons/hicolor/scalable/actions/wisp-symbolic.svg
+lib/authorization.js
+lib/btrfs.js
+lib/compare.js
+lib/configs.js
+lib/details.js
+lib/dialog.js
+lib/exec.js
+lib/format.js
+lib/icon.js
+lib/keys.js
+lib/packages.js
+lib/privileged.js
+lib/requirements.js
+lib/snapper.js
+lib/toast.js
+lib/units.js
+schemas/org.gnome.shell.extensions.wisp.gschema.xml

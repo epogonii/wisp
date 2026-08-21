@@ -1,0 +1,58 @@
+# Tag a version and the zip that gets uploaded to extensions.gnome.org is
+# attached to the release, built from the same sources as the tag.
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      ZIP: wisp.zip
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install glib-compile-schemas
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libglib2.0-bin gettext
+
+      - name: The tag and metadata.json must agree
+        run: |
+          want="${GITHUB_REF_NAME#v}"
+          have=$(python3 -c 'import json; print(json.load(open("metadata.json"))["version-name"])')
+          if [ "$want" != "$have" ]; then
+            echo "tag says $want, metadata.json says $have"
+            exit 1
+          fi
+
+      - name: Build the zip
+        run: tools/pack.sh
+
+      # The changelog section for this version becomes the release notes; if
+      # there is none, let GitHub write them from the commits. A tag that gets
+      # moved to a later commit runs this again, so the release that is already
+      # there is updated instead of the step failing on it.
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          awk -v v="## $version" '$0 == v {take = 1; next} /^## / {take = 0} take' \
+            CHANGELOG.md > notes.md
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            if [ -s notes.md ]; then
+              gh release edit "$GITHUB_REF_NAME" --title "$version" --notes-file notes.md
+            fi
+            gh release upload "$GITHUB_REF_NAME" "$ZIP" --clobber
+          elif [ -s notes.md ]; then
+            gh release create "$GITHUB_REF_NAME" --title "$version" --notes-file notes.md "$ZIP"
+          else
+            gh release create "$GITHUB_REF_NAME" --title "$version" --generate-notes "$ZIP"
+          fi

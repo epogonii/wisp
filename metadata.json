@@ -1,0 +1,20 @@
+{
+  "uuid": "wisp@epogonii.github.io",
+  "name": "Wisp",
+  "description": "Lists the snapshots snapper has already taken, takes one on demand, and deletes the ones no longer wanted.",
+  "shell-version": [
+    "46",
+    "47",
+    "48",
+    "49",
+    "50"
+  ],
+  "version-name": "1.0.0",
+  "url": "https://github.com/epogonii/wisp",
+  "donations": {
+    "github": "epogonii",
+    "paypal": "pogonii"
+  },
+  "settings-schema": "org.gnome.shell.extensions.wisp",
+  "gettext-domain": "wisp"
+}
