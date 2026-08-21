@@ -19,6 +19,7 @@ import {requestAccess} from './lib/privileged.js';
 import {Lock} from './lib/authorization.js';
 import {wispIcon} from './lib/icon.js';
 import * as Toast from './lib/toast.js';
+import * as Compare from './lib/compare.js';
 import * as Format from './lib/format.js';
 
 const PANEL_BOXES = ['left', 'center', 'right'];
@@ -847,6 +848,7 @@ export default class WispExtension extends Extension {
     enable() {
         this._settings = this.getSettings();
         Toast.watch(this._settings);
+        Compare.watch(this._settings);
         this._place();
         this._placeIds = ['panel-box', 'panel-index'].map(key =>
             this._settings.connect(`changed::${key}`, () => this._place()));
@@ -860,6 +862,7 @@ export default class WispExtension extends Extension {
         this._indicator = null;
         this._settings = null;
         Toast.destroy();
+        Compare.forget();
     }
 
     /**

@@ -123,6 +123,17 @@
         Counted from the last time it was unlocked.
       </description>
     </key>
+    <key name="compare-seconds" type="a{si}">
+      <default>{}</default>
+      <summary>How long the last comparison of each config took</summary>
+      <description>
+        snapper answers a comparison in one call and says nothing until it has
+        walked every file in the subvolume, so there is no progress to read.
+        The seconds the last one took are kept per config, which is what the
+        wait can say about how much of itself is left. Emptying this only
+        costs the next comparison of each config its estimate.
+      </description>
+    </key>
     <key name="hidden-configs" type="as">
       <default>[]</default>
       <summary>Configs left out of the menu</summary>

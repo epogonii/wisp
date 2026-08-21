@@ -303,6 +303,15 @@
     color: rgba(255, 255, 255, 0.95); /* sh-var: text */
 }
 
+/* The line under the note while a wait is on, for how much of it is left.
+   Smaller and dimmer than the note above it, because it is the part that is a
+   guess rather than the part that is being waited for. */
+.wisp-aside {
+    padding: 2px 4px 0 4px;
+    font-size: 0.85em;
+    color: rgba(255, 255, 255, 0.6); /* sh-var: dim */
+}
+
 .wisp-note-warning {
     color: #f85149; /* sh-var: danger */
 }
