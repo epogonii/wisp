@@ -513,6 +513,14 @@ export default class WispPreferences extends ExtensionPreferences {
         this._settings = this.getSettings();
         this._window = window;
 
+        // A quota rescan can easily outlast the window it was asked from, and
+        // a row written to after the window is gone is a row that no longer
+        // exists.
+        this._closed = false;
+        window.connect('destroy', () => {
+            this._closed = true;
+        });
+
         window.add(this._appearancePage());
 
         this._configsPage = new Adw.PreferencesPage({
@@ -1248,8 +1256,19 @@ export default class WispPreferences extends ExtensionPreferences {
      */
     async _addUp(entries) {
         for (const entry of entries) {
+            if (this._closed)
+                return;
+
             entry.row.subtitle = _('Adding it up…');
-            const {count, bytes} = await Configs.snapshotSpace(entry.name);
+            const {count, bytes, said} = await Configs.snapshotSpace(entry.name);
+            if (this._closed)
+                return;
+
+            // A config that refused to be listed has not said it is empty.
+            if (count === null) {
+                entry.row.subtitle = said ?? _('snapper would not say');
+                continue;
+            }
 
             if (bytes !== null) {
                 entry.row.subtitle = ngettext('%d snapshot, holding %s',
@@ -1264,7 +1283,9 @@ export default class WispPreferences extends ExtensionPreferences {
 
             entry.row.subtitle = count === 0
                 ? _('Nothing has been snapshotted yet')
-                : _('%d snapshots, and no quota groups to weigh them with').format(count);
+                : ngettext('%d snapshot, and no quota groups to weigh it with',
+                    '%d snapshots, and no quota groups to weigh them with', count)
+                    .format(count);
 
             if (count > 0 && !entry.button) {
                 entry.button = new Gtk.Button({
@@ -1303,6 +1324,8 @@ export default class WispPreferences extends ExtensionPreferences {
     async _setupQuota(entry) {
         entry.button.sensitive = false;
         const result = await Configs.setupQuota(entry.name);
+        if (this._closed)
+            return;
         entry.button.sensitive = true;
 
         const said = failure(result);
@@ -1366,6 +1389,8 @@ export default class WispPreferences extends ExtensionPreferences {
     }
 
     _toast(message) {
+        if (this._closed)
+            return;
         this._window.add_toast?.(new Adw.Toast({title: message, timeout: 6}));
     }
 }
