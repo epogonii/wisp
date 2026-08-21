@@ -712,7 +712,6 @@ export default class WispPreferences extends ExtensionPreferences {
         return row;
     }
 
-    /** Reads everything again and rebuilds the pages that came from it. */
     /**
      * Where the extension came from, and a place to say thanks from. Nothing on
      * this page has anything to do with the extension working, and nothing on
