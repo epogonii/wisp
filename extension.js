@@ -371,7 +371,7 @@ class Advice extends PopupMenu.PopupBaseMenuItem {
     activate(event) {
         if (this._command) {
             St.Clipboard.get_default().set_text(St.ClipboardType.CLIPBOARD, this._command);
-            Main.notify(_('Wisp'), _('Command copied.'));
+            Toast.show(_('Command copied'));
         }
         super.activate(event);
     }
