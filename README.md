@@ -46,6 +46,12 @@ A snapshot's own window, and the timers snapper acts on:
   <img src="docs/screenshots/schedule.png" width="420" alt="The Schedule page: snapper's timers and btrfsmaintenance's jobs">
 </p>
 
+What changed since a snapshot, with the files to put back picked out of it:
+
+<p align="center">
+  <img src="docs/screenshots/restore.png" width="420" alt="The list of changed files, five of them selected for restoring">
+</p>
+
 ---
 
 ## What has to be installed first
