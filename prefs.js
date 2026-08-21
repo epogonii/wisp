@@ -19,7 +19,7 @@ import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gtk from 'gi://Gtk';
 
-import {ExtensionPreferences, gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import {ExtensionPreferences, gettext as _, ngettext} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
 import * as Btrfs from './lib/btrfs.js';
 import * as Configs from './lib/configs.js';
@@ -1127,6 +1127,9 @@ export default class WispPreferences extends ExtensionPreferences {
         for (const {path, fs, names} of found.values())
             this._storagePage.add(this._storageGroup(path, fs, names));
 
+        if (configs.length > 0)
+            this._storagePage.add(this._spaceGroup(configs));
+
         if (found.size === 0) {
             const group = new Adw.PreferencesGroup();
             // Not being on btrfs and not being able to find out are different
@@ -1192,6 +1195,126 @@ export default class WispPreferences extends ExtensionPreferences {
         }
 
         return group;
+    }
+
+    /**
+     * What the snapshots themselves are taking, config by config.
+     *
+     * The figure is what each snapshot is keeping alive on its own, so the
+     * total is what a config's snapshots cost over and above the subvolume
+     * they were taken of. btrfs answers it from quota groups and rescans them
+     * before it does, which on a filesystem with a lot of snapshots on it is
+     * slow enough to be worth asking for rather than doing to somebody who
+     * opened this page to read the figures above.
+     *
+     * @param {object[]} configs - what snapper manages
+     * @returns {Adw.PreferencesGroup} a row per config, and a button that
+     *   fills them in
+     */
+    _spaceGroup(configs) {
+        const group = new Adw.PreferencesGroup({
+            title: _('Snapshots'),
+            description: _('How much of the filesystem above the snapshots themselves are holding on to. It is worked out from btrfs quota groups, and asking costs a rescan.'),
+        });
+
+        const entries = configs.map(({name}) => {
+            const row = new Adw.ActionRow({
+                title: name,
+                subtitle: _('Not added up yet'),
+            });
+            group.add(row);
+            return {name, row, button: null};
+        });
+
+        const add = new Gtk.Button({
+            label: _('Add it up'),
+            valign: Gtk.Align.CENTER,
+            css_classes: ['flat'],
+        });
+        add.connect('clicked', () => {
+            add.sensitive = false;
+            this._addUp(entries).finally(() => {
+                add.sensitive = true;
+            });
+        });
+        group.set_header_suffix(add);
+
+        return group;
+    }
+
+    /**
+     * @param {object[]} entries - the configs to ask about, one at a time: two
+     *   rescans at once would only get in each other's way
+     */
+    async _addUp(entries) {
+        for (const entry of entries) {
+            entry.row.subtitle = _('Adding it up…');
+            const {count, bytes} = await Configs.snapshotSpace(entry.name);
+
+            if (bytes !== null) {
+                entry.row.subtitle = ngettext('%d snapshot, holding %s',
+                    '%d snapshots, holding %s', count)
+                    .format(count, Btrfs.size(bytes));
+                if (entry.button) {
+                    entry.row.remove(entry.button);
+                    entry.button = null;
+                }
+                continue;
+            }
+
+            entry.row.subtitle = count === 0
+                ? _('Nothing has been snapshotted yet')
+                : _('%d snapshots, and no quota groups to weigh them with').format(count);
+
+            if (count > 0 && !entry.button) {
+                entry.button = new Gtk.Button({
+                    label: _('Set up quotas'),
+                    valign: Gtk.Align.CENTER,
+                });
+                entry.button.connect('clicked', () => this._confirmQuota(entry));
+                entry.row.add_suffix(entry.button);
+            }
+        }
+    }
+
+    /**
+     * @param {object} entry - the config whose subvolume would get the quota
+     *   group, and the row saying it has none
+     */
+    _confirmQuota(entry) {
+        const dialog = new Adw.AlertDialog({
+            heading: _('Set up btrfs quotas for %s?').format(entry.name),
+            body: _('Quota groups are what btrfs counts a snapshot\u2019s own space with, and this turns them on for the subvolume. Nothing is deleted and no snapshot changes, but btrfs rescans the filesystem afterwards, which takes a while and is felt while it runs. It is root\u2019s to do:\n\n%s')
+                .format(commandLine(Configs.setupQuotaArgv(entry.name))),
+        });
+        dialog.add_response('cancel', _('Cancel'));
+        dialog.add_response('setup', _('Set up'));
+        dialog.set_response_appearance('setup', Adw.ResponseAppearance.SUGGESTED);
+        dialog.set_default_response('setup');
+        dialog.set_close_response('cancel');
+
+        dialog.connect('response', (_dialog, response) => {
+            if (response === 'setup')
+                this._setupQuota(entry);
+        });
+        dialog.present(this._window);
+    }
+
+    async _setupQuota(entry) {
+        entry.button.sensitive = false;
+        const result = await Configs.setupQuota(entry.name);
+        entry.button.sensitive = true;
+
+        const said = failure(result);
+        if (said) {
+            this._toast(said);
+            return;
+        }
+        if (result.status !== 0)
+            return;
+
+        this._toast(_('Quotas set up. The first figure may be low until btrfs has finished its rescan.'));
+        await this._addUp([entry]);
     }
 
     /**
