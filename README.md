@@ -1,5 +1,8 @@
 <p align="center">
-  <img src="docs/icon.png" width="112" alt="Wisp">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/icon-dark.png">
+    <img src="docs/icon-light.png" width="112" alt="Wisp">
+  </picture>
 </p>
 
 <h1 align="center">Wisp</h1>
