@@ -47,8 +47,15 @@ jobs:
           awk -v v="## $version" '$0 == v {take = 1; next} /^## / {take = 0} take' \
             CHANGELOG.md > notes.md
           if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            # Deleting the tag to move it takes the release out of print: GitHub
+            # keeps it, as a draft, and a draft is not on the repository page and
+            # has no download for anyone. Publishing it again is part of
+            # updating it, whether the notes changed or not.
             if [ -s notes.md ]; then
-              gh release edit "$GITHUB_REF_NAME" --title "$version" --notes-file notes.md
+              gh release edit "$GITHUB_REF_NAME" --title "$version" \
+                --notes-file notes.md --draft=false
+            else
+              gh release edit "$GITHUB_REF_NAME" --draft=false
             fi
             gh release upload "$GITHUB_REF_NAME" "$ASSET" --clobber
           elif [ -s notes.md ]; then
