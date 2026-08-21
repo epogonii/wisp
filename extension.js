@@ -289,15 +289,21 @@ const ExpandItem = GObject.registerClass({
     }
 
     activate(_event) {
-        // Filling the list again is what this row is for, and doing it
-        // destroys the row: the press that asked for it is still being
-        // handled at this point, and the gesture behind it goes on to put a
-        // row that no longer exists back into its unpressed state. Waiting
-        // for the event to be over costs nothing anybody can see.
+        // Filling the list again is what this row is for, and doing it destroys
+        // the row, which the click is not finished with: the gesture that
+        // recognised it goes on to take the pressed look back off, and by then
+        // the row it is written to has been disposed of. So the click is let go
+        // of first. Switching the gesture off unpresses the row while it is
+        // still there to be unpressed, and the refill waits for an idle below
+        // anything the gesture may have queued for itself, whichever way round
+        // the two would otherwise have run.
         if (this._pending)
             return;
 
-        this._pending = GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
+        if (this._clickGesture)
+            this._clickGesture.enabled = false;
+
+        this._pending = GLib.idle_add(GLib.PRIORITY_LOW, () => {
             this._pending = 0;
             this.emit('expand');
             return GLib.SOURCE_REMOVE;

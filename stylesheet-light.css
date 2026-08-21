@@ -62,7 +62,7 @@
 
 .wisp-pill:hover,
 .wisp-pill:focus {
-    background-color: rgba(0, 0, 0, 0.10); /* sh-var: hover */
+    background-color: rgba(0, 0, 0, 0.1); /* sh-var: hover */
 }
 
 /* Nothing picked, nothing to drop. */
@@ -145,7 +145,7 @@
 .popup-menu-item.wisp-snapshot.wisp-fresh:hover,
 .popup-menu-item.wisp-snapshot.wisp-fresh:focus,
 .popup-menu-item.wisp-snapshot.wisp-fresh:active {
-    background-color: rgba(0, 0, 0, 0.10); /* sh-var: hover */
+    background-color: rgba(0, 0, 0, 0.1); /* sh-var: hover */
 }
 
 .wisp-fresh .wisp-age {
@@ -169,13 +169,13 @@
 }
 
 .wisp-delete:hover {
-    background-color: rgba(0, 0, 0, 0.10); /* sh-var: hover */
+    background-color: rgba(0, 0, 0, 0.1); /* sh-var: hover */
 }
 
 /* Held down, and about to ask about something that does not come back. */
 .wisp-delete:active,
 .wisp-delete:checked {
-    background-color: #e01b24;
+    background-color: #e01b24; /* sh-var: destructive */
     color: #ffffff;
 }
 
@@ -280,7 +280,7 @@
 
 .wisp-row-button:hover,
 .wisp-row-button:focus {
-    background-color: rgba(0, 0, 0, 0.10); /* sh-var: hover */
+    background-color: rgba(0, 0, 0, 0.1); /* sh-var: hover */
 }
 
 .wisp-row-danger .wisp-row-title,
@@ -333,11 +333,11 @@
 
 .wisp-file:hover,
 .wisp-file:focus {
-    background-color: rgba(0, 0, 0, 0.10); /* sh-var: hover */
+    background-color: rgba(0, 0, 0, 0.1); /* sh-var: hover */
 }
 
 .wisp-file:selected {
-    background-color: rgba(0, 0, 0, 0.10); /* sh-var: hover */
+    background-color: rgba(0, 0, 0, 0.1); /* sh-var: hover */
 }
 
 .wisp-file-path {

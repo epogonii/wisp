@@ -175,7 +175,7 @@
 /* Held down, and about to ask about something that does not come back. */
 .wisp-delete:active,
 .wisp-delete:checked {
-    background-color: #e01b24;
+    background-color: #c01c28; /* sh-var: destructive */
     color: #ffffff;
 }
 
