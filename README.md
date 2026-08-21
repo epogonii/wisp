@@ -67,11 +67,19 @@ GNOME Shell 46 or newer, Wayland or X11. polkit and util-linux are on
 practically every desktop install already; snapper usually is not.
 
 ```sh
-sudo dnf install snapper                  # apt, pacman and zypper likewise
+sudo dnf install snapper       # Fedora, RHEL, CentOS
+sudo apt install snapper       # Debian, Ubuntu
+sudo pacman -S snapper         # Arch
+sudo zypper install snapper    # openSUSE, where it is there from the start
+```
+
+Then one config for whatever should be snapshotted:
+
+```sh
 sudo snapper -c root create-config /
 ```
 
-Neither line has to be typed. When snapper is missing the menu says so and
+None of that has to be typed. When snapper is missing the menu says so and
 hands over the install command for the distribution it is running on, a config
 can be set up from the settings window, and the timers are switches on the
 Schedule page.
