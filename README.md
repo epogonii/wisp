@@ -33,6 +33,19 @@ The name is the faint light that hangs over a bog at night. A snapshot is the
 same sort of thing: the shape the system had, still there after the moment it
 belonged to.
 
+## Screenshots
+
+<p align="center">
+  <img src="docs/screenshots/menu.png" width="390" alt="The menu listing two configs, newest snapshots first">
+</p>
+
+A snapshot's own window, and the timers snapper acts on:
+
+<p align="center">
+  <img src="docs/screenshots/snapshot.png" width="420" alt="A snapshot's window: description, keep, cleanup, read-only, disk space">
+  <img src="docs/screenshots/schedule.png" width="420" alt="The Schedule page: snapper's timers and btrfsmaintenance's jobs">
+</p>
+
 ---
 
 ## What has to be installed first
