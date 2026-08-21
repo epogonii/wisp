@@ -811,11 +811,19 @@ class Indicator extends PanelMenu.Button {
         if (action === 'none')
             return false;
 
+        // Taking a snapshot is one of the things the lock is there to stop,
+        // and a gesture is no way around it. The menu is opened instead, where
+        // the lock says so and can be answered. Settings is not gated: that
+        // button sits outside the lock in the menu too.
+        const locked = action === 'take-snapshot' && this._lock.engaged;
+
         // Whatever the gesture did with the menu, this click was not asking
         // for it. This happens before the check below because the two can
         // arrive either way round, and the one that arrives second is the one
-        // that may have just opened the menu.
-        this.menu.close();
+        // that may have just opened the menu. Not while locked, or the second
+        // delivery would close the menu the first one just opened.
+        if (!locked)
+            this.menu.close();
 
         const now = GLib.get_monotonic_time();
         if (now - this._middleAt < DOUBLE_HEARD)
@@ -824,7 +832,9 @@ class Indicator extends PanelMenu.Button {
 
         switch (action) {
         case 'take-snapshot':
-            if (this._first)
+            if (locked)
+                this.menu.open();
+            else if (this._first)
                 new CreateDialog(this._snapper, this._first).open();
             break;
         case 'settings':
