@@ -116,17 +116,29 @@ Schedule page.
 
 ## How to install
 
-Not on extensions.gnome.org yet. From a release:
+#### From extensions.gnome.org
+
+<a href="https://extensions.gnome.org/extension/10755/wisp/"><img src="docs/get-it-on-ego.png" width="228" alt="Get it on GNOME Extensions"></a>
+
+Uploaded and in review, so not installable from there yet.
+
+#### From a release
+
+Every tag builds the same zip that goes to extensions.gnome.org:
 
 ```sh
 gnome-extensions install --force wisp.zip
 gnome-extensions enable wisp@epogonii.github.io
 ```
 
-From the sources, `tools/install-local.sh` installs into the running session and
-`tools/pack.sh` builds the same zip. Log out and back in first (X11: `Alt+F2`,
-then `r`): a running shell keeps an extension's JavaScript in memory for the
-life of the process. Preferences apply immediately.
+#### From the sources
+
+`tools/install-local.sh` installs into the running session and `tools/pack.sh`
+builds the same zip.
+
+GNOME Shell 46 or newer. Log out and back in first (X11: `Alt+F2`, then `r`): a
+running shell keeps an extension's JavaScript in memory for the life of the
+process. Preferences apply immediately.
 
 ---
 
