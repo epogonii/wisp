@@ -17,7 +17,7 @@ import {Snapper, isDenied} from './lib/snapper.js';
 import {check, canAskForRoot} from './lib/requirements.js';
 import {requestAccess} from './lib/privileged.js';
 import {Lock} from './lib/authorization.js';
-import {wispIcon} from './lib/icon.js';
+import * as Icon from './lib/icon.js';
 import * as Toast from './lib/toast.js';
 import * as Compare from './lib/compare.js';
 import * as Format from './lib/format.js';
@@ -397,7 +397,7 @@ class Indicator extends PanelMenu.Button {
         this._shown = new Map();
 
         this.add_child(new St.Icon({
-            gicon: wispIcon(),
+            gicon: Icon.wispIcon(),
             style_class: 'system-status-icon',
         }));
 
@@ -857,6 +857,7 @@ class Indicator extends PanelMenu.Button {
 export default class WispExtension extends Extension {
     enable() {
         this._settings = this.getSettings();
+        Icon.watch(this.path);
         Toast.watch(this._settings);
         Compare.watch(this._settings);
         this._place();
@@ -876,6 +877,7 @@ export default class WispExtension extends Extension {
         this._settings = null;
         Toast.destroy();
         Compare.forget();
+        Icon.forget();
     }
 
     /**
