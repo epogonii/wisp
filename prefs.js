@@ -521,15 +521,10 @@ export default class WispPreferences extends ExtensionPreferences {
         this._settings = this.getSettings();
         this._window = window;
 
-        // A quota rescan can easily outlast the window it was asked from, and
-        // a row written to after the window is gone is a row that no longer
-        // exists.
+        // Filling this window means asking snapper and btrfs for things they
+        // take their time over, and a row written to after the window is gone
+        // is a row that no longer exists.
         this._closed = false;
-        this._counting = false;
-        // And a rescan nobody is waiting for any more is worse than wasted:
-        // snapperd answers one caller at a time, so it stands in the way of
-        // the next window that asks the same thing. Closing this one ends it.
-        this._cancellable = new Gio.Cancellable();
 
         // Which is heard at close-request, not at destroy. Closing a window -
         // the button in its own header, Escape, gtk_window_close - hides and
@@ -540,7 +535,6 @@ export default class WispPreferences extends ExtensionPreferences {
         // destroyed sends only the second.
         const going = () => {
             this._closed = true;
-            this._cancellable.cancel();
         };
         window.connect('close-request', () => {
             going();
@@ -1214,9 +1208,6 @@ export default class WispPreferences extends ExtensionPreferences {
         for (const {path, fs, names} of found.values())
             this._storagePage.add(this._storageGroup(path, fs, names));
 
-        if (configs.length > 0)
-            this._storagePage.add(this._spaceGroup(configs));
-
         if (found.size === 0) {
             const group = new Adw.PreferencesGroup();
             // Not being on btrfs and not being able to find out are different
@@ -1282,175 +1273,6 @@ export default class WispPreferences extends ExtensionPreferences {
         }
 
         return group;
-    }
-
-    /**
-     * What the snapshots themselves are taking, config by config.
-     *
-     * The figure is what each snapshot is keeping alive on its own, so the
-     * total is what a config's snapshots cost over and above the subvolume
-     * they were taken of. btrfs answers it from quota groups and rescans them
-     * before it does, which on a filesystem with a lot of snapshots on it is
-     * slow enough to be worth asking for rather than doing to somebody who
-     * opened this page to read the figures above.
-     *
-     * @param {object[]} configs - what snapper manages
-     * @returns {Adw.PreferencesGroup} a row per config, and a button that
-     *   fills them in
-     */
-    _spaceGroup(configs) {
-        const group = new Adw.PreferencesGroup({
-            title: _('Space taken by snapshots'),
-            description: _('A snapshot costs nothing when it is taken and grows as the files it froze are changed or deleted, since the old copies have to be kept somewhere. What is counted here is what a config\u2019s snapshots would give back between them if they all went. btrfs can only answer it where counting is turned on, and going through the filesystem to count takes a while.'),
-        });
-
-        const entries = configs.map(({name}) => {
-            const row = new Adw.ActionRow({
-                title: name,
-                subtitle: _('Not counted yet'),
-            });
-            // btrfs answers this by walking the whole filesystem, which is
-            // minutes rather than moments, and a row that only says it is
-            // counting reads as a row that has got stuck. So the one being
-            // counted keeps something moving next to it.
-            const spinner = new Gtk.Spinner({
-                valign: Gtk.Align.CENTER,
-                visible: false,
-            });
-            row.add_suffix(spinner);
-            group.add(row);
-            return {name, row, spinner, button: null};
-        });
-
-        const add = new Gtk.Button({
-            label: _('Count the size'),
-            valign: Gtk.Align.CENTER,
-            css_classes: ['flat'],
-        });
-        add.connect('clicked', () => {
-            add.sensitive = false;
-            this._addUp(entries).finally(() => {
-                add.sensitive = true;
-            });
-        });
-        group.set_header_suffix(add);
-
-        return group;
-    }
-
-    /**
-     * @param {object[]} entries - the configs to ask about, one at a time: two
-     *   rescans at once would only get in each other's way
-     */
-    async _addUp(entries) {
-        // One pass at a time, and one pass only: a second one started while
-        // the first is still going - by the button on a row that the first
-        // pass has already been past - would ask snapperd the same question
-        // twice and get both answers later than one.
-        if (this._counting)
-            return;
-
-        this._counting = true;
-        try {
-            await this._countUp(entries);
-        } finally {
-            this._counting = false;
-        }
-    }
-
-    /**
-     * @param {object[]} entries - as for _addUp, which is the way in
-     */
-    async _countUp(entries) {
-        for (const entry of entries) {
-            if (this._closed)
-                return;
-
-            entry.row.subtitle = _('Counting… btrfs walks the whole filesystem for this, so it takes minutes');
-            entry.spinner.visible = true;
-            entry.spinner.start();
-            const {count, bytes, said} = await Configs.snapshotSpace(entry.name,
-                this._cancellable);
-            if (this._closed)
-                return;
-
-            entry.spinner.stop();
-            entry.spinner.visible = false;
-
-            // A config that refused to be listed has not said it is empty.
-            if (count === null) {
-                entry.row.subtitle = said ?? _('snapper would not say');
-                continue;
-            }
-
-            if (bytes !== null) {
-                entry.row.subtitle = ngettext('%d snapshot, taking %s between them',
-                    '%d snapshots, taking %s between them', count)
-                    .format(count, Btrfs.size(bytes));
-                if (entry.button) {
-                    entry.row.remove(entry.button);
-                    entry.button = null;
-                }
-                continue;
-            }
-
-            entry.row.subtitle = count === 0
-                ? _('Nothing has been snapshotted yet')
-                : ngettext('%d snapshot. btrfs is not counting sizes here yet',
-                    '%d snapshots. btrfs is not counting sizes here yet', count)
-                    .format(count);
-
-            if (count > 0 && !entry.button) {
-                entry.button = new Gtk.Button({
-                    label: _('Turn counting on'),
-                    valign: Gtk.Align.CENTER,
-                });
-                entry.button.connect('clicked', () => this._confirmQuota(entry));
-                entry.row.add_suffix(entry.button);
-            }
-        }
-    }
-
-    /**
-     * @param {object} entry - the config whose subvolume would get the quota
-     *   group, and the row saying it has none
-     */
-    _confirmQuota(entry) {
-        const dialog = new Adw.AlertDialog({
-            heading: _('Count snapshot sizes on %s?').format(entry.name),
-            body: _('btrfs keeps no running total of what a snapshot is holding unless it is asked to. Being asked is a quota group - btrfs\u2019s own bookkeeping for one subvolume - and it is off until somebody turns it on. This turns it on. Nothing is deleted and no snapshot changes; btrfs then goes through the filesystem once to count what is there already, which takes a while and is felt while it runs. It is root\u2019s to do:\n\n%s')
-                .format(commandLine(Configs.setupQuotaArgv(entry.name))),
-        });
-        dialog.add_response('cancel', _('Cancel'));
-        dialog.add_response('setup', _('Turn it on'));
-        dialog.set_response_appearance('setup', Adw.ResponseAppearance.SUGGESTED);
-        dialog.set_default_response('setup');
-        dialog.set_close_response('cancel');
-
-        dialog.connect('response', (_dialog, response) => {
-            if (response === 'setup')
-                this._setupQuota(entry);
-        });
-        dialog.present(this._window);
-    }
-
-    async _setupQuota(entry) {
-        entry.button.sensitive = false;
-        const result = await Configs.setupQuota(entry.name);
-        if (this._closed)
-            return;
-        entry.button.sensitive = true;
-
-        const said = failure(result);
-        if (said) {
-            this._toast(said);
-            return;
-        }
-        if (result.status !== 0)
-            return;
-
-        this._toast(_('Counting is on. The first figure may be low until btrfs has finished going through the filesystem.'));
-        await this._addUp([entry]);
     }
 
     /**
