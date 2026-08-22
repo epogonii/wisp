@@ -1,5 +1,27 @@
 # Changelog
 
+## 1.0.3
+
+- Adding up what a snapshot is holding on to is gone, and so is the button that
+  turned btrfs quotas on for a config. The figure is a quota rescan of the whole
+  filesystem: 560 seconds from the command line here, 810 over snapper's own
+  bus, and snapperd answers one caller at a time, so a second request left
+  everything else asked of it waiting behind the first. The Storage page keeps
+  what btrfs answers at once - the size, what it has handed out to chunks, what
+  is written and what is free.
+- Closing the preferences window while a page is still filling itself no longer
+  writes into a window that is no longer there. Closing one sends
+  `close-request`, not `destroy` - a window the process exits with is never
+  disposed of - so the flag those checks all read was never set on the way
+  anybody actually closes a window.
+- A restore keeps its list of files until snapper has read it. The list used to
+  go the moment the authorization window did, which for an extension switched
+  off while polkit was still asking meant a restore that failed with nothing
+  said.
+- `po/wisp.pot` carries the 262 strings the extension shows, and
+  `tools/update-po.sh` keeps a language up to date with it. No language is
+  translated yet.
+
 ## 1.0.2
 
 - Switching the extension off closes any window it still has open. One left
