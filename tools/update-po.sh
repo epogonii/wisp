@@ -74,4 +74,5 @@ for po in po/*.po; do
     msgfmt -c --statistics -o /dev/null "$po"
 done
 
-printf 'po/wisp.pot: %d messages\n' "$(grep -c '^msgid "' po/wisp.pot)"
+# The header entry is a msgid of its own, and is not one of the strings.
+printf 'po/wisp.pot: %d messages\n' "$(($(grep -c '^msgid "' po/wisp.pot) - 1))"

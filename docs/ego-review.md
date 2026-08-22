@@ -129,13 +129,16 @@ under the user's own account, with no subprocess at all.
 
 The rest is what snapperd does not expose. Each of those is one program, run
 with an argument vector and never a shell line (`run()` in `lib/exec.js`),
-never with a program from inside the extension. Read without a password:
+never with a program from inside the extension. Run under the user's own
+account, not through `pkexec`:
 
 - `snapper -c <config> --csvout get-config` - the retention settings
 - `systemctl is-enabled <unit>` - whether a timer runs on its own
 - `findmnt -no UUID,FSTYPE --target <path>` - what filesystem a path is on
-- `pkcheck --action-id org.freedesktop.policykit.exec` - the lock in front of
-  the menu, when it is switched on
+- `pkcheck --action-id org.freedesktop.policykit.exec --allow-user-interaction`
+  - the lock in front of the menu, when it is switched on. This one does ask,
+  and that is the point of it: it is polkit's own prompt, raised in advance so
+  that the menu opens already authorised
 
 And through `pkexec`, each one behind a dialog that names the command before it
 runs:
