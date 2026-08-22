@@ -197,7 +197,7 @@ class ApplyRow extends Adw.ActionRow {
  */
 const ConfigRow = GObject.registerClass(
 class ConfigRow extends Adw.ExpanderRow {
-    _init({config, settings, window, onChanged}) {
+    _init({config, settings, window, onChanged, closed}) {
         super._init({
             title: config.name,
             subtitle: config.subvolume,
@@ -207,6 +207,7 @@ class ConfigRow extends Adw.ExpanderRow {
         this._settings = settings;
         this._window = window;
         this._onChanged = onChanged;
+        this._closed = closed;
         this._dirty = new Map();
         this._widgets = [];
         this._loading = true;
@@ -505,6 +506,9 @@ class ConfigRow extends Adw.ExpanderRow {
     }
 
     _toast(message) {
+        if (this._closed())
+            return;
+
         this._window.add_toast?.(new Adw.Toast({title: message, timeout: 6}));
     }
 });
@@ -795,6 +799,9 @@ export default class WispPreferences extends ExtensionPreferences {
     }
 
     _reload() {
+        if (this._closed)
+            return;
+
         this._fillConfigs().catch(error => this._failed(this._configsPage, error));
         this._fillSchedule().catch(error => this._failed(this._schedulePage, error));
         this._fillStorage().catch(error => this._failed(this._storagePage, error));
@@ -852,6 +859,8 @@ export default class WispPreferences extends ExtensionPreferences {
         }
 
         const configs = await Configs.listConfigs();
+        if (this._closed)
+            return;
 
         const group = new Adw.PreferencesGroup({
             title: _('Configs'),
@@ -882,6 +891,7 @@ export default class WispPreferences extends ExtensionPreferences {
                 settings: this._settings,
                 window: this._window,
                 onChanged: () => this._reload(),
+                closed: () => this._closed,
             }));
         }
     }
@@ -996,6 +1006,9 @@ export default class WispPreferences extends ExtensionPreferences {
 
         for (const unit of Units.SNAPPER_TIMERS) {
             const {enabled, known, state} = await Units.state(unit);
+            if (this._closed)
+                return;
+
             const {title, subtitle} = timerLabel(unit);
 
             if (!known) {
@@ -1112,6 +1125,9 @@ export default class WispPreferences extends ExtensionPreferences {
     async _toggle(unit, row) {
         row.sensitive = false;
         const result = await Units.setEnabled(unit, row.active);
+        if (this._closed)
+            return;
+
         row.sensitive = true;
 
         const said = failure(result);
@@ -1121,6 +1137,9 @@ export default class WispPreferences extends ExtensionPreferences {
         // Whether it worked or not, the switch has to end up showing what
         // systemd actually says rather than what it was clicked to.
         const {enabled} = await Units.state(unit);
+        if (this._closed)
+            return;
+
         if (row.active !== enabled) {
             row.freeze_notify();
             row.active = enabled;
@@ -1133,6 +1152,8 @@ export default class WispPreferences extends ExtensionPreferences {
         this._clear(this._storagePage);
 
         const configs = await Configs.listConfigs().catch(() => []);
+        if (this._closed)
+            return;
 
         // One panel per filesystem, named after every config that lives on it.
         // Which filesystem a config is on is a question for its subvolume
@@ -1158,6 +1179,9 @@ export default class WispPreferences extends ExtensionPreferences {
         await add('/');
         for (const {name, subvolume} of configs)
             await add(subvolume, name);
+
+        if (this._closed)
+            return;
 
         for (const {path, fs, names} of found.values())
             this._storagePage.add(this._storageGroup(path, fs, names));
