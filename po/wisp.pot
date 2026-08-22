@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wisp 1.0.2\n"
 "Report-Msgid-Bugs-To: https://github.com/epogonii/wisp/issues\n"
-"POT-Creation-Date: 2026-08-22 09:24+0300\n"
+"POT-Creation-Date: 2026-08-22 11:56+0300\n"
 "Last-Translator: NAME <EMAIL>\n"
 "Language-Team: none\n"
 "Language: \n"
@@ -469,7 +469,7 @@ msgid "Before I change something"
 msgstr ""
 
 #: lib/details.js:414 lib/dialog.js:627 lib/privileged.js:82 prefs.js:425
-#: prefs.js:930 prefs.js:1371
+#: prefs.js:930 prefs.js:1385
 msgid "Cancel"
 msgstr ""
 
@@ -1231,46 +1231,47 @@ msgstr ""
 msgid "Not counted yet"
 msgstr ""
 
-#: prefs.js:1298
+#: prefs.js:1307
 msgid "Count the size"
 msgstr ""
 
-#: prefs.js:1322
-msgid "Counting…"
+#: prefs.js:1331
+msgid ""
+"Counting… btrfs walks the whole filesystem for this, so it takes minutes"
 msgstr ""
 
-#: prefs.js:1329
+#: prefs.js:1343
 msgid "snapper would not say"
 msgstr ""
 
-#: prefs.js:1334
+#: prefs.js:1348
 #, javascript-format
 msgid "%d snapshot, taking %s between them"
 msgid_plural "%d snapshots, taking %s between them"
 msgstr[0] ""
 msgstr[1] ""
 
-#: prefs.js:1345
+#: prefs.js:1359
 msgid "Nothing has been snapshotted yet"
 msgstr ""
 
-#: prefs.js:1346
+#: prefs.js:1360
 #, javascript-format
 msgid "%d snapshot. btrfs is not counting sizes here yet"
 msgid_plural "%d snapshots. btrfs is not counting sizes here yet"
 msgstr[0] ""
 msgstr[1] ""
 
-#: prefs.js:1352
+#: prefs.js:1366
 msgid "Turn counting on"
 msgstr ""
 
-#: prefs.js:1367
+#: prefs.js:1381
 #, javascript-format
 msgid "Count snapshot sizes on %s?"
 msgstr ""
 
-#: prefs.js:1368
+#: prefs.js:1382
 #, javascript-format
 msgid ""
 "btrfs keeps no running total of what a snapshot is holding unless it is "
@@ -1283,25 +1284,25 @@ msgid ""
 "%s"
 msgstr ""
 
-#: prefs.js:1372
+#: prefs.js:1386
 msgid "Turn it on"
 msgstr ""
 
-#: prefs.js:1399
+#: prefs.js:1413
 msgid ""
 "Counting is on. The first figure may be low until btrfs has finished going "
 "through the filesystem."
 msgstr ""
 
-#: prefs.js:1416
+#: prefs.js:1430
 #, javascript-format
 msgid "Install the %s package for your distribution"
 msgstr ""
 
-#: prefs.js:1424
+#: prefs.js:1438
 msgid "Copy"
 msgstr ""
 
-#: prefs.js:1430
+#: prefs.js:1444
 msgid "Command copied."
 msgstr ""

@@ -1290,8 +1290,17 @@ export default class WispPreferences extends ExtensionPreferences {
                 title: name,
                 subtitle: _('Not counted yet'),
             });
+            // btrfs answers this by walking the whole filesystem, which is
+            // minutes rather than moments, and a row that only says it is
+            // counting reads as a row that has got stuck. So the one being
+            // counted keeps something moving next to it.
+            const spinner = new Gtk.Spinner({
+                valign: Gtk.Align.CENTER,
+                visible: false,
+            });
+            row.add_suffix(spinner);
             group.add(row);
-            return {name, row, button: null};
+            return {name, row, spinner, button: null};
         });
 
         const add = new Gtk.Button({
@@ -1319,10 +1328,15 @@ export default class WispPreferences extends ExtensionPreferences {
             if (this._closed)
                 return;
 
-            entry.row.subtitle = _('Counting…');
+            entry.row.subtitle = _('Counting… btrfs walks the whole filesystem for this, so it takes minutes');
+            entry.spinner.visible = true;
+            entry.spinner.start();
             const {count, bytes, said} = await Configs.snapshotSpace(entry.name);
             if (this._closed)
                 return;
+
+            entry.spinner.stop();
+            entry.spinner.visible = false;
 
             // A config that refused to be listed has not said it is empty.
             if (count === null) {
