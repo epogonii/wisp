@@ -815,6 +815,9 @@ export default class WispPreferences extends ExtensionPreferences {
      * @param {Error} error - why
      */
     _failed(page, error) {
+        if (this._closed)
+            return;
+
         const group = new Adw.PreferencesGroup();
         group.add(new Adw.ActionRow({
             title: _('Could not read this'),
