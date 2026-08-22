@@ -12,7 +12,7 @@ import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 
 import {CreateDialog, DetailsDialog} from './lib/details.js';
-import {VERTICAL, ConfirmDialog, pill, wrap} from './lib/dialog.js';
+import {VERTICAL, ConfirmDialog, closeAll, pill, wrap} from './lib/dialog.js';
 import {Snapper, isDenied} from './lib/snapper.js';
 import {check, canAskForRoot} from './lib/requirements.js';
 import {requestAccess} from './lib/privileged.js';
@@ -865,6 +865,9 @@ export default class WispExtension extends Extension {
     }
 
     disable() {
+        // The dialogs first: they are the only thing here holding the pointer
+        // and the keyboard, and they are on top of everything they talk to.
+        closeAll();
         for (const id of this._placeIds)
             this._settings.disconnect(id);
         this._placeIds = [];
