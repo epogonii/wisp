@@ -202,8 +202,6 @@ permission.
 
 ## What still has to be done before uploading
 
-- The repository is private. `url` in metadata.json points at it, and a
-  reviewer following that link gets a 404. It has to be public first.
 - The listing wants screenshots. `docs/screenshots/` has four; a fifth showing
   the menu with snapper missing would say what the extension does when the
   system is not set up.
