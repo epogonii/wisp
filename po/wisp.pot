@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Wisp 1.0.3\n"
+"Project-Id-Version: Wisp 1.0.4\n"
 "Report-Msgid-Bugs-To: https://github.com/epogonii/wisp/issues\n"
-"POT-Creation-Date: 2026-08-22 12:33+0300\n"
+"POT-Creation-Date: 2026-08-22 20:56+0300\n"
 "Last-Translator: NAME <EMAIL>\n"
 "Language-Team: none\n"
 "Language: \n"
@@ -30,16 +30,16 @@ msgstr ""
 msgid "kept"
 msgstr ""
 
-#: extension.js:81 extension.js:211 lib/details.js:84
+#: extension.js:81 extension.js:211 lib/details.js:93
 msgid "no description"
 msgstr ""
 
-#: extension.js:205 lib/details.js:298
+#: extension.js:205 lib/details.js:307
 #, javascript-format
 msgid "Delete snapshots %d and %d?"
 msgstr ""
 
-#: extension.js:206 lib/details.js:299
+#: extension.js:206 lib/details.js:308
 #, javascript-format
 msgid "Delete snapshot %d?"
 msgstr ""
@@ -48,7 +48,7 @@ msgstr ""
 msgid "There is no undoing this."
 msgstr ""
 
-#: extension.js:215 lib/details.js:304 lib/details.js:324 prefs.js:426
+#: extension.js:215 lib/details.js:313 lib/details.js:333 prefs.js:426
 msgid "Delete"
 msgstr ""
 
@@ -56,7 +56,7 @@ msgstr ""
 msgid "Delete both"
 msgstr ""
 
-#: extension.js:228 extension.js:384 lib/compare.js:640 lib/details.js:348
+#: extension.js:228 extension.js:384 lib/compare.js:640 lib/details.js:364
 #: lib/toast.js:58
 msgid "Wisp"
 msgstr ""
@@ -279,140 +279,140 @@ msgstr ""
 msgid "Kept until deleted"
 msgstr ""
 
-#: lib/details.js:78
+#: lib/details.js:87
 #, javascript-format
 msgid "Snapshots %d and %d"
 msgstr ""
 
-#: lib/details.js:79
+#: lib/details.js:88
 #, javascript-format
 msgid "Snapshot %d"
 msgstr ""
 
-#: lib/details.js:98
+#: lib/details.js:107
 msgid "Done"
 msgstr ""
 
-#: lib/details.js:112 lib/details.js:381
+#: lib/details.js:121 lib/details.js:399
 msgid "Description"
 msgstr ""
 
-#: lib/details.js:114
+#: lib/details.js:123
 msgid "What this snapshot is for"
 msgstr ""
 
-#: lib/details.js:119
+#: lib/details.js:128
 msgid "Keep this snapshot"
 msgstr ""
 
-#: lib/details.js:120
+#: lib/details.js:129
 msgid "Marks it important, which is what snapper's cleanup leaves alone"
 msgstr ""
 
-#: lib/details.js:126
+#: lib/details.js:135
 msgid "Cleanup"
 msgstr ""
 
-#: lib/details.js:133
+#: lib/details.js:142
 msgid "Read-only"
 msgstr ""
 
-#: lib/details.js:134
+#: lib/details.js:143
 msgid ""
 "Snapper takes snapshots read-only. Turning this off lets anything with root "
 "change one."
 msgstr ""
 
-#: lib/details.js:154
+#: lib/details.js:163
 msgid "Contents"
 msgstr ""
 
-#: lib/details.js:156
+#: lib/details.js:165
 msgid "Browse the files"
 msgstr ""
 
-#: lib/details.js:157
+#: lib/details.js:166
 msgid "Opens the snapshot in Files, read-only"
 msgstr ""
 
-#: lib/details.js:164
+#: lib/details.js:173
 msgid "What this transaction changed"
 msgstr ""
 
-#: lib/details.js:165
+#: lib/details.js:174
 msgid "Compares the snapshot before it with the one after"
 msgstr ""
 
-#: lib/details.js:168
+#: lib/details.js:177
 #, javascript-format
 msgid "Changed by snapshot %d"
 msgstr ""
 
-#: lib/details.js:172
+#: lib/details.js:181
 msgid "What has changed since"
 msgstr ""
 
-#: lib/details.js:173
+#: lib/details.js:182
 msgid ""
 "Compares this snapshot with the system as it is now, and can put files back"
 msgstr ""
 
-#: lib/details.js:176
+#: lib/details.js:185
 #, javascript-format
 msgid "Changed since snapshot %d"
 msgstr ""
 
-#: lib/details.js:187
+#: lib/details.js:196
 msgid "Delete this snapshot"
 msgid_plural "Delete both snapshots"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/details.js:188
+#: lib/details.js:197
 msgid "There is no undoing this"
 msgstr ""
 
-#: lib/details.js:208
+#: lib/details.js:217
 msgid "Roll back to this snapshot"
 msgstr ""
 
-#: lib/details.js:209
+#: lib/details.js:218
 msgid "Asks snapper to boot from it next time"
 msgstr ""
 
-#: lib/details.js:230
+#: lib/details.js:239
 msgid "Your account is not allowed to change this config."
 msgstr ""
 
-#: lib/details.js:283
+#: lib/details.js:292
 #, javascript-format
 msgid "In %s, against the files as they are now"
 msgstr ""
 
-#: lib/details.js:284
+#: lib/details.js:293
 #, javascript-format
 msgid "In %s, between the snapshot before it and the one after"
 msgstr ""
 
-#: lib/details.js:303
+#: lib/details.js:312
 msgid ""
 "The snapshot goes and the space it was holding comes back. Nothing here "
 "brings it back."
 msgstr ""
 
-#: lib/details.js:321 lib/details.js:428
+#: lib/details.js:330 lib/details.js:446
 #, javascript-format
 msgid ""
 "Your account is not allowed to change the %s config, so snapper will do it "
 "as root."
 msgstr ""
 
-#: lib/details.js:341
+#: lib/details.js:357
 #, javascript-format
 msgid "Roll back to snapshot %d?"
 msgstr ""
 
-#: lib/details.js:342
+#: lib/details.js:358
 #, javascript-format
 msgid ""
 "snapper takes a snapshot of the system as it is, makes a writable copy of "
@@ -420,16 +420,16 @@ msgid ""
 "restarted."
 msgstr ""
 
-#: lib/details.js:344
+#: lib/details.js:360
 msgid "Roll back"
 msgstr ""
 
-#: lib/details.js:349
+#: lib/details.js:365
 #, javascript-format
 msgid "Rolled back to snapshot %d. Restart to boot into it."
 msgstr ""
 
-#: lib/details.js:356
+#: lib/details.js:372
 msgid ""
 "/etc/fstab mounts this filesystem by subvolume name, which overrules the "
 "default subvolume snapper is about to set. The rollback will be reported as "
@@ -437,45 +437,45 @@ msgid ""
 "subvolumes by hand from a live image is the way round it."
 msgstr ""
 
-#: lib/details.js:374
+#: lib/details.js:392
 #, javascript-format
 msgid "Take a snapshot of %s"
 msgstr ""
 
-#: lib/details.js:375
+#: lib/details.js:393
 msgid ""
 "It records the subvolume as it is now. Nothing is copied, so it takes about "
 "a second and almost no disk until the files start to differ."
 msgstr ""
 
-#: lib/details.js:383
+#: lib/details.js:401
 msgid "Before I change something"
 msgstr ""
 
-#: lib/details.js:390 lib/dialog.js:627 lib/privileged.js:82 prefs.js:425
+#: lib/details.js:408 lib/dialog.js:627 lib/privileged.js:82 prefs.js:425
 #: prefs.js:943
 msgid "Cancel"
 msgstr ""
 
-#: lib/details.js:395 lib/details.js:431
+#: lib/details.js:413 lib/details.js:449
 msgid "Take snapshot"
 msgstr ""
 
-#: lib/details.js:405
+#: lib/details.js:423
 msgid "Taken by hand"
 msgstr ""
 
-#: lib/details.js:413
+#: lib/details.js:431
 #, javascript-format
 msgid "Snapshot %d taken"
 msgstr ""
 
-#: lib/details.js:427
+#: lib/details.js:445
 #, javascript-format
 msgid "Take a snapshot of %s?"
 msgstr ""
 
-#: lib/details.js:437
+#: lib/details.js:455
 msgid "Snapshot taken"
 msgstr ""
 

@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.0.4
+
+- The rollback dialog no longer waits on a synchronous read of `/etc/fstab`
+  before it opens. It still carries the warning that a filesystem mounted by
+  subvolume name overrules the default subvolume a rollback sets; the file is
+  read asynchronously now and the dialog is built when the answer is in.
+- The lock in front of the menu asks the kernel for the extension's own process
+  id rather than reading `/proc/self/stat`, on the systems where polkit is given
+  a process to check instead of a bus name.
+- The panel icon is found from the path `enable()` is handed, instead of the
+  extension looking itself back up by module URL.
+- What extensions.gnome.org says about Wisp is shorter, and says what the
+  extension is before it says what snapper calls things.
+
 ## 1.0.3
 
 - Adding up what a snapshot is holding on to is gone, and so is the button that
