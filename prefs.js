@@ -530,10 +530,23 @@ export default class WispPreferences extends ExtensionPreferences {
         // snapperd answers one caller at a time, so it stands in the way of
         // the next window that asks the same thing. Closing this one ends it.
         this._cancellable = new Gio.Cancellable();
-        window.connect('destroy', () => {
+
+        // Which is heard at close-request, not at destroy. Closing a window -
+        // the button in its own header, Escape, gtk_window_close - hides and
+        // unrealizes it; destroy comes from being disposed, and a window the
+        // process is about to exit with is never disposed at all. Measured on
+        // an Adw.PreferencesWindow here: close-request and unrealize, no
+        // destroy. Both are connected because a window that really is
+        // destroyed sends only the second.
+        const going = () => {
             this._closed = true;
             this._cancellable.cancel();
+        };
+        window.connect('close-request', () => {
+            going();
+            return false;
         });
+        window.connect('destroy', going);
 
         window.add(this._appearancePage());
 

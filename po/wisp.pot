@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wisp 1.0.2\n"
 "Report-Msgid-Bugs-To: https://github.com/epogonii/wisp/issues\n"
-"POT-Creation-Date: 2026-08-22 12:05+0300\n"
+"POT-Creation-Date: 2026-08-22 12:13+0300\n"
 "Last-Translator: NAME <EMAIL>\n"
 "Language-Team: none\n"
 "Language: \n"
@@ -66,7 +66,7 @@ msgstr ""
 msgid "Your account is not allowed to change the %s config."
 msgstr ""
 
-#: extension.js:263 prefs.js:606
+#: extension.js:263 prefs.js:619
 msgid "Take a snapshot"
 msgstr ""
 
@@ -469,7 +469,7 @@ msgid "Before I change something"
 msgstr ""
 
 #: lib/details.js:414 lib/dialog.js:627 lib/privileged.js:82 prefs.js:425
-#: prefs.js:936 prefs.js:1411
+#: prefs.js:949 prefs.js:1424
 msgid "Cancel"
 msgstr ""
 
@@ -588,15 +588,15 @@ msgstr ""
 msgid "Hourly"
 msgstr ""
 
-#: prefs.js:57 prefs.js:1099
+#: prefs.js:57 prefs.js:1112
 msgid "Daily"
 msgstr ""
 
-#: prefs.js:59 prefs.js:1099
+#: prefs.js:59 prefs.js:1112
 msgid "Weekly"
 msgstr ""
 
-#: prefs.js:61 prefs.js:1099
+#: prefs.js:61 prefs.js:1112
 msgid "Monthly"
 msgstr ""
 
@@ -753,7 +753,7 @@ msgid ""
 "Counted separately, so a starred snapshot is not pushed out by ordinary ones"
 msgstr ""
 
-#: prefs.js:370 prefs.js:1111
+#: prefs.js:370 prefs.js:1124
 #, javascript-format
 msgid "Set to %s, which this window leaves as it is"
 msgstr ""
@@ -774,7 +774,7 @@ msgid ""
 "snapshot in it. %s itself is left alone. None of it can be undone."
 msgstr ""
 
-#: prefs.js:482 prefs.js:1095
+#: prefs.js:482 prefs.js:1108
 msgid "Command copied. It does the same thing as Apply."
 msgstr ""
 
@@ -783,156 +783,156 @@ msgstr ""
 msgid "Saved to %s."
 msgstr ""
 
-#: prefs.js:541
+#: prefs.js:554
 msgid "Snapshots"
 msgstr ""
 
-#: prefs.js:547
+#: prefs.js:560
 msgid "Schedule"
 msgstr ""
 
-#: prefs.js:553
+#: prefs.js:566
 msgid "Storage"
 msgstr ""
 
-#: prefs.js:566
+#: prefs.js:579
 msgid "Appearance"
 msgstr ""
 
-#: prefs.js:570
+#: prefs.js:583
 msgid "Panel"
 msgstr ""
 
-#: prefs.js:574
+#: prefs.js:587
 msgid "Position"
 msgstr ""
 
-#: prefs.js:575
+#: prefs.js:588
 msgid "Which end of the top bar the indicator sits at"
 msgstr ""
 
-#: prefs.js:576
+#: prefs.js:589
 msgid "Centre"
 msgstr ""
 
-#: prefs.js:576
+#: prefs.js:589
 msgid "Left"
 msgstr ""
 
-#: prefs.js:576
+#: prefs.js:589
 msgid "Right"
 msgstr ""
 
-#: prefs.js:582
+#: prefs.js:595
 msgid "Place"
 msgstr ""
 
-#: prefs.js:583
+#: prefs.js:596
 msgid "Counted from that end. Zero is outermost"
 msgstr ""
 
-#: prefs.js:596
+#: prefs.js:609
 msgid "Show the indicator"
 msgstr ""
 
-#: prefs.js:597
+#: prefs.js:610
 msgid "Hidden when unusable, it comes back as soon as snapper does"
 msgstr ""
 
-#: prefs.js:598
+#: prefs.js:611
 msgid "Always"
 msgstr ""
 
-#: prefs.js:598
+#: prefs.js:611
 msgid "Only when snapper is set up"
 msgstr ""
 
-#: prefs.js:604
+#: prefs.js:617
 msgid "Middle click"
 msgstr ""
 
-#: prefs.js:605
+#: prefs.js:618
 msgid "Uses the first config shown in the menu"
 msgstr ""
 
-#: prefs.js:606
+#: prefs.js:619
 msgid "Nothing"
 msgstr ""
 
-#: prefs.js:606
+#: prefs.js:619
 msgid "Open these settings"
 msgstr ""
 
-#: prefs.js:611
+#: prefs.js:624
 msgid "Menu"
 msgstr ""
 
-#: prefs.js:615
+#: prefs.js:628
 msgid "Snapshots listed"
 msgstr ""
 
-#: prefs.js:616
+#: prefs.js:629
 msgid "How many of the newest each config shows"
 msgstr ""
 
-#: prefs.js:629
+#: prefs.js:642
 msgid "Dates"
 msgstr ""
 
-#: prefs.js:630
+#: prefs.js:643
 msgid ""
 "An age reads faster; a date and time is what matches a snapshot against "
 "something else"
 msgstr ""
 
-#: prefs.js:631
+#: prefs.js:644
 msgid "Date and time"
 msgstr ""
 
-#: prefs.js:631
+#: prefs.js:644
 msgid "How long ago"
 msgstr ""
 
-#: prefs.js:637
+#: prefs.js:650
 msgid "Show the cleanup rule"
 msgstr ""
 
-#: prefs.js:638
+#: prefs.js:651
 msgid "What decides when snapper removes each snapshot on its own"
 msgstr ""
 
-#: prefs.js:646
+#: prefs.js:659
 msgid "Messages"
 msgstr ""
 
-#: prefs.js:647
+#: prefs.js:660
 msgid ""
 "What a snapshot taken and a command copied are answered with. Anything that "
 "changed the disk - a rollback, files put back - is a notification either "
 "way, since that is worth finding again later."
 msgstr ""
 
-#: prefs.js:652
+#: prefs.js:665
 msgid "Say it with"
 msgstr ""
 
-#: prefs.js:653
+#: prefs.js:666
 msgid "The pill appears under the panel and is gone in a couple of seconds"
 msgstr ""
 
-#: prefs.js:654
+#: prefs.js:667
 msgid "A notification"
 msgstr ""
 
-#: prefs.js:654
+#: prefs.js:667
 msgid "A pill under the panel"
 msgstr ""
 
-#: prefs.js:660
+#: prefs.js:673
 msgid "Lock"
 msgstr ""
 
-#: prefs.js:661
+#: prefs.js:674
 msgid ""
 "Being allowed to read a config is granted once and belongs to the account "
 "from then on, so nothing here can take that back. What it can do is put a "
@@ -940,285 +940,285 @@ msgid ""
 "same finger, that authorising anything else on this machine takes."
 msgstr ""
 
-#: prefs.js:666
+#: prefs.js:679
 msgid "Ask before showing the list"
 msgstr ""
 
-#: prefs.js:667
+#: prefs.js:680
 msgid "Locked, nothing is read at all until it is unlocked"
 msgstr ""
 
-#: prefs.js:668
+#: prefs.js:681
 msgid "Every time"
 msgstr ""
 
-#: prefs.js:668 prefs.js:1099
+#: prefs.js:681 prefs.js:1112
 msgid "Never"
 msgstr ""
 
-#: prefs.js:668
+#: prefs.js:681
 msgid "When it has been a while"
 msgstr ""
 
-#: prefs.js:675
+#: prefs.js:688
 msgid "Ask again after"
 msgstr ""
 
-#: prefs.js:676
+#: prefs.js:689
 msgid "Minutes since it was last unlocked"
 msgstr ""
 
-#: prefs.js:699
+#: prefs.js:712
 msgid ""
 "Not available here: this needs pkcheck, from polkit. Install polkit and the "
 "lock can be switched on."
 msgstr ""
 
-#: prefs.js:735
+#: prefs.js:748
 msgid "About"
 msgstr ""
 
-#: prefs.js:740
+#: prefs.js:753
 #, javascript-format
 msgid "Wisp %s"
 msgstr ""
 
-#: prefs.js:741
+#: prefs.js:754
 msgid "Snapper snapshots, from the top bar"
 msgstr ""
 
-#: prefs.js:744
+#: prefs.js:757
 msgid "Project page"
 msgstr ""
 
-#: prefs.js:745
+#: prefs.js:758
 msgid "Report a problem"
 msgstr ""
 
-#: prefs.js:746
+#: prefs.js:759
 msgid "Whatever it does that it should not"
 msgstr ""
 
-#: prefs.js:749
+#: prefs.js:762
 msgid "Support"
 msgstr ""
 
-#: prefs.js:750
+#: prefs.js:763
 msgid "The extension is free and stays free. If it earned a coffee ☕"
 msgstr ""
 
-#: prefs.js:753
+#: prefs.js:766
 msgid "GitHub Sponsors"
 msgstr ""
 
-#: prefs.js:754
+#: prefs.js:767
 msgid "Monthly or one time"
 msgstr ""
 
-#: prefs.js:755
+#: prefs.js:768
 msgid "PayPal"
 msgstr ""
 
-#: prefs.js:766
+#: prefs.js:779
 msgid "Copy the address"
 msgstr ""
 
-#: prefs.js:772
+#: prefs.js:785
 #, javascript-format
 msgid "%s address copied"
 msgstr ""
 
-#: prefs.js:829
+#: prefs.js:842
 msgid "Could not read this"
 msgstr ""
 
-#: prefs.js:867
+#: prefs.js:880
 msgid "snapper is not installed"
 msgstr ""
 
-#: prefs.js:868
+#: prefs.js:881
 msgid ""
 "Wisp manages the snapshots snapper takes, and there is no snapper on this "
 "system taking any. Everything in this window waits on it."
 msgstr ""
 
-#: prefs.js:878
+#: prefs.js:891
 msgid "Configs"
 msgstr ""
 
-#: prefs.js:879
+#: prefs.js:892
 msgid ""
 "One config per subvolume, kept in /etc/snapper/configs. Everything here is "
 "readable without a password; changing it is root’s, so changes wait for "
 "Apply and go out together."
 msgstr ""
 
-#: prefs.js:884
+#: prefs.js:897
 msgid "Set up a new config"
 msgstr ""
 
-#: prefs.js:894
+#: prefs.js:907
 msgid "snapper has no configs yet"
 msgstr ""
 
-#: prefs.js:895
+#: prefs.js:908
 msgid "Nothing is being snapshotted. The button above sets the first one up"
 msgstr ""
 
-#: prefs.js:913
+#: prefs.js:926
 msgid "Name"
 msgstr ""
 
-#: prefs.js:915
+#: prefs.js:928
 msgid "Subvolume"
 msgstr ""
 
-#: prefs.js:920
+#: prefs.js:933
 msgid "Pick a folder"
 msgstr ""
 
-#: prefs.js:932
+#: prefs.js:945
 msgid "New config"
 msgstr ""
 
-#: prefs.js:933
+#: prefs.js:946
 msgid ""
 "snapper takes snapshots of one subvolume per config, and keeps them in "
 "a .snapshots subvolume it makes underneath it."
 msgstr ""
 
-#: prefs.js:937
+#: prefs.js:950
 msgid "Create"
 msgstr ""
 
-#: prefs.js:954
+#: prefs.js:967
 msgid "A config name can hold letters, digits, dots, dashes and underscores."
 msgstr ""
 
-#: prefs.js:972
+#: prefs.js:985
 msgid "Pick a subvolume"
 msgstr ""
 
-#: prefs.js:1004
+#: prefs.js:1017
 #, javascript-format
 msgid "%s set up. Nothing has been snapshotted yet."
 msgstr ""
 
-#: prefs.js:1014
+#: prefs.js:1027
 msgid "snapper"
 msgstr ""
 
-#: prefs.js:1015
+#: prefs.js:1028
 msgid ""
 "snapper does nothing on a schedule by itself. These are the timers that make "
 "it, and the limits on the previous page are only enforced while the second "
 "one runs."
 msgstr ""
 
-#: prefs.js:1029
+#: prefs.js:1042
 #, javascript-format
 msgid "%s is not installed on this system"
 msgstr ""
 
-#: prefs.js:1037
+#: prefs.js:1050
 #, javascript-format
 msgid "%s is always on: the package does not let it be switched off"
 msgstr ""
 
-#: prefs.js:1051
+#: prefs.js:1064
 msgid "Run by cron"
 msgstr ""
 
-#: prefs.js:1052
+#: prefs.js:1065
 #, javascript-format
 msgid ""
 "snapper is also scheduled by %s. Wisp cannot change a cron job; the file "
 "itself is where that is done."
 msgstr ""
 
-#: prefs.js:1058 prefs.js:1065
+#: prefs.js:1071 prefs.js:1078
 msgid "Filesystem upkeep"
 msgstr ""
 
-#: prefs.js:1059
+#: prefs.js:1072
 msgid ""
 "Scrub, balance, defrag and trim are kept by btrfsmaintenance, which is a "
 "separate package and is not installed. snapper does not need it; these "
 "settings are all it would add."
 msgstr ""
 
-#: prefs.js:1066
+#: prefs.js:1079
 msgid ""
 "btrfsmaintenance keeps these, not snapper. Each one takes hours and runs in "
 "the background; how often is all there is to decide."
 msgstr ""
 
-#: prefs.js:1089
+#: prefs.js:1102
 msgid "Saved. The timers are rebuilt from the file on their own."
 msgstr ""
 
-#: prefs.js:1213
+#: prefs.js:1226
 msgid "Nothing here is on btrfs"
 msgstr ""
 
-#: prefs.js:1214
+#: prefs.js:1227
 msgid ""
 "snapper can drive LVM thin volumes too, and this page only knows how to read "
 "btrfs"
 msgstr ""
 
-#: prefs.js:1216
+#: prefs.js:1229
 msgid "Cannot tell what this is on"
 msgstr ""
 
-#: prefs.js:1217
+#: prefs.js:1230
 msgid ""
 "findmnt, from util-linux, is what this page asks, and it is not installed"
 msgstr ""
 
-#: prefs.js:1232
+#: prefs.js:1245
 #, javascript-format
 msgid "%s - %s"
 msgstr ""
 
-#: prefs.js:1237
+#: prefs.js:1250
 msgid "Size"
 msgstr ""
 
-#: prefs.js:1238
+#: prefs.js:1251
 msgid "Handed out to chunks"
 msgstr ""
 
-#: prefs.js:1239
+#: prefs.js:1252
 msgid "Written"
 msgstr ""
 
-#: prefs.js:1243
+#: prefs.js:1256
 msgid "Free"
 msgstr ""
 
-#: prefs.js:1256
+#: prefs.js:1269
 msgid "Data"
 msgstr ""
 
-#: prefs.js:1257
+#: prefs.js:1270
 msgid "Metadata"
 msgstr ""
 
-#: prefs.js:1257
+#: prefs.js:1270
 msgid "System"
 msgstr ""
 
-#: prefs.js:1258
+#: prefs.js:1271
 #, javascript-format
 msgid "%s of %s"
 msgstr ""
 
-#: prefs.js:1290
+#: prefs.js:1303
 msgid "Space taken by snapshots"
 msgstr ""
 
-#: prefs.js:1291
+#: prefs.js:1304
 msgid ""
 "A snapshot costs nothing when it is taken and grows as the files it froze "
 "are changed or deleted, since the old copies have to be kept somewhere. What "
@@ -1227,51 +1227,51 @@ msgid ""
 "going through the filesystem to count takes a while."
 msgstr ""
 
-#: prefs.js:1297
+#: prefs.js:1310
 msgid "Not counted yet"
 msgstr ""
 
-#: prefs.js:1313
+#: prefs.js:1326
 msgid "Count the size"
 msgstr ""
 
-#: prefs.js:1356
+#: prefs.js:1369
 msgid ""
 "Counting… btrfs walks the whole filesystem for this, so it takes minutes"
 msgstr ""
 
-#: prefs.js:1369
+#: prefs.js:1382
 msgid "snapper would not say"
 msgstr ""
 
-#: prefs.js:1374
+#: prefs.js:1387
 #, javascript-format
 msgid "%d snapshot, taking %s between them"
 msgid_plural "%d snapshots, taking %s between them"
 msgstr[0] ""
 msgstr[1] ""
 
-#: prefs.js:1385
+#: prefs.js:1398
 msgid "Nothing has been snapshotted yet"
 msgstr ""
 
-#: prefs.js:1386
+#: prefs.js:1399
 #, javascript-format
 msgid "%d snapshot. btrfs is not counting sizes here yet"
 msgid_plural "%d snapshots. btrfs is not counting sizes here yet"
 msgstr[0] ""
 msgstr[1] ""
 
-#: prefs.js:1392
+#: prefs.js:1405
 msgid "Turn counting on"
 msgstr ""
 
-#: prefs.js:1407
+#: prefs.js:1420
 #, javascript-format
 msgid "Count snapshot sizes on %s?"
 msgstr ""
 
-#: prefs.js:1408
+#: prefs.js:1421
 #, javascript-format
 msgid ""
 "btrfs keeps no running total of what a snapshot is holding unless it is "
@@ -1284,25 +1284,25 @@ msgid ""
 "%s"
 msgstr ""
 
-#: prefs.js:1412
+#: prefs.js:1425
 msgid "Turn it on"
 msgstr ""
 
-#: prefs.js:1439
+#: prefs.js:1452
 msgid ""
 "Counting is on. The first figure may be low until btrfs has finished going "
 "through the filesystem."
 msgstr ""
 
-#: prefs.js:1456
+#: prefs.js:1469
 #, javascript-format
 msgid "Install the %s package for your distribution"
 msgstr ""
 
-#: prefs.js:1464
+#: prefs.js:1477
 msgid "Copy"
 msgstr ""
 
-#: prefs.js:1470
+#: prefs.js:1483
 msgid "Command copied."
 msgstr ""
