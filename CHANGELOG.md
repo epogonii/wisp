@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.0.2
+
+- Switching the extension off closes any window it still has open. One left
+  behind held the keyboard and the pointer on behalf of an extension that was
+  no longer running.
+- The snapshot directories are watched by monitors that are kept and reused.
+  Reading the configs happens on every menu open and after every change the
+  watching itself reports, and each of those used to cancel every monitor and
+  make it again, the one that had just fired included.
+- A distribution that drives snapper from cron instead of a timer has the jobs
+  it found named on the Schedule page. Timers alone used to read as nothing
+  being scheduled at all.
+- Every string the extension shows can be translated: `po/wisp.pot` carries all
+  280 of them and `tools/update-po.sh` keeps a language up to date with it. No
+  language is translated yet.
+
 ## 1.0.1
 
 - The lock's idle window is measured against the wall clock as well as the
