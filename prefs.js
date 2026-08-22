@@ -525,8 +525,14 @@ export default class WispPreferences extends ExtensionPreferences {
         // a row written to after the window is gone is a row that no longer
         // exists.
         this._closed = false;
+        this._counting = false;
+        // And a rescan nobody is waiting for any more is worse than wasted:
+        // snapperd answers one caller at a time, so it stands in the way of
+        // the next window that asks the same thing. Closing this one ends it.
+        this._cancellable = new Gio.Cancellable();
         window.connect('destroy', () => {
             this._closed = true;
+            this._cancellable.cancel();
         });
 
         window.add(this._appearancePage());
@@ -1324,6 +1330,25 @@ export default class WispPreferences extends ExtensionPreferences {
      *   rescans at once would only get in each other's way
      */
     async _addUp(entries) {
+        // One pass at a time, and one pass only: a second one started while
+        // the first is still going - by the button on a row that the first
+        // pass has already been past - would ask snapperd the same question
+        // twice and get both answers later than one.
+        if (this._counting)
+            return;
+
+        this._counting = true;
+        try {
+            await this._countUp(entries);
+        } finally {
+            this._counting = false;
+        }
+    }
+
+    /**
+     * @param {object[]} entries - as for _addUp, which is the way in
+     */
+    async _countUp(entries) {
         for (const entry of entries) {
             if (this._closed)
                 return;
@@ -1331,7 +1356,8 @@ export default class WispPreferences extends ExtensionPreferences {
             entry.row.subtitle = _('Counting… btrfs walks the whole filesystem for this, so it takes minutes');
             entry.spinner.visible = true;
             entry.spinner.start();
-            const {count, bytes, said} = await Configs.snapshotSpace(entry.name);
+            const {count, bytes, said} = await Configs.snapshotSpace(entry.name,
+                this._cancellable);
             if (this._closed)
                 return;
 
