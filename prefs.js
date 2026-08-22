@@ -1015,6 +1015,19 @@ export default class WispPreferences extends ExtensionPreferences {
             group.add(row);
         }
 
+        // A distribution that drives snapper from cron instead of a timer has
+        // schedules the switches above cannot see, and saying only that the
+        // timers are not installed would read as nothing being scheduled at
+        // all. A cron job is a file and not a unit, so there is nothing here
+        // to switch: it is named, and left to be edited.
+        const cron = Units.cronJobs();
+        if (cron.length) {
+            group.add(new Adw.ActionRow({
+                title: _('Run by cron'),
+                subtitle: _('snapper is also scheduled by %s. Wisp cannot change a cron job; the file itself is where that is done.').format(cron.join(', ')),
+            }));
+        }
+
         const maintenance = Btrfs.maintenance();
         if (!maintenance) {
             this._schedulePage.add(this._absent(_('Filesystem upkeep'),
