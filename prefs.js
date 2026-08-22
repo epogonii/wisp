@@ -487,6 +487,9 @@ class ConfigRow extends Adw.ExpanderRow {
 
         this._apply.busy = true;
         const result = await Configs.setConfig(this._config.name, values);
+        if (this._closed())
+            return;
+
         this._apply.busy = false;
 
         const said = failure(result);
@@ -1061,6 +1064,9 @@ export default class WispPreferences extends ExtensionPreferences {
                 const values = Object.fromEntries(pending);
                 apply.busy = true;
                 const result = await Btrfs.setMaintenance(values);
+                if (this._closed)
+                    return;
+
                 apply.busy = false;
                 const said = failure(result);
                 if (said) {
