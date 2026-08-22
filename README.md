@@ -42,7 +42,7 @@ belonged to.
 A snapshot's own window, and the timers snapper acts on:
 
 <p align="center">
-  <img src="docs/screenshots/snapshot.png" width="420" alt="A snapshot's window: description, keep, cleanup, read-only, disk space">
+  <img src="docs/screenshots/snapshot.png" width="420" alt="A snapshot's window: description, keep, cleanup, read-only">
   <img src="docs/screenshots/schedule.png" width="420" alt="The Schedule page: snapper's timers and btrfsmaintenance's jobs">
 </p>
 
