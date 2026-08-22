@@ -1,7 +1,7 @@
 {
   "uuid": "wisp@epogonii.github.io",
   "name": "Wisp",
-  "description": "Lists the snapshots snapper has already taken, takes one on demand, and deletes the ones no longer wanted.",
+  "description": "Wisp lists the snapshots snapper has already taken, takes one on demand, and deletes the ones no longer wanted - from the top bar, without a terminal.\n\nEach config gets its own section in the menu, newest first, with the age or the date, the description snapper recorded, and the rule that decides when snapper will remove it on its own. Opening a snapshot shows what changed in it and what has changed since - and can put individual files back or roll the whole system over to it.\n\nThe preferences window is the rest of snapper: the retention limits each config cleans up by, its timers, btrfsmaintenance's scrub and balance, and what the filesystem underneath is doing. Everything Wisp can read as your own account, it reads that way. Anything that needs root says so, shows the exact command, and asks polkit - the same prompt anything else on the machine uses. There is also a lock, if the list of snapshots is not something you want a click away.\n\nNeeds snapper and a filesystem it manages. GNOME 46 and later.",
   "shell-version": [
     "46",
     "47",
