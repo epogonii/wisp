@@ -52,6 +52,13 @@ What changed since a snapshot, with the files to put back picked out of it:
   <img src="docs/screenshots/restore.png" width="420" alt="The list of changed files, five of them selected for restoring">
 </p>
 
+What snapper is set to keep, and what is left on the filesystem it keeps it on:
+
+<p align="center">
+  <img src="docs/screenshots/configs.png" width="420" alt="The Snapshots page: one config open, with the limits its cleanup goes by">
+  <img src="docs/screenshots/storage.png" width="420" alt="The Storage page: size, what btrfs has handed out to chunks, and what is free">
+</p>
+
 ---
 
 ## What has to be installed first
