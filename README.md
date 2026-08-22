@@ -168,6 +168,24 @@ gnome-extensions prefs wisp@epogonii.github.io
 
 ---
 
+## Translations
+
+Every string is translatable, and none is translated yet. `po/wisp.pot` holds
+them, and `tools/update-po.sh` rebuilds it from the sources - `tools/files.txt`
+is the list it reads, so a new file is translatable as soon as it ships - and
+brings each `po/*.po` up to date.
+
+A language starts as a copy of the pot:
+
+```sh
+msginit --locale=<code> --input=po/wisp.pot --output=po/<code>.po
+```
+
+Fill it in, run `tools/update-po.sh` to check it compiles, and
+`tools/install-local.sh` puts it where the shell looks.
+
+---
+
 ## Reporting issues
 
 - Extension version, GNOME Shell version, distribution
