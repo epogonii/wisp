@@ -285,7 +285,7 @@
 
 .wisp-row-danger .wisp-row-title,
 .wisp-row-danger .wisp-row-icon {
-    color: #cf222e; /* sh-var: danger */
+    color: #c30000; /* sh-var: danger */
 }
 
 .wisp-row-entry {
@@ -317,11 +317,11 @@
 }
 
 .wisp-note-warning {
-    color: #cf222e; /* sh-var: danger */
+    color: #c30000; /* sh-var: danger */
 }
 
 .wisp-danger {
-    color: #cf222e; /* sh-var: danger */
+    color: #c30000; /* sh-var: danger */
 }
 
 /* ---- what changed between two snapshots ---- */
@@ -365,7 +365,7 @@
 }
 
 .wisp-file-removed {
-    color: #cf222e; /* sh-var: danger */
+    color: #c30000; /* sh-var: danger */
 }
 
 .wisp-file-changed {
