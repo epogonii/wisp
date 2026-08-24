@@ -403,10 +403,22 @@ class ConfigRow extends Adw.ExpanderRow {
 
     /** The one thing here that cannot be taken back. */
     _addDelete() {
-        // destructive-action paints a button and nothing else, so what wears
-        // the class is a button. Adw.ButtonRow would carry one in a single
-        // line, but it arrived in libadwaita 1.6 and the oldest GNOME this
-        // extension supports ships 1.4.
+        // Adw.ButtonRow is what Settings uses for this: a label across the
+        // whole row, and destructive-action turns it red without filling
+        // anything in. It arrived in libadwaita 1.6, so the oldest GNOME this
+        // extension supports gets the button it always had instead. The row
+        // does not carry the button class the theme's rule wants, so it is
+        // passed in.
+        if (Adw.ButtonRow) {
+            const row = new Adw.ButtonRow({
+                title: _('Delete this config…'),
+                css_classes: ['button', 'destructive-action'],
+            });
+            row.connect('activated', () => this._confirmDelete());
+            this.add_row(row);
+            return;
+        }
+
         const button = new Gtk.Button({
             label: _('Delete this config…'),
             css_classes: ['destructive-action', 'pill'],
