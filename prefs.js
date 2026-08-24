@@ -37,6 +37,7 @@ const LOCKS = ['never', 'after-idle', 'always'];
 
 const PROJECT_URL = 'https://github.com/epogonii/wisp';
 const ISSUES_URL = 'https://github.com/epogonii/wisp/issues';
+const FEATURE_URL = 'https://github.com/epogonii/wisp/issues/new?labels=enhancement';
 const SPONSORS_URL = 'https://github.com/sponsors/epogonii';
 const PAYPAL_URL = 'https://www.paypal.com/paypalme/pogonii';
 const WALLETS = [
@@ -744,13 +745,36 @@ export default class WispPreferences extends ExtensionPreferences {
         });
 
         const about = new Adw.PreferencesGroup({
-            title: _('Wisp %s').format(this.metadata['version-name'] ?? ''),
+            title: _('Wisp'),
             description: _('Snapper snapshots, from the top bar'),
         });
         page.add(about);
         about.add(this._linkRow(_('Project page'), PROJECT_URL, PROJECT_URL));
-        about.add(this._linkRow(_('Report a problem'),
-            _('Whatever it does that it should not'), ISSUES_URL));
+
+        // Both halves of an issue as two buttons rather than two more rows,
+        // because they are the two things somebody on this page came to do.
+        const buttons = new Gtk.Box({
+            orientation: Gtk.Orientation.HORIZONTAL,
+            homogeneous: true,
+            halign: Gtk.Align.CENTER,
+            spacing: 12,
+            margin_top: 18,
+        });
+        buttons.append(this._pill(_('Report a problem'), ISSUES_URL));
+        buttons.append(this._pill(_('Request a feature'), FEATURE_URL));
+        about.add(buttons);
+
+        // Adw.PreferencesGroup takes any widget, so the line that says where
+        // to write goes under the buttons instead of into a row of its own.
+        const wrote = new Gtk.Label({
+            label: _('Something it does wrong, or something it does not do yet - either one belongs in an issue.'),
+            justify: Gtk.Justification.CENTER,
+            wrap: true,
+            max_width_chars: 44,
+            margin_top: 12,
+            css_classes: ['dim-label', 'caption'],
+        });
+        about.add(wrote);
 
         const support = new Adw.PreferencesGroup({
             title: _('Support'),
@@ -782,7 +806,30 @@ export default class WispPreferences extends ExtensionPreferences {
             support.add(row);
         }
 
+        const footer = new Adw.PreferencesGroup();
+        page.add(footer);
+        footer.add(new Gtk.Label({
+            label: `· ${_('Wisp %s').format(this.metadata['version-name'] ?? '')} ·`,
+            justify: Gtk.Justification.CENTER,
+            margin_top: 6,
+            css_classes: ['dim-label', 'caption'],
+        }));
+
         return page;
+    }
+
+    /**
+     * A rounded button that opens something in a browser.
+     *
+     * @param {string} label - what it says
+     * @param {string} url - where it goes
+     * @returns {Gtk.Button} the button
+     */
+    _pill(label, url) {
+        const button = new Gtk.Button({label, css_classes: ['pill']});
+        button.connect('clicked', () =>
+            Gio.AppInfo.launch_default_for_uri(url, null));
+        return button;
     }
 
     /**
