@@ -46,6 +46,12 @@ const WALLETS = [
     ['Solana', '3sYQyR27CVz1VcwCfoDLUioaAHk8jspQaSDHXEvBALxg'],
 ];
 
+// Where tools/gen-qr.sh keeps the codes it draws for those addresses, and how
+// wide one of them is shown. They are drawn larger than that, so the picture is
+// scaled down rather than up and the modules stay square.
+const QR_DIR = 'icons/qr';
+const QR_SIZE = 168;
+
 /**
  * @param {string} key - one of Configs.TIMELINE_LIMITS
  * @returns {string} how often that many are kept
@@ -785,26 +791,7 @@ export default class WispPreferences extends ExtensionPreferences {
             _('Monthly or one time'), SPONSORS_URL));
         support.add(this._linkRow(_('PayPal'), PAYPAL_URL, PAYPAL_URL));
 
-        for (const [name, address] of WALLETS) {
-            const row = new Adw.ActionRow({
-                title: name,
-                subtitle: address,
-                subtitle_selectable: true,
-            });
-
-            const copy = new Gtk.Button({
-                icon_name: 'edit-copy-symbolic',
-                tooltip_text: _('Copy the address'),
-                valign: Gtk.Align.CENTER,
-                css_classes: ['flat'],
-            });
-            copy.connect('clicked', () => {
-                this._clipboard(address);
-                this._toast(_('%s address copied').format(name));
-            });
-            row.add_suffix(copy);
-            support.add(row);
-        }
+        this._wallets(support);
 
         const footer = new Adw.PreferencesGroup();
         page.add(footer);
@@ -816,6 +803,69 @@ export default class WispPreferences extends ExtensionPreferences {
         }));
 
         return page;
+    }
+
+    /**
+     * The wallets, one at a time: the network to send on, the address it
+     * belongs to, and the code to point a phone at instead of typing it out.
+     * The codes are drawn by tools/gen-qr.sh and ship as files - an encoder
+     * written in here would be a few hundred lines of arithmetic for anybody
+     * reviewing the extension to read, and a wrong module in a QR code is money
+     * sent nowhere.
+     *
+     * @param {Adw.PreferencesGroup} group - the Support group they belong to
+     */
+    _wallets(group) {
+        const networks = new Gtk.StringList();
+        for (const [name] of WALLETS)
+            networks.append(name);
+
+        const network = new Adw.ComboRow({
+            title: _('Cryptocurrency'),
+            model: networks,
+        });
+        group.add(network);
+
+        const address = new Adw.ActionRow({
+            title: _('Address'),
+            subtitle_selectable: true,
+            subtitle_lines: 0,
+        });
+        const copy = new Gtk.Button({
+            icon_name: 'edit-copy-symbolic',
+            tooltip_text: _('Copy the address'),
+            valign: Gtk.Align.CENTER,
+            css_classes: ['flat'],
+        });
+        address.add_suffix(copy);
+        group.add(address);
+
+        const code = new Gtk.Picture({
+            halign: Gtk.Align.CENTER,
+            margin_top: 12,
+            width_request: QR_SIZE,
+            height_request: QR_SIZE,
+        });
+        group.add(code);
+
+        const chosen = () => WALLETS[network.selected] ?? WALLETS[0];
+
+        const show = () => {
+            const [name, wallet] = chosen();
+            const file = `${name.toLowerCase().replaceAll(' ', '-')}.svg`;
+            address.subtitle = wallet;
+            code.file = Gio.File.new_for_path(`${this.path}/${QR_DIR}/${file}`);
+            code.alternative_text =
+                _('The %s address as a QR code').format(name);
+        };
+        network.connect('notify::selected', show);
+        show();
+
+        copy.connect('clicked', () => {
+            const [name, wallet] = chosen();
+            this._clipboard(wallet);
+            this._toast(_('%s address copied').format(name));
+        });
     }
 
     /**

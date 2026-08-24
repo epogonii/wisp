@@ -14,6 +14,9 @@ stylesheet.css
 stylesheet-light.css
 stylesheet-dark.css
 icons/hicolor/scalable/actions/wisp-symbolic.svg
+icons/qr/bitcoin.svg
+icons/qr/ethereum.svg
+icons/qr/solana.svg
 lib/authorization.js
 lib/btrfs.js
 lib/compare.js
