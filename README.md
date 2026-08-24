@@ -227,9 +227,9 @@ The extension is free and stays free. If it earned a coffee:
 | --- | --- |
 | GitHub Sponsors | **[github.com/sponsors/epogonii](https://github.com/sponsors/epogonii)**, monthly or one time |
 | PayPal | **[paypal.me/pogonii](https://www.paypal.com/paypalme/pogonii)** |
-| Bitcoin | `18KtJEw8gt2oyicszwMUkbAKMHHXS9nwKR` |
-| Ethereum | `0x4f2fb6a154526a72d612afa2e3a8129e30ca0996` |
-| Cardano | `DdzFFzCqrhsmpnmUqivufj3TmDzksP4HKzcksRUNVr8xA4Gbj7PngV6TfkZuqUqeeKxp138t2Ftd1HypLFkUQ8F1hGtEmyhTP9VnZcUt` |
+| Bitcoin | `bc1qe6fjj3uv23e2yx2ry3wwhyrl7s2pqshau7mga3` |
+| Ethereum | `0xDC9e1EfA0F8FAE71377F4018d4ff7D123369438e` |
+| Solana | `3sYQyR27CVz1VcwCfoDLUioaAHk8jspQaSDHXEvBALxg` |
 
 The same links sit on the About page of the extension's preferences.
 
