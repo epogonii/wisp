@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.5
+
+- The About page opens an issue with a button rather than a row: one for
+  something the extension does wrong, one for something it does not do yet, and
+  a line under them saying which is which. The version sits at the foot of the
+  page now, where it was standing twice otherwise.
+
 ## 1.0.4
 
 - The rollback dialog no longer waits on a synchronous read of `/etc/fstab`
