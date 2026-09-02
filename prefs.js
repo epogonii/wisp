@@ -139,6 +139,7 @@ function periodIndex(period) {
 // What snapper is willing to call a config, and what stays a file name and
 // not a path once it is written under /etc/snapper/configs.
 const CONFIG_NAME = /^[A-Za-z0-9][A-Za-z0-9_.-]*$/;
+const NUMBER_OR_RANGE = /^\d+(-\d+)?$/;
 
 /**
  * A row of buttons at the foot of a group: what has been changed but not yet
@@ -315,9 +316,8 @@ class ConfigRow extends Adw.ExpanderRow {
 
         for (const key of Configs.TIMELINE_LIMITS) {
             const row = this._numberRow(timelineLabel(key), null, key, 0, 9999);
-            if (row)
-                timeline.bind_property('active', row, 'sensitive',
-                    GObject.BindingFlags.SYNC_CREATE);
+            timeline.bind_property('active', row, 'sensitive',
+                GObject.BindingFlags.SYNC_CREATE);
         }
     }
 
@@ -342,47 +342,35 @@ class ConfigRow extends Adw.ExpanderRow {
                 _('Counted separately, so a starred snapshot is not pushed out by ordinary ones')],
         ]) {
             const row = this._numberRow(title, subtitle, key, 0, 9999);
-            if (row)
-                cleanup.bind_property('active', row, 'sensitive',
-                    GObject.BindingFlags.SYNC_CREATE);
+            cleanup.bind_property('active', row, 'sensitive',
+                GObject.BindingFlags.SYNC_CREATE);
         }
     }
 
     /**
-     * A spin row for a key that holds a number - and a plain line for one
-     * that does not.
+     * A spin row for a key that holds a number - and a text field for one
+     * that holds a range.
      *
      * NUMBER_LIMIT is allowed to say "2-10", meaning a range snapper narrows
      * as the filesystem fills up. A spin button cannot hold that, and rounding
      * it to one of the two ends would quietly throw away a setting somebody
-     * chose on purpose, so a value this window cannot represent is shown and
-     * left alone.
+     * chose on purpose, so the range gets typed instead.
      *
      * @param {string} title - what the row is called
      * @param {string|null} subtitle - the sentence under it, if any
      * @param {string} key - snapper's own name for it
      * @param {number} lower - smallest allowed
      * @param {number} upper - largest allowed
-     * @returns {Adw.SpinRow|null} the row, when it turned out to be editable
+     * @returns {Adw.SpinRow|Adw.EntryRow} the row
      */
     _numberRow(title, subtitle, key, lower, upper) {
-        const raw = this._config.values[key] ?? '';
-        const asNumber = /^\d+$/.test(raw.trim())
+        const raw = (this._config.values[key] ?? '').trim();
+        const asNumber = /^\d+$/.test(raw)
             ? Number.parseInt(raw, 10)
             : null;
 
-        if (asNumber === null) {
-            const row = new Adw.ActionRow({
-                title,
-                subtitle: _('Set to %s, which this window leaves as it is').format(raw || '-'),
-            });
-            row.add_suffix(new Gtk.Label({
-                label: raw || '-',
-                css_classes: ['dim-label', 'numeric'],
-            }));
-            this.add_row(row);
-            return null;
-        }
+        if (asNumber === null)
+            return this._rangeRow(title, key, raw);
 
         const row = new Adw.SpinRow({
             title,
@@ -398,6 +386,47 @@ class ConfigRow extends Adw.ExpanderRow {
         row.connect('notify::value', () => this._set(key, String(row.value)));
         this.add_row(row);
         this._widgets.push([key, row, 'value', v => Number.parseInt(v, 10) || 0]);
+        return row;
+    }
+
+    /**
+     * The field a range is typed into. snapper reads "5-10" as keep ten while
+     * there is room and thin down to five as the filesystem fills, so both
+     * shapes are let through and anything else is marked wrong rather than
+     * written.
+     *
+     * @param {string} title - what the row is called
+     * @param {string} key - snapper's own name for it
+     * @param {string} raw - what the config file says now
+     * @returns {Adw.EntryRow} the row
+     */
+    _rangeRow(title, key, raw) {
+        const row = new Adw.EntryRow({
+            title,
+            text: raw,
+            tooltip_text: _('A number, or a range like 5-10 that snapper narrows as the filesystem fills up'),
+        });
+
+        row.connect('changed', () => {
+            const value = row.text.trim();
+            const [low, high] = value.split('-').map(Number);
+            const good = NUMBER_OR_RANGE.test(value) &&
+                (high === undefined || low <= high);
+
+            // An empty field is a key nobody has set rather than a mistake, so
+            // it is left alone instead of being marked wrong and written back.
+            row.remove_css_class('error');
+            if (good)
+                this._set(key, value);
+            else if (value.length > 0)
+                row.add_css_class('error');
+
+            if (!good)
+                this._unset(key);
+        });
+
+        this.add_row(row);
+        this._widgets.push([key, row, 'text', v => v]);
         return row;
     }
 
@@ -481,6 +510,15 @@ class ConfigRow extends Adw.ExpanderRow {
             this._dirty.set(key, value);
 
         this._apply.update([...this._dirty.keys()]);
+    }
+
+    /** Takes a key back out of the pending set, for a field that reads wrong. */
+    _unset(key) {
+        if (this._loading)
+            return;
+
+        if (this._dirty.delete(key))
+            this._apply.update([...this._dirty.keys()]);
     }
 
     /** Puts every row back to what the config file still says. */
