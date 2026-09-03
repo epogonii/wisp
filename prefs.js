@@ -1108,6 +1108,12 @@ export default class WispPreferences extends ExtensionPreferences {
                 this._toast(_('A config name can hold letters, digits, dots, dashes and underscores.'));
                 return;
             }
+            // snapper wants the subvolume as an absolute path; anything else
+            // ends up as an argument it would misread.
+            if (!where.startsWith('/')) {
+                this._toast(_('The subvolume has to be an absolute path, starting with /.'));
+                return;
+            }
             this._createConfig(chosen, where);
         });
         dialog.present(this._window);

@@ -390,6 +390,7 @@ class Indicator extends PanelMenu.Button {
         this._snapper = new Snapper();
         this._lock = new Lock(this._settings);
         this._generation = 0;
+        this._destroyed = false;
         // How many rows a config is showing, where somebody has asked for
         // more than the setting. Cleared when the menu closes: asking for the
         // older snapshots is something done once, looking for a snapshot, and
@@ -778,7 +779,9 @@ class Indicator extends PanelMenu.Button {
      */
     async _unlock() {
         this.menu.close();
-        if (await this._lock.unlock())
+        const unlocked = await this._lock.unlock();
+        // The dialog outlives a disable(): the indicator may be gone by now.
+        if (unlocked && !this._destroyed)
             this.menu.open();
     }
 
@@ -845,6 +848,10 @@ class Indicator extends PanelMenu.Button {
     }
 
     destroy() {
+        // Stop a _build() that is still awaiting snapper from touching the
+        // menu once it resumes.
+        this._destroyed = true;
+        this._generation++;
         this._snapper.disconnect(this._changedId);
         for (const id of this._settingIds)
             this._settings.disconnect(id);
@@ -886,6 +893,8 @@ export default class WispExtension extends Extension {
      * new one.
      */
     _place() {
+        // Dialogs hold references into the old indicator; drop them with it.
+        closeAll();
         this._indicator?.destroy();
         this._indicator = new Indicator(this);
         Main.panel.addToStatusArea(this.uuid, this._indicator,

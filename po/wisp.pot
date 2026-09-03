@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wisp 1.0.5\n"
 "Report-Msgid-Bugs-To: https://github.com/epogonii/wisp/issues\n"
-"POT-Creation-Date: 2026-09-02 12:21+0300\n"
+"POT-Creation-Date: 2026-09-03 11:53+0300\n"
 "Last-Translator: NAME <EMAIL>\n"
 "Language-Team: none\n"
 "Language: \n"
@@ -78,39 +78,39 @@ msgstr ""
 msgid "Command copied"
 msgstr ""
 
-#: extension.js:475
+#: extension.js:476
 msgid "Something went wrong while reading the snapshots."
 msgstr ""
 
-#: extension.js:537
+#: extension.js:538
 msgid "Unlock to see the snapshots"
 msgstr ""
 
-#: extension.js:662
+#: extension.js:663
 #, javascript-format
 msgid "No snapshots of %s yet."
 msgstr ""
 
-#: extension.js:689
+#: extension.js:690
 #, javascript-format
 msgid "%d older snapshot"
 msgid_plural "%d older snapshots"
 msgstr[0] ""
 msgstr[1] ""
 
-#: extension.js:698
+#: extension.js:699
 msgid "Show fewer"
 msgstr ""
 
-#: extension.js:729
+#: extension.js:730
 msgid "These snapshots belong to root."
 msgstr ""
 
-#: extension.js:735
+#: extension.js:736
 msgid "Give this account access…"
 msgstr ""
 
-#: extension.js:759
+#: extension.js:760
 msgid "Settings"
 msgstr ""
 
@@ -572,15 +572,15 @@ msgstr ""
 msgid "Hourly"
 msgstr ""
 
-#: prefs.js:64 prefs.js:1253
+#: prefs.js:64 prefs.js:1259
 msgid "Daily"
 msgstr ""
 
-#: prefs.js:66 prefs.js:1253
+#: prefs.js:66 prefs.js:1259
 msgid "Weekly"
 msgstr ""
 
-#: prefs.js:68 prefs.js:1253
+#: prefs.js:68 prefs.js:1259
 msgid "Monthly"
 msgstr ""
 
@@ -759,7 +759,7 @@ msgid ""
 "snapshot in it. %s itself is left alone. None of it can be undone."
 msgstr ""
 
-#: prefs.js:539 prefs.js:1249
+#: prefs.js:539 prefs.js:1255
 msgid "Command copied. It does the same thing as Apply."
 msgstr ""
 
@@ -937,7 +937,7 @@ msgstr ""
 msgid "Every time"
 msgstr ""
 
-#: prefs.js:732 prefs.js:1253
+#: prefs.js:732 prefs.js:1259
 msgid "Never"
 msgstr ""
 
@@ -1099,139 +1099,143 @@ msgstr ""
 msgid "A config name can hold letters, digits, dots, dashes and underscores."
 msgstr ""
 
-#: prefs.js:1126
+#: prefs.js:1114
+msgid "The subvolume has to be an absolute path, starting with /."
+msgstr ""
+
+#: prefs.js:1132
 msgid "Pick a subvolume"
 msgstr ""
 
-#: prefs.js:1158
+#: prefs.js:1164
 #, javascript-format
 msgid "%s set up. Nothing has been snapshotted yet."
 msgstr ""
 
-#: prefs.js:1168
+#: prefs.js:1174
 msgid "snapper"
 msgstr ""
 
-#: prefs.js:1169
+#: prefs.js:1175
 msgid ""
 "snapper does nothing on a schedule by itself. These are the timers that make "
 "it, and the limits on the previous page are only enforced while the second "
 "one runs."
 msgstr ""
 
-#: prefs.js:1183
+#: prefs.js:1189
 #, javascript-format
 msgid "%s is not installed on this system"
 msgstr ""
 
-#: prefs.js:1191
+#: prefs.js:1197
 #, javascript-format
 msgid "%s is always on: the package does not let it be switched off"
 msgstr ""
 
-#: prefs.js:1205
+#: prefs.js:1211
 msgid "Run by cron"
 msgstr ""
 
-#: prefs.js:1206
+#: prefs.js:1212
 #, javascript-format
 msgid ""
 "snapper is also scheduled by %s. Wisp cannot change a cron job; the file "
 "itself is where that is done."
 msgstr ""
 
-#: prefs.js:1212 prefs.js:1219
+#: prefs.js:1218 prefs.js:1225
 msgid "Filesystem upkeep"
 msgstr ""
 
-#: prefs.js:1213
+#: prefs.js:1219
 msgid ""
 "Scrub, balance, defrag and trim are kept by btrfsmaintenance, which is a "
 "separate package and is not installed. snapper does not need it; these "
 "settings are all it would add."
 msgstr ""
 
-#: prefs.js:1220
+#: prefs.js:1226
 msgid ""
 "btrfsmaintenance keeps these, not snapper. Each one takes hours and runs in "
 "the background; how often is all there is to decide."
 msgstr ""
 
-#: prefs.js:1243
+#: prefs.js:1249
 msgid "Saved. The timers are rebuilt from the file on their own."
 msgstr ""
 
-#: prefs.js:1265
+#: prefs.js:1271
 #, javascript-format
 msgid "Set to %s, which this window leaves as it is"
 msgstr ""
 
-#: prefs.js:1364
+#: prefs.js:1370
 msgid "Nothing here is on btrfs"
 msgstr ""
 
-#: prefs.js:1365
+#: prefs.js:1371
 msgid ""
 "snapper can drive LVM thin volumes too, and this page only knows how to read "
 "btrfs"
 msgstr ""
 
-#: prefs.js:1367
+#: prefs.js:1373
 msgid "Cannot tell what this is on"
 msgstr ""
 
-#: prefs.js:1368
+#: prefs.js:1374
 msgid ""
 "findmnt, from util-linux, is what this page asks, and it is not installed"
 msgstr ""
 
-#: prefs.js:1383
+#: prefs.js:1389
 #, javascript-format
 msgid "%s - %s"
 msgstr ""
 
-#: prefs.js:1388
+#: prefs.js:1394
 msgid "Size"
 msgstr ""
 
-#: prefs.js:1389
+#: prefs.js:1395
 msgid "Handed out to chunks"
 msgstr ""
 
-#: prefs.js:1390
+#: prefs.js:1396
 msgid "Written"
 msgstr ""
 
-#: prefs.js:1394
+#: prefs.js:1400
 msgid "Free"
 msgstr ""
 
-#: prefs.js:1407
+#: prefs.js:1413
 msgid "Data"
 msgstr ""
 
-#: prefs.js:1408
+#: prefs.js:1414
 msgid "Metadata"
 msgstr ""
 
-#: prefs.js:1408
+#: prefs.js:1414
 msgid "System"
 msgstr ""
 
-#: prefs.js:1409
+#: prefs.js:1415
 #, javascript-format
 msgid "%s of %s"
 msgstr ""
 
-#: prefs.js:1438
+#: prefs.js:1444
 #, javascript-format
 msgid "Install the %s package for your distribution"
 msgstr ""
 
-#: prefs.js:1446
+#: prefs.js:1452
 msgid "Copy"
 msgstr ""
 
-#: prefs.js:1452
+#: prefs.js:1458
 msgid "Command copied."
 msgstr ""
