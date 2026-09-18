@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.0.6
+
+- GNOME Shell 51 is on the supported list. Nothing in the extension had to move
+  for it. The popup menu's `open()` and `close()` take an options object there
+  where they took a `PopupAnimation` constant, and Wisp calls both with no
+  arguments; St's `vertical` property is finally gone, which the `VERTICAL`
+  spread has been stepping around since 46. What the menu and the dialogs reach
+  into past the documented API - `active` on a row, `_delegate`, the actor
+  `addMenuItem()` reparents, the initial key focus `Dialog.addButton()` sets and
+  its `_buttonKeys` - is unchanged in 51, and Clutter still emits the press and
+  key events they listen for, even where the shell itself has moved to gestures
+  and controllers.
+
 ## 1.0.5
 
 - The About page opens an issue with a button rather than a row: one for
