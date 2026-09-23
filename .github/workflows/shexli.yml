@@ -34,4 +34,4 @@ jobs:
         with:
           path: wisp.zip
           baseline: shexli-baseline.json
-          shexli-source: git+https://gitlab.gnome.org/3v1n0/extensions-web.git@4c063f8ae9e220df6b3d1f4cdeb168420ab558c4#subdirectory=shexli
+          shexli-source: git+https://gitlab.gnome.org/3v1n0/extensions-web.git@6ab2f2be0d70fbb6b5661dd91bed37db0f3c7765#subdirectory=shexli
