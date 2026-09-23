@@ -1,5 +1,28 @@
 # Changelog
 
+## 1.0.8
+
+- The lock in front of the menu works again. 1.0.7 looked for polkit's exec
+  action in a file named after it, which polkit does not ship, and so opened
+  the menu without asking whatever the lock was set to. The action is defined
+  in polkit's own `org.freedesktop.policykit.policy`, and that file is what is
+  looked for now.
+- `snapper undochange` is given `-i` and the list before the range. snapper
+  reads a command's options only up to its first argument, so after the range
+  the two were taken for more paths to put back, and the list was never read.
+- Each restore writes its paths to a list of its own. There was one list,
+  which the next restore wrote over, so a command copied earlier and run after
+  another restore had been chosen would have read the other's paths.
+- A timer is switched the way `systemctl enable --now` switches it: systemd
+  reloads between the unit file and the start or stop, so that it has read the
+  links just made or removed. systemd's policy has the unit file action imply
+  the other two, so where that policy is unchanged one password covers all
+  three steps.
+- The settings window watches btrfsmaintenance's file, which has no daemon to
+  announce a change, and reloads once the command it showed has written to it.
+  "Not saved yet" then goes away on its own, as it already did for snapper's
+  configs.
+
 ## 1.0.7
 
 - Wisp runs nothing as root any more, and `pkexec` is gone from it. What
