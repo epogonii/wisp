@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-  <img alt="GNOME Shell 46 to 51" src="https://img.shields.io/badge/GNOME%20Shell-46%20to%2051-5c5cf5?logo=gnome&logoColor=white">
+  <img alt="GNOME Shell 46 to 50" src="https://img.shields.io/badge/GNOME%20Shell-46%20to%2050-5c5cf5?logo=gnome&logoColor=white">
   <img alt="License GPL-2.0-or-later" src="https://img.shields.io/badge/license-GPL--2.0--or--later-8f33c7">
   <a href="https://github.com/sponsors/epogonii"><img alt="Sponsor" src="https://img.shields.io/badge/sponsor-GitHub-ea4aaa?logo=githubsponsors&logoColor=white"></a>
 </p>
