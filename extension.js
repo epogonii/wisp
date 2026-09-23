@@ -164,6 +164,8 @@ class SnapshotItem extends PopupMenu.PopupBaseMenuItem {
             return;
 
         this.add_style_class_name('wisp-fresh');
+        if (this._freshId)
+            GLib.source_remove(this._freshId);
         this._freshId = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT,
             Math.ceil(FRESH - age), () => {
                 this._freshId = 0;
@@ -390,7 +392,6 @@ class Indicator extends PanelMenu.Button {
         this._snapper = new Snapper();
         this._lock = new Lock(this._settings);
         this._generation = 0;
-        this._destroyed = false;
         // How many rows a config is showing, where somebody has asked for
         // more than the setting. Cleared when the menu closes: asking for the
         // older snapshots is something done once, looking for a snapshot, and
@@ -781,7 +782,7 @@ class Indicator extends PanelMenu.Button {
         this.menu.close();
         const unlocked = await this._lock.unlock();
         // The dialog outlives a disable(): the indicator may be gone by now.
-        if (unlocked && !this._destroyed)
+        if (unlocked && this._lock)
             this.menu.open();
     }
 
@@ -850,8 +851,8 @@ class Indicator extends PanelMenu.Button {
     destroy() {
         // Stop a _build() that is still awaiting snapper from touching the
         // menu once it resumes.
-        this._destroyed = true;
         this._generation++;
+        this._lock = null;
         this._snapper.disconnect(this._changedId);
         for (const id of this._settingIds)
             this._settings.disconnect(id);
