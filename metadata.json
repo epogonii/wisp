@@ -1,7 +1,7 @@
 {
   "uuid": "wisp@epogonii.github.io",
   "name": "Wisp",
-  "description": "A minimal, good-looking way to manage snapper snapshots, from the top bar. See every snapshot, take one, delete what you don't want. Open a snapshot to see what changed in it, put single files back, or roll the whole system over to it.\n\nPreferences hold the rest of snapper: retention limits, timers, btrfs maintenance and disk use. Anything that needs root names the command it runs and asks polkit.\n\nNeeds snapper and a filesystem it manages. GNOME 46 and later.",
+  "description": "A minimal, good-looking way to manage snapper snapshots, from the top bar. See every snapshot, take one, delete what you don't want. Open a snapshot to see what changed in it, put single files back, or roll the whole system over to it.\n\nPreferences hold the rest of snapper: retention limits, timers, btrfs maintenance and disk use. Anything that needs root names the command it runs and asks polkit.\n\nThe clipboard is touched only when asked: a copy button puts the command it shows there, and the text fields in the dialogs take copy and paste.\n\nNeeds snapper and a filesystem it manages. GNOME 46 and later.",
   "shell-version": [
     "46",
     "47",
