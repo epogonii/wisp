@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.9
+
+- GNOME Shell 51 is off the supported list for now. extensions.gnome.org
+  takes any `shell-version` past 50 for a release still to come and refuses
+  the upload, which is what it did with 1.0.8. Nothing in the extension
+  changed: 51 goes back on the list once the site accepts it.
+
 ## 1.0.8
 
 - The lock in front of the menu works again. 1.0.7 looked for polkit's exec
