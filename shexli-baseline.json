@@ -1,0 +1,47 @@
+{
+  "spec_version": "2026-04-02",
+  "known": [
+    {
+      "rule_id": "EGO-A-005",
+      "paths": [
+        "compare.js",
+        "extension.js",
+        "keys.js"
+      ],
+      "snippets": [
+        "St.Clipboard.get_default()",
+        "St.Clipboard.get_default()",
+        "St.Clipboard.get_default()",
+        "St.Clipboard.get_default()"
+      ]
+    },
+    {
+      "rule_id": "EGO-L-003",
+      "paths": [
+        "compare.js",
+        "dialog.js",
+        "extension.js"
+      ],
+      "snippets": [
+        "            row.connect('key-focus-in', () => {\n                if (row.hover)\n                    return;\n                ensureActorVisibleInScrollView(scroll, row);\n            })",
+        "            this._clickGesture?.connect('recognize', gesture =>\n                this._clicked(gesture.get_button?.() ?? Clutter.BUTTON_PRIMARY))",
+        "        this.menu.connect('open-state-changed', (_menu, open) => {\n            if (open) {\n                this._rebuild();\n            } else {\n                this._shown.clear();\n                this._lock.relock();\n            }\n        })",
+        "actor.connect('key-focus-in', reveal)",
+        "actor.connect('key-focus-out', reveal)",
+        "this._aside.connect('destroy', () => (this._aside = null))"
+      ]
+    },
+    {
+      "rule_id": "EGO-L-004",
+      "paths": [
+        "dialog.js",
+        "extension.js"
+      ],
+      "snippets": [
+        "            this._ticking = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 1,\n                () => {\n                    this._say();\n                    return GLib.SOURCE_CONTINUE;\n                })",
+        "        this._freshId = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT,\n            Math.ceil(FRESH - age), () => {\n                this._freshId = 0;\n                this.remove_style_class_name('wisp-fresh');\n                return GLib.SOURCE_REMOVE;\n            })",
+        "        this._pending = GLib.idle_add(GLib.PRIORITY_DEFAULT, () => {\n            this._pending = 0;\n            this._measure();\n            return GLib.SOURCE_REMOVE;\n        })"
+      ]
+    }
+  ]
+}

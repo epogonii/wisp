@@ -1,0 +1,37 @@
+# The zip is built the way a release builds it and read by shexli, the same
+# checks extensions.gnome.org runs on an upload. Findings already looked at and
+# accepted are in shexli-baseline.json; only a new one fails the job.
+name: shexli
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  shexli:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install glib-compile-schemas and msgfmt
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libglib2.0-bin gettext
+
+      - name: Build the zip
+        run: tools/pack.sh
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - uses: 3v1n0/shexli-ci@c31b5dc22ae7acd684e5ec9ee6728f39ac2e1eac
+        with:
+          path: wisp.zip
+          baseline: shexli-baseline.json
+          shexli-source: git+https://gitlab.gnome.org/3v1n0/extensions-web.git@4c063f8ae9e220df6b3d1f4cdeb168420ab558c4#subdirectory=shexli
