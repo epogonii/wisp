@@ -579,6 +579,8 @@ export default class WispPreferences extends ExtensionPreferences {
                 Gio.DBus.system.signal_unsubscribe(this._snapperSignal);
                 this._snapperSignal = 0;
             }
+            this._maintenanceMonitor?.cancel();
+            this._maintenanceMonitor = null;
         };
         window.connect('close-request', () => {
             going();
@@ -616,6 +618,26 @@ export default class WispPreferences extends ExtensionPreferences {
                 if (signal.startsWith('Config'))
                     this._reload();
             });
+
+        // btrfsmaintenance has no daemon to announce a change, so its file is
+        // watched instead. sed -i writes a new file and renames it over the
+        // old one: that arrives as deleted, created and then changes-done,
+        // and the last is also what an edit in place ends with.
+        const maintenance = Btrfs.maintenancePath();
+        if (maintenance) {
+            // A watch that cannot be made, out of inotify watches say, costs
+            // only the refresh: the window is still worth opening without it.
+            try {
+                this._maintenanceMonitor = Gio.File.new_for_path(maintenance)
+                    .monitor_file(Gio.FileMonitorFlags.NONE, null);
+                this._maintenanceMonitor.connect('changed', (_monitor, _file, _other, event) => {
+                    if (event === Gio.FileMonitorEvent.CHANGES_DONE_HINT)
+                        this._reload();
+                });
+            } catch (error) {
+                logError(error, `Wisp: cannot watch ${maintenance}`);
+            }
+        }
 
         this._reload();
     }
