@@ -14,8 +14,9 @@ import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import {CreateDialog, DetailsDialog} from './lib/details.js';
 import {VERTICAL, ConfirmDialog, closeAll, pill, wrap} from './lib/dialog.js';
 import {Snapper, isDenied} from './lib/snapper.js';
-import {check, canAskForRoot} from './lib/requirements.js';
-import {requestAccess} from './lib/privileged.js';
+import {check} from './lib/requirements.js';
+import {commandLine} from './lib/command.js';
+import {setConfigArgv, withUser} from './lib/configs.js';
 import {Lock} from './lib/authorization.js';
 import * as Icon from './lib/icon.js';
 import * as Toast from './lib/toast.js';
@@ -721,25 +722,16 @@ class Indicator extends PanelMenu.Button {
             return;
         }
 
+        // SYNC_ACL puts an ACL on .snapshots for the allowed users, without
+        // which the snapshots are listed but their files cannot be opened.
+        // snapperd reports the change, and the menu rebuilds on its own.
         const allowUsers = this._values?.get(config)?.['ALLOW_USERS'] ?? '';
-        const users = allowUsers.split(' ').filter(name => name.length > 0);
-        if (!users.includes(GLib.get_user_name()))
-            users.push(GLib.get_user_name());
-
-        if (!canAskForRoot()) {
-            section.addMenuItem(new Advice(
-                _('These snapshots belong to root.'),
-                `sudo snapper -c ${config} set-config ALLOW_USERS='${users.join(' ')}' SYNC_ACL=yes`));
-            return;
-        }
-
-        const item = new PopupMenu.PopupImageMenuItem(
-            _('Give this account access…'), 'changes-allow-symbolic');
-        item.connect('activate', () => {
-            this.menu.close();
-            requestAccess(config, {allowUsers, onGranted: () => this._rebuild()});
-        });
-        section.addMenuItem(item);
+        section.addMenuItem(new Advice(
+            _('These snapshots belong to root. Run this once to give your account access:'),
+            commandLine(setConfigArgv(config, {
+                ALLOW_USERS: withUser(allowUsers),
+                SYNC_ACL: 'yes',
+            }))));
     }
 
     _addSettings() {

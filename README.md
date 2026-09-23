@@ -66,7 +66,7 @@ What snapper is set to keep, and what is left on the filesystem it keeps it on:
 | | |
 | --- | --- |
 | `snapper` and one config | **Required.** Not installed by default on most distributions, and there is nothing to list until a config exists |
-| `polkit` | Anything that belongs to root: a snapshot for a config this account may not change, restoring files, rolling back, and the lock in front of the menu |
+| `polkit` | The optional lock in front of the menu, and switching snapper's timers |
 | `util-linux`, `btrfs-progs` | The Storage page. Sizes for the snapshots themselves need btrfs counting them, which is off by default - the Storage page turns it on |
 | `btrfsmaintenance` | Balance, scrub, defrag and trim on the Schedule page. snapper does not need it |
 
@@ -86,10 +86,10 @@ Then one config for whatever should be snapshotted:
 sudo snapper -c root create-config /
 ```
 
-None of that has to be typed. When snapper is missing the menu says so and
-hands over the install command for the distribution it is running on, a config
-can be set up from the settings window, and the timers are switches on the
-Schedule page.
+None of that has to be remembered. When snapper is missing the menu says so and
+hands over the install command for the distribution it is running on, the
+settings window builds the command that sets up a config, and the timers are
+switches on the Schedule page.
 
 ---
 
@@ -103,12 +103,14 @@ Schedule page.
   add up what it alone is holding on to
 - Everything that has changed since a snapshot, searchable, and for a package
   transaction exactly what the transaction changed
-- Put chosen files back, or roll the root filesystem back - with a word first
-  when `/etc/fstab` is going to overrule it
+- Put chosen files back, or roll the root filesystem back, by handing over the
+  command to run as root - with a word first when `/etc/fstab` is going to
+  overrule the rollback
 - Timeline limits per config, a new config or the removal of one, snapper's
   timers, btrfsmaintenance's jobs, and what btrfs has handed out to chunks
-- Reads a config without asking for a password, by offering to add the account
-  to it once; an optional polkit lock in front of the menu if you want one
+- Reads a config without asking for a password once the account is added to it,
+  with the command for that in the menu; an optional polkit lock in front of the
+  menu if you want one
 - Live, whoever changed the snapshots; whatever is missing gets named with the
   line that installs it; follows the light and dark theme
 
@@ -148,21 +150,22 @@ snapperd does not use polkit. Each config carries its own `ALLOW_USERS` and
 `ALLOW_GROUPS` in `/etc/snapper/configs/<name>`, both empty until somebody fills
 them in, so a fresh install tells an ordinary account nothing at all.
 
-Rather than ask for a password every time it lists something, Wisp offers to add
-the account to the config once, through `pkexec`:
+Wisp runs nothing as root. For a config the account is not on, the menu shows
+the command that adds it, to run once in a terminal:
 
 ```sh
 sudo snapper -c <config> set-config ALLOW_USERS=<you> SYNC_ACL=yes
 ```
 
-polkit puts up that prompt, and the password never reaches the extension.
 `SYNC_ACL` is what puts an ACL on the snapshot directory, without which the
-snapshots are listed but their files cannot be opened.
+snapshots are listed but their files cannot be opened. snapperd reports the
+change and the menu fills in on its own.
 
 Everything after that goes straight to snapperd over D-Bus as the user.
-Restoring files, rolling back, the settings in `/etc/snapper/configs` and the
-systemd timers are root's either way: each one asks, and shows the command it is
-about to run.
+Restoring files, rolling back, the settings in `/etc/snapper/configs` and
+btrfsmaintenance's file are root's either way: Wisp shows the command and copies
+it for you to run. The systemd timers are switched through systemd's own D-Bus
+API, which asks polkit itself.
 
 `snapper rollback` points btrfs at a different default subvolume, so it takes
 effect at the next boot - and does nothing at all if `/etc/fstab` names the

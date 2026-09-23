@@ -19,6 +19,7 @@ icons/qr/ethereum.svg
 icons/qr/solana.svg
 lib/authorization.js
 lib/btrfs.js
+lib/command.js
 lib/compare.js
 lib/configs.js
 lib/details.js
@@ -28,7 +29,6 @@ lib/format.js
 lib/icon.js
 lib/keys.js
 lib/packages.js
-lib/privileged.js
 lib/requirements.js
 lib/snapper.js
 lib/toast.js

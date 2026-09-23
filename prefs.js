@@ -6,11 +6,11 @@
 // them for anybody else, so the usual way to reach them is a text editor and
 // sudo. Everything they say, though, is readable without a password:
 // ListConfigs hands out every config file to any caller that asks, systemd
-// answers is-enabled for anybody, and btrfs writes its allocation into sysfs.
-// So this window shows the whole picture for free and only asks for a password
-// at the moment something is actually being changed - once per change, not
-// once per keystroke, which is why the retention rows collect what they were
-// told and wait for Apply.
+// answers for its unit files, and btrfs writes its allocation into sysfs.
+// So this window shows the whole picture for free. What needs root it does not
+// run: the rows collect what they were told and hand over one command for the
+// user to run in a terminal, and the window reloads when snapper reports the
+// change.
 
 import Adw from 'gi://Adw';
 import Gdk from 'gi://Gdk';
@@ -18,13 +18,14 @@ import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gtk from 'gi://Gtk';
+import Pango from 'gi://Pango';
 
-import {ExtensionPreferences, gettext as _, ngettext} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import {ExtensionPreferences, gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
 import * as Btrfs from './lib/btrfs.js';
 import * as Configs from './lib/configs.js';
 import * as Units from './lib/units.js';
-import {commandLine, failure, have} from './lib/exec.js';
+import {commandLine, have} from './lib/exec.js';
 import {available as canLock} from './lib/authorization.js';
 import {installCommand} from './lib/packages.js';
 
@@ -143,25 +144,16 @@ const NUMBER_OR_RANGE = /^\d+(-\d+)?$/;
 
 /**
  * A row of buttons at the foot of a group: what has been changed but not yet
- * written, with the two ways of writing it.
+ * written, and the command that writes it.
  *
- * Nothing here writes as it is typed. snapper refuses every change to a
- * config for anyone but root, so each write is a password, and a spin button
- * held down would be a password a second. What the rows do instead is
- * remember, and this is where the remembering is spent.
+ * snapper refuses every change to a config for anyone but root, and this
+ * window does not run anything as root. So the rows remember what they were
+ * told, and this row hands it over as one command to run in a terminal.
  */
 const ApplyRow = GObject.registerClass(
 class ApplyRow extends Adw.ActionRow {
-    _init({onApply, onRevert, onCopy}) {
+    _init({onRevert, onCopy}) {
         super._init({title: _('Not saved yet')});
-
-        this._copy = new Gtk.Button({
-            icon_name: 'edit-copy-symbolic',
-            tooltip_text: _('Copy the command that would do this'),
-            valign: Gtk.Align.CENTER,
-        });
-        this._copy.connect('clicked', () => onCopy());
-        this.add_suffix(this._copy);
 
         this._revert = new Gtk.Button({
             label: _('Revert'),
@@ -170,13 +162,14 @@ class ApplyRow extends Adw.ActionRow {
         this._revert.connect('clicked', () => onRevert());
         this.add_suffix(this._revert);
 
-        this._apply = new Gtk.Button({
-            label: _('Apply'),
+        this._copy = new Gtk.Button({
+            label: _('Copy Command'),
+            tooltip_text: _('Copy the command that saves this, to run in a terminal'),
             valign: Gtk.Align.CENTER,
             css_classes: ['suggested-action'],
         });
-        this._apply.connect('clicked', () => onApply());
-        this.add_suffix(this._apply);
+        this._copy.connect('clicked', () => onCopy());
+        this.add_suffix(this._copy);
 
         this.visible = false;
     }
@@ -188,16 +181,54 @@ class ApplyRow extends Adw.ActionRow {
         this.visible = keys.length > 0;
         this.subtitle = keys.length > 0
             // Translators: the list is snapper's own setting names.
-            ? _('Needs administrator rights: %s').format(keys.join(', '))
+            ? _('Needs root, run the copied command: %s').format(keys.join(', '))
             : '';
     }
-
-    set busy(busy) {
-        this._apply.sensitive = !busy;
-        this._revert.sensitive = !busy;
-        this._copy.sensitive = !busy;
-    }
 });
+
+/**
+ * Shows a command that needs root, with a response that copies it.
+ *
+ * @param {Adw.PreferencesWindow} window - the window to show it over
+ * @param {object} options - what to show
+ * @param {string} options.heading - what the command does
+ * @param {string} options.body - what it changes
+ * @param {string[]} options.argv - the command, program and arguments
+ * @param {boolean} [options.destructive] - whether it cannot be taken back
+ */
+function showCommand(window, {heading, body, argv, destructive = false}) {
+    const line = commandLine(argv);
+    const dialog = new Adw.AlertDialog({
+        heading,
+        body,
+        extra_child: new Gtk.Label({
+            label: line,
+            selectable: true,
+            wrap: true,
+            wrap_mode: Pango.WrapMode.WORD_CHAR,
+            xalign: 0,
+            css_classes: ['monospace'],
+        }),
+    });
+    dialog.add_response('close', _('Close'));
+    dialog.add_response('copy', _('Copy Command'));
+    dialog.set_response_appearance('copy', destructive
+        ? Adw.ResponseAppearance.DESTRUCTIVE
+        : Adw.ResponseAppearance.SUGGESTED);
+    dialog.set_default_response('copy');
+    dialog.set_close_response('close');
+
+    dialog.connect('response', (_dialog, response) => {
+        if (response !== 'copy')
+            return;
+        window.get_clipboard().set(line);
+        window.add_toast?.(new Adw.Toast({
+            title: _('Command copied. Run it in a terminal.'),
+            timeout: 6,
+        }));
+    });
+    dialog.present(window);
+}
 
 /**
  * One snapper config: what it takes snapshots of, who may use it, how many of
@@ -205,7 +236,7 @@ class ApplyRow extends Adw.ActionRow {
  */
 const ConfigRow = GObject.registerClass(
 class ConfigRow extends Adw.ExpanderRow {
-    _init({config, settings, window, onChanged, closed}) {
+    _init({config, settings, window, closed}) {
         super._init({
             title: config.name,
             subtitle: config.subvolume,
@@ -214,7 +245,6 @@ class ConfigRow extends Adw.ExpanderRow {
         this._config = config;
         this._settings = settings;
         this._window = window;
-        this._onChanged = onChanged;
         this._closed = closed;
         this._dirty = new Map();
         this._widgets = [];
@@ -226,7 +256,6 @@ class ConfigRow extends Adw.ExpanderRow {
         this._addNumber();
 
         this._apply = new ApplyRow({
-            onApply: () => this._write(),
             onRevert: () => this._revert(),
             onCopy: () => this._copy(),
         });
@@ -466,32 +495,12 @@ class ConfigRow extends Adw.ExpanderRow {
     }
 
     _confirmDelete() {
-        const dialog = new Adw.AlertDialog({
+        showCommand(this._window, {
             heading: _('Delete the %s config?').format(this._config.name),
             body: _('This removes the config and the .snapshots subvolume it keeps, and every snapshot in it. %s itself is left alone. None of it can be undone.').format(this._config.subvolume),
+            argv: Configs.deleteConfigArgv(this._config.name),
+            destructive: true,
         });
-        dialog.add_response('cancel', _('Cancel'));
-        dialog.add_response('delete', _('Delete'));
-        dialog.set_response_appearance('delete', Adw.ResponseAppearance.DESTRUCTIVE);
-        dialog.set_default_response('cancel');
-        dialog.set_close_response('cancel');
-
-        dialog.connect('response', (_dialog, response) => {
-            if (response === 'delete')
-                this._delete();
-        });
-        dialog.present(this._window);
-    }
-
-    async _delete() {
-        const result = await Configs.deleteConfig(this._config.name);
-        const said = failure(result);
-        if (said) {
-            this._toast(said);
-            return;
-        }
-        if (result.status === 0)
-            this._onChanged();
     }
 
     /**
@@ -536,33 +545,7 @@ class ConfigRow extends Adw.ExpanderRow {
         const argv = Configs.setConfigArgv(this._config.name,
             Object.fromEntries(this._dirty));
         this._window.get_clipboard().set(commandLine(argv));
-        this._toast(_('Command copied. It does the same thing as Apply.'));
-    }
-
-    async _write() {
-        const values = Object.fromEntries(this._dirty);
-
-        this._apply.busy = true;
-        const result = await Configs.setConfig(this._config.name, values);
-        if (this._closed())
-            return;
-
-        this._apply.busy = false;
-
-        const said = failure(result);
-        if (said) {
-            this._toast(said);
-            return;
-        }
-        if (result.status !== 0)
-            return;
-
-        // What was asked for is now what the file says, so the rows are
-        // already right and only the record of what is unsaved has to catch up.
-        Object.assign(this._config.values, values);
-        this._dirty.clear();
-        this._apply.update([]);
-        this._toast(_('Saved to %s.').format(`/etc/snapper/configs/${this._config.name}`));
+        this._toast(_('Command copied. Run it in a terminal; this window reloads once snapper has the change.'));
     }
 
     _toast(message) {
@@ -592,6 +575,10 @@ export default class WispPreferences extends ExtensionPreferences {
         // destroyed sends only the second.
         const going = () => {
             this._closed = true;
+            if (this._snapperSignal) {
+                Gio.DBus.system.signal_unsubscribe(this._snapperSignal);
+                this._snapperSignal = 0;
+            }
         };
         window.connect('close-request', () => {
             going();
@@ -619,6 +606,16 @@ export default class WispPreferences extends ExtensionPreferences {
         });
         window.add(this._storagePage);
         window.add(this._aboutPage());
+
+        // A change that needs root is run by the user in a terminal, so the
+        // window hears about it from snapperd rather than from a reply.
+        this._snapperSignal = Gio.DBus.system.signal_subscribe(
+            'org.opensuse.Snapper', 'org.opensuse.Snapper', null,
+            '/org/opensuse/Snapper', null, Gio.DBusSignalFlags.NONE,
+            (_connection, _sender, _path, _iface, signal) => {
+                if (signal.startsWith('Config'))
+                    this._reload();
+            });
 
         this._reload();
     }
@@ -756,11 +753,11 @@ export default class WispPreferences extends ExtensionPreferences {
         followLock();
         settings.connect('changed::lock', followLock);
 
-        // The lock is a polkit check and nothing else. Without polkit's
-        // command line tools there is nothing to ask with, so rather than
-        // offer a setting that would do nothing, the group says why.
+        // The lock is a polkit check and nothing else. Where polkit does not
+        // know the action there is nothing to ask with, so rather than offer
+        // a setting that would do nothing, the group says why.
         if (!canLock()) {
-            protection.description = _('Not available here: this needs pkcheck, from polkit. Install polkit and the lock can be switched on.');
+            protection.description = _('Not available here: polkit does not know the org.freedesktop.policykit.exec action it asks with.');
             lock.sensitive = false;
             timeout.sensitive = false;
         }
@@ -965,9 +962,23 @@ export default class WispPreferences extends ExtensionPreferences {
         if (this._closed)
             return;
 
-        this._fillConfigs().catch(error => this._failed(this._configsPage, error));
-        this._fillSchedule().catch(error => this._failed(this._schedulePage, error));
-        this._fillStorage().catch(error => this._failed(this._storagePage, error));
+        // A reload can start while the last one is still waiting on snapper,
+        // and the older one must not add its rows after the newer one cleared
+        // the page.
+        const generation = (this._generation ?? 0) + 1;
+        this._generation = generation;
+
+        this._fillConfigs(generation).catch(error => this._failed(this._configsPage, error));
+        this._fillSchedule(generation).catch(error => this._failed(this._schedulePage, error));
+        this._fillStorage(generation).catch(error => this._failed(this._storagePage, error));
+    }
+
+    /**
+     * @param {number} generation - the reload a fill belongs to
+     * @returns {boolean} whether its rows are no longer wanted
+     */
+    _stale(generation) {
+        return this._closed || generation !== this._generation;
     }
 
     /**
@@ -1011,7 +1022,7 @@ export default class WispPreferences extends ExtensionPreferences {
             page.remove(group);
     }
 
-    async _fillConfigs() {
+    async _fillConfigs(generation) {
         this._clear(this._configsPage);
 
         // Without snapper there is nothing on this page to read or to change,
@@ -1025,12 +1036,12 @@ export default class WispPreferences extends ExtensionPreferences {
         }
 
         const configs = await Configs.listConfigs();
-        if (this._closed)
+        if (this._stale(generation))
             return;
 
         const group = new Adw.PreferencesGroup({
             title: _('Configs'),
-            description: _('One config per subvolume, kept in /etc/snapper/configs. Everything here is readable without a password; changing it is root’s, so changes wait for Apply and go out together.'),
+            description: _('One config per subvolume, kept in /etc/snapper/configs. Everything here is readable without a password; changing it is root’s, so changes are collected into one command to run in a terminal.'),
         });
 
         const add = new Gtk.Button({
@@ -1056,7 +1067,6 @@ export default class WispPreferences extends ExtensionPreferences {
                 config,
                 settings: this._settings,
                 window: this._window,
-                onChanged: () => this._reload(),
                 closed: () => this._closed,
             }));
         }
@@ -1151,23 +1161,17 @@ export default class WispPreferences extends ExtensionPreferences {
         });
     }
 
-    async _createConfig(name, subvolume) {
-        const result = await Configs.createConfig(name, subvolume);
-        const said = failure(result);
-        if (said) {
-            this._toast(said);
-            return;
-        }
-        if (result.status !== 0)
-            return;
-
-        this._toast(_('%s set up. Nothing has been snapshotted yet.').format(name));
-        this._reload();
+    _createConfig(name, subvolume) {
+        showCommand(this._window, {
+            heading: _('Set up %s').format(name),
+            body: _('Creating a config needs root. Run this in a terminal; this window reloads once snapper has it.'),
+            argv: Configs.createConfigArgv(name, subvolume),
+        });
     }
 
     /** The timers that make snapper act on its own, and the housekeeping the
      *  filesystem underneath is scheduled for. */
-    async _fillSchedule() {
+    async _fillSchedule(generation) {
         this._clear(this._schedulePage);
 
         const group = new Adw.PreferencesGroup({
@@ -1178,7 +1182,7 @@ export default class WispPreferences extends ExtensionPreferences {
 
         for (const unit of Units.SNAPPER_TIMERS) {
             const {enabled, known, state} = await Units.state(unit);
-            if (this._closed)
+            if (this._stale(generation))
                 return;
 
             const {title, subtitle} = timerLabel(unit);
@@ -1229,30 +1233,11 @@ export default class WispPreferences extends ExtensionPreferences {
 
         const pending = new Map();
         const apply = new ApplyRow({
-            onApply: async () => {
-                const values = Object.fromEntries(pending);
-                apply.busy = true;
-                const result = await Btrfs.setMaintenance(values);
-                if (this._closed)
-                    return;
-
-                apply.busy = false;
-                const said = failure(result);
-                if (said) {
-                    this._toast(said);
-                    return;
-                }
-                if (result.status !== 0)
-                    return;
-                pending.clear();
-                apply.update([]);
-                this._toast(_('Saved. The timers are rebuilt from the file on their own.'));
-            },
             onRevert: () => this._reload(),
             onCopy: () => {
                 this._window.get_clipboard().set(
                     commandLine(Btrfs.setMaintenanceArgv(Object.fromEntries(pending))));
-                this._toast(_('Command copied. It does the same thing as Apply.'));
+                this._toast(_('Command copied. Run it in a terminal; the timers are rebuilt from the file on their own.'));
             },
         });
 
@@ -1299,15 +1284,17 @@ export default class WispPreferences extends ExtensionPreferences {
      */
     async _toggle(unit, row) {
         row.sensitive = false;
-        const result = await Units.setEnabled(unit, row.active);
+        try {
+            await Units.setEnabled(unit, row.active);
+        } catch (error) {
+            // Closing the password dialog is an answer, not a failure.
+            if (!error.matches?.(Gio.DBusError, Gio.DBusError.ACCESS_DENIED))
+                this._toast(error.message);
+        }
         if (this._closed)
             return;
 
         row.sensitive = true;
-
-        const said = failure(result);
-        if (said)
-            this._toast(said);
 
         // Whether it worked or not, the switch has to end up showing what
         // systemd actually says rather than what it was clicked to.
@@ -1323,11 +1310,11 @@ export default class WispPreferences extends ExtensionPreferences {
     }
 
     /** What the snapshots are stored on, since that is what runs out. */
-    async _fillStorage() {
+    async _fillStorage(generation) {
         this._clear(this._storagePage);
 
         const configs = await Configs.listConfigs().catch(() => []);
-        if (this._closed)
+        if (this._stale(generation))
             return;
 
         // One panel per filesystem, named after every config that lives on it.
@@ -1355,7 +1342,7 @@ export default class WispPreferences extends ExtensionPreferences {
         for (const {name, subvolume} of configs)
             await add(subvolume, name);
 
-        if (this._closed)
+        if (this._stale(generation))
             return;
 
         for (const {path, fs, names} of found.values())

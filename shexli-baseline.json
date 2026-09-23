@@ -4,11 +4,13 @@
     {
       "rule_id": "EGO-A-005",
       "paths": [
+        "command.js",
         "compare.js",
         "extension.js",
         "keys.js"
       ],
       "snippets": [
+        "St.Clipboard.get_default()",
         "St.Clipboard.get_default()",
         "St.Clipboard.get_default()",
         "St.Clipboard.get_default()",

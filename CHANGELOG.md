@@ -1,5 +1,25 @@
 # Changelog
 
+## 1.0.7
+
+- Wisp runs nothing as root any more, and `pkexec` is gone from it. What
+  snapperd answers the user for - listing, taking and deleting snapshots,
+  comparing them - goes to snapperd over D-Bus as before. What only root may
+  do is shown as the command that does it, with a button that copies it: giving
+  the account access to a config, a rollback, putting files back (the chosen
+  paths are written to a list under the cache directory and handed to
+  `snapper undochange -i`), a change to a config, a new config or the removal
+  of one, and btrfsmaintenance's settings. The settings window follows
+  snapperd's signals, so it reloads on its own once such a command has run.
+- snapper's timers are switched through systemd's own D-Bus API, which asks
+  polkit itself; that can mean two prompts, one for the unit file and one for
+  starting or stopping the timer.
+- The lock in front of the menu asks polkit over D-Bus instead of running
+  `pkcheck`, and checks the shell's bus name rather than a process id.
+- A timeout is removed before another takes its place, in the panel's fresh
+  marker and in the progress bar of the dialogs, and the `_destroyed` flags are
+  gone: `destroy()` drops what a late callback would have reached instead.
+
 ## 1.0.6
 
 - GNOME Shell 51 is on the supported list. Nothing in the extension had to move
