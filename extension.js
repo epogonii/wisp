@@ -852,13 +852,15 @@ class Indicator extends PanelMenu.Button {
         // Stop a _build() that is still awaiting snapper from touching the
         // menu once it resumes.
         this._generation++;
-        this._lock = null;
         this._snapper.disconnect(this._changedId);
         for (const id of this._settingIds)
             this._settings.disconnect(id);
         this._settingIds = [];
         this._snapper.destroy();
+        // Destroying an open menu closes it, and closing it relocks, so the
+        // lock has to outlive the menu. _unlock() looks for it afterwards.
         super.destroy();
+        this._lock = null;
     }
 });
 
