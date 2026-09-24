@@ -67,7 +67,7 @@ What snapper is set to keep, and what is left on the filesystem it keeps it on:
 | --- | --- |
 | `snapper` and one config | **Required.** Not installed by default on most distributions, and there is nothing to list until a config exists |
 | `polkit` | The optional lock in front of the menu, and switching snapper's timers |
-| `util-linux`, `btrfs-progs` | The Storage page. Sizes for the snapshots themselves need btrfs counting them, which is off by default - the Storage page turns it on |
+| `util-linux`, `btrfs-progs` | The Storage page |
 | `btrfsmaintenance` | Balance, scrub, defrag and trim on the Schedule page. snapper does not need it |
 
 GNOME Shell 46 or newer, Wayland or X11. polkit and util-linux are on
@@ -99,8 +99,7 @@ switches on the Schedule page.
   transaction shown as the one event it was
 - Take one with a description that no cleanup rule will remove; delete one after
   a confirmation that says what goes; open one in Files and read it as it was
-- Rename it, mark it important, change its cleanup rule, turn read-only off, and
-  add up what it alone is holding on to
+- Rename it, mark it important, change its cleanup rule, and turn read-only off
 - Everything that has changed since a snapshot, searchable, and for a package
   transaction exactly what the transaction changed
 - Put chosen files back, or roll the root filesystem back, by handing over the
@@ -185,7 +184,7 @@ gnome-extensions prefs wisp@epogonii.github.io
 | Appearance | Where the indicator sits and whether it is shown, what a middle click does, how many snapshots each config lists, ages or dates, whether a finished action answers with a pill under the panel or a notification, and the lock: never, after a while, or every time |
 | Snapshots | One row per config with the subvolume it snapshots, whether it shows in the menu, whether this account may read it, and the timeline and numbered limits snapper cleans up by |
 | Schedule | snapper's three timers, and how often btrfsmaintenance balances, scrubs, defragments and trims |
-| Storage | What the filesystem is doing: size, what btrfs has handed out to chunks, what is written, what is free, and the same per chunk type. Also what each config's snapshots are taking between them, once btrfs is counting - which it is not by default, so there is a button that turns it on |
+| Storage | What the filesystem is doing: size, what btrfs has handed out to chunks, what is written, what is free, and the same per chunk type |
 | About | The version, the project page, and the links below |
 
 ---
