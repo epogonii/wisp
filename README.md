@@ -151,7 +151,7 @@ snapperd does not use polkit. Each config carries its own `ALLOW_USERS` and
 them in, so a fresh install tells an ordinary account nothing at all.
 
 Wisp runs nothing as root. For a config the account is not on, the menu shows
-the command that adds it, to run once in a terminal:
+the command that adds it, to run once as root in a terminal:
 
 ```sh
 sudo snapper -c <config> set-config ALLOW_USERS=<you> SYNC_ACL=yes

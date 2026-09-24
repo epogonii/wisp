@@ -727,7 +727,7 @@ class Indicator extends PanelMenu.Button {
         // snapperd reports the change, and the menu rebuilds on its own.
         const allowUsers = this._values?.get(config)?.['ALLOW_USERS'] ?? '';
         section.addMenuItem(new Advice(
-            _('These snapshots belong to root. Run this once to give your account access:'),
+            _('These snapshots belong to root. Run this once as root to give your account access:'),
             commandLine(setConfigArgv(config, {
                 ALLOW_USERS: withUser(allowUsers),
                 SYNC_ACL: 'yes',

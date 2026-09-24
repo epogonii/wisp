@@ -3,8 +3,8 @@
 // The preferences window, which is also the place snapper itself gets set up.
 //
 // snapper's own settings live in root's files and its daemon refuses to change
-// them for anybody else, so the usual way to reach them is a text editor and
-// sudo. Everything they say, though, is readable without a password:
+// them for anybody else, so the usual way to reach them is a text editor run
+// as root. Everything they say, though, is readable without a password:
 // ListConfigs hands out every config file to any caller that asks, systemd
 // answers for its unit files, and btrfs writes its allocation into sysfs.
 // So this window shows the whole picture for free. What needs root it does not
@@ -164,7 +164,7 @@ class ApplyRow extends Adw.ActionRow {
 
         this._copy = new Gtk.Button({
             label: _('Copy Command'),
-            tooltip_text: _('Copy the command that saves this, to run in a terminal'),
+            tooltip_text: _('Copy the command that saves this, to run as root in a terminal'),
             valign: Gtk.Align.CENTER,
             css_classes: ['suggested-action'],
         });
@@ -223,7 +223,7 @@ function showCommand(window, {heading, body, argv, destructive = false}) {
             return;
         window.get_clipboard().set(line);
         window.add_toast?.(new Adw.Toast({
-            title: _('Command copied. Run it in a terminal.'),
+            title: _('Command copied. Run it as root in a terminal.'),
             timeout: 6,
         }));
     });
@@ -545,7 +545,7 @@ class ConfigRow extends Adw.ExpanderRow {
         const argv = Configs.setConfigArgv(this._config.name,
             Object.fromEntries(this._dirty));
         this._window.get_clipboard().set(commandLine(argv));
-        this._toast(_('Command copied. Run it in a terminal; this window reloads once snapper has the change.'));
+        this._toast(_('Command copied. Run it as root in a terminal; this window reloads once snapper has the change.'));
     }
 
     _toast(message) {
@@ -1186,7 +1186,7 @@ export default class WispPreferences extends ExtensionPreferences {
     _createConfig(name, subvolume) {
         showCommand(this._window, {
             heading: _('Set up %s').format(name),
-            body: _('Creating a config needs root. Run this in a terminal; this window reloads once snapper has it.'),
+            body: _('Creating a config needs root. Run this as root in a terminal; this window reloads once snapper has it.'),
             argv: Configs.createConfigArgv(name, subvolume),
         });
     }
@@ -1259,7 +1259,7 @@ export default class WispPreferences extends ExtensionPreferences {
             onCopy: () => {
                 this._window.get_clipboard().set(
                     commandLine(Btrfs.setMaintenanceArgv(Object.fromEntries(pending))));
-                this._toast(_('Command copied. Run it in a terminal; the timers are rebuilt from the file on their own.'));
+                this._toast(_('Command copied. Run it as root in a terminal; the timers are rebuilt from the file on their own.'));
             },
         });
 
@@ -1455,7 +1455,12 @@ export default class WispPreferences extends ExtensionPreferences {
             return group;
         }
 
-        const row = new Adw.ActionRow({title: command, css_classes: ['monospace']});
+        // The row's title is markup, so the command alone is set in monospace
+        // and the words under it are left in the window's own face.
+        const row = new Adw.ActionRow({
+            title: `<tt>${GLib.markup_escape_text(command, -1)}</tt>`,
+            subtitle: _('Run as root in a terminal'),
+        });
         const copy = new Gtk.Button({
             icon_name: 'edit-copy-symbolic',
             tooltip_text: _('Copy'),
