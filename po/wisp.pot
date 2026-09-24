@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Wisp 1.0.9\n"
+"Project-Id-Version: Wisp 1.0.10\n"
 "Report-Msgid-Bugs-To: https://github.com/epogonii/wisp/issues\n"
-"POT-Creation-Date: 2026-09-23 19:17+0300\n"
+"POT-Creation-Date: 2026-09-24 10:35+0300\n"
 "Last-Translator: NAME <EMAIL>\n"
 "Language-Team: none\n"
 "Language: \n"
@@ -103,7 +103,8 @@ msgstr ""
 
 #: extension.js:730
 msgid ""
-"These snapshots belong to root. Run this once to give your account access:"
+"These snapshots belong to root. Run this once as root to give your account "
+"access:"
 msgstr ""
 
 #: extension.js:753
@@ -111,7 +112,7 @@ msgid "Settings"
 msgstr ""
 
 #: lib/command.js:40
-msgid "Wisp does not run commands as root. Run this one in a terminal."
+msgid "Wisp does not run commands as root. Run this one as root in a terminal."
 msgstr ""
 
 #: lib/command.js:43 lib/compare.js:254 prefs.js:213
@@ -485,7 +486,9 @@ msgid "Install the snapper package for your distribution"
 msgstr ""
 
 #: lib/requirements.js:42
-msgid "Wisp shows the snapshots snapper takes, and snapper is not installed."
+msgid ""
+"Wisp shows the snapshots snapper takes, and snapper is not installed. "
+"Install it as root:"
 msgstr ""
 
 #: lib/requirements.js:50
@@ -496,7 +499,7 @@ msgstr ""
 #: lib/requirements.js:58
 msgid ""
 "snapper has nothing set up yet. One config per subvolume is what it takes "
-"snapshots of."
+"snapshots of. Run this as root to make the first one:"
 msgstr ""
 
 #: prefs.js:63
@@ -595,7 +598,7 @@ msgid "Copy Command"
 msgstr ""
 
 #: prefs.js:167
-msgid "Copy the command that saves this, to run in a terminal"
+msgid "Copy the command that saves this, to run as root in a terminal"
 msgstr ""
 
 #: prefs.js:184
@@ -604,7 +607,7 @@ msgid "Needs root, run the copied command: %s"
 msgstr ""
 
 #: prefs.js:226
-msgid "Command copied. Run it in a terminal."
+msgid "Command copied. Run it as root in a terminal."
 msgstr ""
 
 #: prefs.js:273
@@ -696,8 +699,8 @@ msgstr ""
 
 #: prefs.js:548
 msgid ""
-"Command copied. Run it in a terminal; this window reloads once snapper has "
-"the change."
+"Command copied. Run it as root in a terminal; this window reloads once "
+"snapper has the change."
 msgstr ""
 
 #: prefs.js:594
@@ -1046,8 +1049,8 @@ msgstr ""
 
 #: prefs.js:1189
 msgid ""
-"Creating a config needs root. Run this in a terminal; this window reloads "
-"once snapper has it."
+"Creating a config needs root. Run this as root in a terminal; this window "
+"reloads once snapper has it."
 msgstr ""
 
 #: prefs.js:1200
@@ -1101,8 +1104,8 @@ msgstr ""
 
 #: prefs.js:1262
 msgid ""
-"Command copied. Run it in a terminal; the timers are rebuilt from the file "
-"on their own."
+"Command copied. Run it as root in a terminal; the timers are rebuilt from "
+"the file on their own."
 msgstr ""
 
 #: prefs.js:1278
@@ -1172,10 +1175,14 @@ msgstr ""
 msgid "Install the %s package for your distribution"
 msgstr ""
 
-#: prefs.js:1461
+#: prefs.js:1462
+msgid "Run as root in a terminal"
+msgstr ""
+
+#: prefs.js:1466
 msgid "Copy"
 msgstr ""
 
-#: prefs.js:1467
+#: prefs.js:1472
 msgid "Command copied."
 msgstr ""

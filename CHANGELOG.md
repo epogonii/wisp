@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.10
+
+- The commands Wisp hands over no longer start with `sudo`. extensions.gnome.org
+  does not accept an extension with `sudo` in its code, even in a line that is
+  only shown and never run, and turned 1.0.9 down for it. The line is now the
+  command alone, and the words next to it say to run it as root, which leaves
+  `sudo`, `run0` or a root shell up to the user.
+
 ## 1.0.9
 
 - GNOME Shell 51 is off the supported list for now. extensions.gnome.org
