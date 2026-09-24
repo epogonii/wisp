@@ -122,7 +122,7 @@ switches on the Schedule page.
 
 <a href="https://extensions.gnome.org/extension/10755/wisp/"><img src="docs/get-it-on-ego.png" width="228" alt="Get it on GNOME Extensions"></a>
 
-Uploaded and in review, so not installable from there yet.
+Open the page and flip the switch, or install it from the Extension Manager app.
 
 #### From a release
 
