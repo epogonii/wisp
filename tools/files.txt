@@ -30,7 +30,6 @@ lib/icon.js
 lib/keys.js
 lib/packages.js
 lib/requirements.js
-lib/rollback.js
 lib/snapper.js
 lib/toast.js
 lib/units.js

@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Wisp 1.0.12\n"
+"Project-Id-Version: Wisp 1.0.11\n"
 "Report-Msgid-Bugs-To: https://github.com/epogonii/wisp/issues\n"
-"POT-Creation-Date: 2026-09-28 15:48+0300\n"
+"POT-Creation-Date: 2026-09-28 13:11+0300\n"
 "Last-Translator: NAME <EMAIL>\n"
 "Language-Team: none\n"
 "Language: \n"
@@ -30,16 +30,16 @@ msgstr ""
 msgid "kept"
 msgstr ""
 
-#: extension.js:82 extension.js:215 lib/details.js:104
+#: extension.js:82 extension.js:215 lib/details.js:103
 msgid "no description"
 msgstr ""
 
-#: extension.js:209 lib/details.js:318
+#: extension.js:209 lib/details.js:317
 #, javascript-format
 msgid "Delete snapshots %d and %d?"
 msgstr ""
 
-#: extension.js:210 lib/details.js:319
+#: extension.js:210 lib/details.js:318
 #, javascript-format
 msgid "Delete snapshot %d?"
 msgstr ""
@@ -48,7 +48,7 @@ msgstr ""
 msgid "There is no undoing this."
 msgstr ""
 
-#: extension.js:219 lib/details.js:324
+#: extension.js:219 lib/details.js:323
 msgid "Delete"
 msgstr ""
 
@@ -56,12 +56,12 @@ msgstr ""
 msgid "Delete both"
 msgstr ""
 
-#: extension.js:235 lib/details.js:330
+#: extension.js:235 lib/details.js:329
 #, javascript-format
 msgid "Snapshots %d and %d deleted"
 msgstr ""
 
-#: extension.js:236 lib/details.js:331
+#: extension.js:236 lib/details.js:330
 #, javascript-format
 msgid "Snapshot %d deleted"
 msgstr ""
@@ -83,7 +83,7 @@ msgstr ""
 msgid "Click to copy"
 msgstr ""
 
-#: extension.js:386 lib/command.js:51 lib/compare.js:322
+#: extension.js:386 lib/command.js:52 lib/compare.js:322
 msgid "Command copied"
 msgstr ""
 
@@ -121,15 +121,15 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: lib/command.js:39
+#: lib/command.js:40
 msgid "Wisp does not run commands as root. Run this one as root in a terminal."
 msgstr ""
 
-#: lib/command.js:42 lib/compare.js:254 lib/details.js:434 prefs.js:217
+#: lib/command.js:43 lib/compare.js:254 lib/details.js:385 prefs.js:217
 msgid "Close"
 msgstr ""
 
-#: lib/command.js:47
+#: lib/command.js:48
 msgid "Copy command"
 msgstr ""
 
@@ -265,156 +265,156 @@ msgid ""
 "is there now. Files it created since will be removed."
 msgstr ""
 
-#: lib/details.js:29
+#: lib/details.js:28
 msgid "Oldest go first"
 msgstr ""
 
-#: lib/details.js:31
+#: lib/details.js:30
 msgid "Thinned out over time"
 msgstr ""
 
-#: lib/details.js:33
+#: lib/details.js:32
 msgid "Dropped if nothing changed"
 msgstr ""
 
-#: lib/details.js:35
+#: lib/details.js:34
 msgid "Kept until deleted"
 msgstr ""
 
-#: lib/details.js:47
+#: lib/details.js:46
 #, javascript-format
 msgid ""
 "This account is not allowed to change %s. The menu shows the command that "
 "gives it access."
 msgstr ""
 
-#: lib/details.js:98
+#: lib/details.js:97
 #, javascript-format
 msgid "Snapshots %d and %d"
 msgstr ""
 
-#: lib/details.js:99
+#: lib/details.js:98
 #, javascript-format
 msgid "Snapshot %d"
 msgstr ""
 
-#: lib/details.js:118
+#: lib/details.js:117
 msgid "Done"
 msgstr ""
 
-#: lib/details.js:132 lib/details.js:461
+#: lib/details.js:131 lib/details.js:412
 msgid "Description"
 msgstr ""
 
-#: lib/details.js:134
+#: lib/details.js:133
 msgid "What this snapshot is for"
 msgstr ""
 
-#: lib/details.js:139
+#: lib/details.js:138
 msgid "Keep this snapshot"
 msgstr ""
 
-#: lib/details.js:140
+#: lib/details.js:139
 msgid "Marks it important, which is what snapper's cleanup leaves alone"
 msgstr ""
 
-#: lib/details.js:146
+#: lib/details.js:145
 msgid "Cleanup"
 msgstr ""
 
-#: lib/details.js:153
+#: lib/details.js:152
 msgid "Read-only"
 msgstr ""
 
-#: lib/details.js:154
+#: lib/details.js:153
 msgid ""
 "Snapper takes snapshots read-only. Turning this off lets anything with root "
 "change one."
 msgstr ""
 
-#: lib/details.js:174
+#: lib/details.js:173
 msgid "Contents"
 msgstr ""
 
-#: lib/details.js:176
+#: lib/details.js:175
 msgid "Browse the files"
 msgstr ""
 
-#: lib/details.js:177
+#: lib/details.js:176
 msgid "Opens the snapshot in Files, read-only"
 msgstr ""
 
-#: lib/details.js:184
+#: lib/details.js:183
 msgid "What this transaction changed"
 msgstr ""
 
-#: lib/details.js:185
+#: lib/details.js:184
 msgid "Compares the snapshot before it with the one after"
 msgstr ""
 
-#: lib/details.js:188
+#: lib/details.js:187
 #, javascript-format
 msgid "Changed by snapshot %d"
 msgstr ""
 
-#: lib/details.js:192
+#: lib/details.js:191
 msgid "What has changed since"
 msgstr ""
 
-#: lib/details.js:193
+#: lib/details.js:192
 msgid ""
 "Compares this snapshot with the system as it is now, and can put files back"
 msgstr ""
 
-#: lib/details.js:196
+#: lib/details.js:195
 #, javascript-format
 msgid "Changed since snapshot %d"
 msgstr ""
 
-#: lib/details.js:207
+#: lib/details.js:206
 msgid "Delete this snapshot"
 msgid_plural "Delete both snapshots"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/details.js:208
+#: lib/details.js:207
 msgid "There is no undoing this"
 msgstr ""
 
-#: lib/details.js:228
+#: lib/details.js:227
 msgid "Roll back to this snapshot"
 msgstr ""
 
-#: lib/details.js:229
-msgid "Boots from it next time"
+#: lib/details.js:228
+msgid "Asks snapper to boot from it next time"
 msgstr ""
 
-#: lib/details.js:250
+#: lib/details.js:249
 msgid "Your account is not allowed to change this config."
 msgstr ""
 
-#: lib/details.js:303
+#: lib/details.js:302
 #, javascript-format
 msgid "In %s, against the files as they are now"
 msgstr ""
 
-#: lib/details.js:304
+#: lib/details.js:303
 #, javascript-format
 msgid "In %s, between the snapshot before it and the one after"
 msgstr ""
 
-#: lib/details.js:323
+#: lib/details.js:322
 msgid ""
 "The snapshot goes and the space it was holding comes back. Nothing here "
 "brings it back."
 msgstr ""
 
-#: lib/details.js:362 lib/details.js:416
+#: lib/details.js:363
 #, javascript-format
 msgid "Roll back to snapshot %d?"
 msgstr ""
 
-#: lib/details.js:363
+#: lib/details.js:364
 #, javascript-format
 msgid ""
 "snapper takes a snapshot of the system as it is, makes a writable copy of "
@@ -422,7 +422,7 @@ msgid ""
 "restarted."
 msgstr ""
 
-#: lib/details.js:369
+#: lib/details.js:370
 msgid ""
 "/etc/fstab mounts this filesystem by subvolume name, which overrules the "
 "default subvolume snapper is about to set. The rollback will be reported as "
@@ -430,92 +430,45 @@ msgid ""
 "subvolumes by hand from a live image is the way round it."
 msgstr ""
 
-#: lib/details.js:385
-#, javascript-format
-msgid "Done. Restart to boot into snapshot %d."
-msgstr ""
-
-#: lib/details.js:399
-#, javascript-format
-msgid "No kernel can start snapshot %d"
-msgstr ""
-
-#: lib/details.js:400
-#, javascript-format
-msgid ""
-"None of the kernels in /boot has its modules in snapshot %d, so the system "
-"would start without them. Files can still be put back from the list of what "
-"changed."
-msgstr ""
-
-#: lib/details.js:405
-#, javascript-format
-msgid ""
-"A writable copy of snapshot %d takes the place of subvolume %s, and the "
-"snapshots move across to it. Everything else in it goes back, /var included. "
-"What is mounted on its own, such as /home, stays."
-msgstr ""
-
-#: lib/details.js:406
-#, javascript-format
-msgid ""
-"The system as it is now is kept as snapshot %d, to be deleted like any other "
-"once it is not needed. Restart once the command is done."
-msgstr ""
-
-#: lib/details.js:410
-#, javascript-format
-msgid ""
-"Snapshot %d lacks the modules of a kernel in /boot, so the command makes %s "
-"the one to start."
-msgstr ""
-
-#: lib/details.js:411
-#, javascript-format
-msgid ""
-"Snapshot %d lacks the modules of a kernel in /boot. Choose %s in the boot "
-"menu."
-msgstr ""
-
-#: lib/details.js:430
+#: lib/details.js:382
 msgid "This system is not set up for rollback"
 msgstr ""
 
-#: lib/details.js:431
+#: lib/details.js:383
 msgid ""
 "snapper only rolls back a system whose default btrfs subvolume is one of its "
 "snapshots. Here it is not, so snapper refuses. Files can still be put back "
 "from the list of what changed."
 msgstr ""
 
-#: lib/details.js:454
+#: lib/details.js:405
 #, javascript-format
 msgid "Take a snapshot of %s"
 msgstr ""
 
-#: lib/details.js:455
+#: lib/details.js:406
 msgid ""
 "It records the subvolume as it is now. Nothing is copied, so it takes about "
 "a second and almost no disk until the files start to differ."
 msgstr ""
 
-#: lib/details.js:463
+#: lib/details.js:414
 msgid "Before I change something"
 msgstr ""
 
-#: lib/details.js:470 lib/dialog.js:629 prefs.js:1150
+#: lib/details.js:421 lib/dialog.js:629 prefs.js:1150
 msgid "Cancel"
 msgstr ""
 
-#: lib/details.js:475
+#: lib/details.js:426
 msgid "Take snapshot"
 msgstr ""
 
-#: lib/details.js:485
+#: lib/details.js:436
 msgid "Taken by hand"
 msgstr ""
 
-#: lib/details.js:493
+#: lib/details.js:444
 #, javascript-format
 msgid "Snapshot %d taken"
 msgstr ""
