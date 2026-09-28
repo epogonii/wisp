@@ -44,6 +44,15 @@
         "        this._freshId = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT,\n            Math.ceil(FRESH - age), () => {\n                this._freshId = 0;\n                this.remove_style_class_name('wisp-fresh');\n                return GLib.SOURCE_REMOVE;\n            })",
         "        this._pending = GLib.idle_add(GLib.PRIORITY_DEFAULT, () => {\n            this._pending = 0;\n            this._measure();\n            return GLib.SOURCE_REMOVE;\n        })"
       ]
+    },
+    {
+      "rule_id": "EGO-M-004",
+      "paths": [
+        "metadata.json"
+      ],
+      "snippets": [
+        "shell-version=['46', '47', '48', '49', '50', '51']"
+      ]
     }
   ]
 }
