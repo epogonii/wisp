@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wisp 1.0.10\n"
 "Report-Msgid-Bugs-To: https://github.com/epogonii/wisp/issues\n"
-"POT-Creation-Date: 2026-09-24 10:35+0300\n"
+"POT-Creation-Date: 2026-09-28 08:49+0300\n"
 "Last-Translator: NAME <EMAIL>\n"
 "Language-Team: none\n"
 "Language: \n"
@@ -756,7 +756,7 @@ msgid "Show the indicator"
 msgstr ""
 
 #: prefs.js:680
-msgid "Hidden when unusable, it comes back as soon as snapper does"
+msgid "Hidden while snapper is missing, not running or has no config"
 msgstr ""
 
 #: prefs.js:681
@@ -764,7 +764,7 @@ msgid "Always"
 msgstr ""
 
 #: prefs.js:681
-msgid "Only when snapper is set up"
+msgid "When usable"
 msgstr ""
 
 #: prefs.js:687
@@ -822,30 +822,29 @@ msgid "What decides when snapper removes each snapshot on its own"
 msgstr ""
 
 #: prefs.js:729
-msgid "Messages"
+msgid "Confirmations"
 msgstr ""
 
 #: prefs.js:730
 msgid ""
-"What a snapshot taken and a command copied are answered with. Anything that "
-"changed the disk - a rollback, files put back - is a notification either "
-"way, since that is worth finding again later."
+"For a snapshot taken or a command copied. A rollback or restored files "
+"always get a notification."
 msgstr ""
 
 #: prefs.js:735
-msgid "Say it with"
+msgid "Style"
 msgstr ""
 
 #: prefs.js:736
-msgid "The pill appears under the panel and is gone in a couple of seconds"
+msgid "A pill shows under the panel for a few seconds"
 msgstr ""
 
 #: prefs.js:737
-msgid "A notification"
+msgid "Notification"
 msgstr ""
 
 #: prefs.js:737
-msgid "A pill under the panel"
+msgid "Pill"
 msgstr ""
 
 #: prefs.js:743
@@ -854,10 +853,8 @@ msgstr ""
 
 #: prefs.js:744
 msgid ""
-"Being allowed to read a config is granted once and belongs to the account "
-"from then on, so nothing here can take that back. What it can do is put a "
-"lock in front of the menu, asked for by polkit - the same password, or the "
-"same finger, that authorising anything else on this machine takes."
+"Asks for your password or fingerprint, through polkit, before the menu shows "
+"snapshots. Read access already granted to the account is not changed."
 msgstr ""
 
 #: prefs.js:749
@@ -865,7 +862,11 @@ msgid "Ask before showing the list"
 msgstr ""
 
 #: prefs.js:750
-msgid "Locked, nothing is read at all until it is unlocked"
+msgid "Nothing is read while locked"
+msgstr ""
+
+#: prefs.js:751
+msgid "After a while"
 msgstr ""
 
 #: prefs.js:751
@@ -874,10 +875,6 @@ msgstr ""
 
 #: prefs.js:751 prefs.js:1266
 msgid "Never"
-msgstr ""
-
-#: prefs.js:751
-msgid "When it has been a while"
 msgstr ""
 
 #: prefs.js:758

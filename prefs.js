@@ -677,8 +677,8 @@ export default class WispPreferences extends ExtensionPreferences {
 
         panel.add(this._combo({
             title: _('Show the indicator'),
-            subtitle: _('Hidden when unusable, it comes back as soon as snapper does'),
-            labels: [_('Always'), _('Only when snapper is set up')],
+            subtitle: _('Hidden while snapper is missing, not running or has no config'),
+            labels: [_('Always'), _('When usable')],
             key: 'indicator-visibility',
             values: VISIBILITY,
         }));
@@ -726,29 +726,29 @@ export default class WispPreferences extends ExtensionPreferences {
         menu.add(cleanup);
 
         const messages = new Adw.PreferencesGroup({
-            title: _('Messages'),
-            description: _('What a snapshot taken and a command copied are answered with. Anything that changed the disk - a rollback, files put back - is a notification either way, since that is worth finding again later.'),
+            title: _('Confirmations'),
+            description: _('For a snapshot taken or a command copied. A rollback or restored files always get a notification.'),
         });
         page.add(messages);
 
         messages.add(this._combo({
-            title: _('Say it with'),
-            subtitle: _('The pill appears under the panel and is gone in a couple of seconds'),
-            labels: [_('A pill under the panel'), _('A notification')],
+            title: _('Style'),
+            subtitle: _('A pill shows under the panel for a few seconds'),
+            labels: [_('Pill'), _('Notification')],
             key: 'message-style',
             values: MESSAGE_STYLES,
         }));
 
         const protection = new Adw.PreferencesGroup({
             title: _('Lock'),
-            description: _('Being allowed to read a config is granted once and belongs to the account from then on, so nothing here can take that back. What it can do is put a lock in front of the menu, asked for by polkit - the same password, or the same finger, that authorising anything else on this machine takes.'),
+            description: _('Asks for your password or fingerprint, through polkit, before the menu shows snapshots. Read access already granted to the account is not changed.'),
         });
         page.add(protection);
 
         const lock = this._combo({
             title: _('Ask before showing the list'),
-            subtitle: _('Locked, nothing is read at all until it is unlocked'),
-            labels: [_('Never'), _('When it has been a while'), _('Every time')],
+            subtitle: _('Nothing is read while locked'),
+            labels: [_('Never'), _('After a while'), _('Every time')],
             key: 'lock',
             values: LOCKS,
         });
