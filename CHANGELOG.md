@@ -18,6 +18,8 @@
   snapper is set up" and "A pill under the panel", and the descriptions of the
   messages and the lock ran to four lines. Messages is now called
   Confirmations. (#1)
+- The About page has the logo at the top, over the name and the line under
+  it.
 - GNOME Shell 51 is back on the supported list. extensions.gnome.org takes
   it now that the port guide for 51 is out. Nothing in the extension changed
   for it; what 1.0.6 says still holds.

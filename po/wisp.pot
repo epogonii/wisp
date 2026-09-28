@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wisp 1.0.11\n"
 "Report-Msgid-Bugs-To: https://github.com/epogonii/wisp/issues\n"
-"POT-Creation-Date: 2026-09-28 09:17+0300\n"
+"POT-Creation-Date: 2026-09-28 12:11+0300\n"
 "Last-Translator: NAME <EMAIL>\n"
 "Language-Team: none\n"
 "Language: \n"
@@ -66,7 +66,7 @@ msgstr ""
 msgid "Snapshot %d deleted"
 msgstr ""
 
-#: extension.js:238 extension.js:394 lib/toast.js:63 prefs.js:823
+#: extension.js:238 extension.js:394 lib/toast.js:63 prefs.js:837
 msgid "Wisp"
 msgstr ""
 
@@ -75,7 +75,7 @@ msgstr ""
 msgid "Your account is not allowed to change the %s config."
 msgstr ""
 
-#: extension.js:273 prefs.js:689
+#: extension.js:273 prefs.js:693
 msgid "Take a snapshot"
 msgstr ""
 
@@ -125,7 +125,7 @@ msgstr ""
 msgid "Wisp does not run commands as root. Run this one as root in a terminal."
 msgstr ""
 
-#: lib/command.js:43 lib/compare.js:254 prefs.js:213
+#: lib/command.js:43 lib/compare.js:254 prefs.js:217
 msgid "Close"
 msgstr ""
 
@@ -445,7 +445,7 @@ msgstr ""
 msgid "Before I change something"
 msgstr ""
 
-#: lib/details.js:398 lib/dialog.js:629 prefs.js:1122
+#: lib/details.js:398 lib/dialog.js:629 prefs.js:1150
 msgid "Cancel"
 msgstr ""
 
@@ -512,684 +512,684 @@ msgid ""
 "snapshots of. Run this as root to make the first one:"
 msgstr ""
 
-#: prefs.js:63
+#: prefs.js:67
 msgid "Hourly"
 msgstr ""
 
-#: prefs.js:65 prefs.js:1266
+#: prefs.js:69 prefs.js:1294
 msgid "Daily"
 msgstr ""
 
-#: prefs.js:67 prefs.js:1266
+#: prefs.js:71 prefs.js:1294
 msgid "Weekly"
 msgstr ""
 
-#: prefs.js:69 prefs.js:1266
+#: prefs.js:73 prefs.js:1294
 msgid "Monthly"
 msgstr ""
 
-#: prefs.js:71
+#: prefs.js:75
 msgid "Quarterly"
 msgstr ""
 
-#: prefs.js:73
+#: prefs.js:77
 msgid "Yearly"
 msgstr ""
 
-#: prefs.js:85
+#: prefs.js:89
 msgid "Take timeline snapshots"
 msgstr ""
 
-#: prefs.js:86
+#: prefs.js:90
 msgid "One an hour, for every config with the timeline switched on"
 msgstr ""
 
-#: prefs.js:90
+#: prefs.js:94
 msgid "Clear out old snapshots"
 msgstr ""
 
-#: prefs.js:91
+#: prefs.js:95
 msgid ""
 "Applies the limits below. Without this they are only ever counted, never "
 "enforced"
 msgstr ""
 
-#: prefs.js:95
+#: prefs.js:99
 msgid "Snapshot at boot"
 msgstr ""
 
-#: prefs.js:96
+#: prefs.js:100
 msgid "One taken the first time the machine comes up each day"
 msgstr ""
 
-#: prefs.js:109
+#: prefs.js:113
 msgid "Balance"
 msgstr ""
 
-#: prefs.js:110
+#: prefs.js:114
 msgid "Packs half-empty chunks together and hands the room back"
 msgstr ""
 
-#: prefs.js:114
+#: prefs.js:118
 msgid "Scrub"
 msgstr ""
 
-#: prefs.js:115
+#: prefs.js:119
 msgid "Reads everything back and checks it against its checksums"
 msgstr ""
 
-#: prefs.js:119
+#: prefs.js:123
 msgid "Defragment"
 msgstr ""
 
-#: prefs.js:120
+#: prefs.js:124
 msgid ""
 "Rewrites scattered files. Costs space where snapshots share their blocks"
 msgstr ""
 
-#: prefs.js:124
+#: prefs.js:128
 msgid "Trim"
 msgstr ""
 
-#: prefs.js:125
+#: prefs.js:129
 msgid "Tells an SSD which blocks are no longer in use"
 msgstr ""
 
-#: prefs.js:156
+#: prefs.js:160
 msgid "Not saved yet"
 msgstr ""
 
-#: prefs.js:159
+#: prefs.js:163
 msgid "Revert"
 msgstr ""
 
-#: prefs.js:166 prefs.js:214
+#: prefs.js:170 prefs.js:218
 msgid "Copy Command"
 msgstr ""
 
-#: prefs.js:167
+#: prefs.js:171
 msgid "Copy the command that saves this, to run as root in a terminal"
 msgstr ""
 
-#: prefs.js:184
+#: prefs.js:188
 #, javascript-format
 msgid "Needs root, run the copied command: %s"
 msgstr ""
 
-#: prefs.js:226
+#: prefs.js:230
 msgid "Command copied. Run it as root in a terminal."
 msgstr ""
 
-#: prefs.js:273
+#: prefs.js:277
 msgid "Show in the menu"
 msgstr ""
 
-#: prefs.js:301
+#: prefs.js:305
 #, javascript-format
 msgid "Accounts: %s"
 msgstr ""
 
-#: prefs.js:303
+#: prefs.js:307
 #, javascript-format
 msgid "Groups: %s"
 msgstr ""
 
-#: prefs.js:306
+#: prefs.js:310
 msgid "Root only"
 msgstr ""
 
-#: prefs.js:306
+#: prefs.js:310
 msgid "This account may use it"
 msgstr ""
 
-#: prefs.js:309
+#: prefs.js:313
 msgid ""
 "Nobody but root is named in ALLOW_USERS, so nothing here is readable without "
 "a password"
 msgstr ""
 
-#: prefs.js:317
+#: prefs.js:321
 msgid "Add This Account"
 msgstr ""
 
-#: prefs.js:336
+#: prefs.js:340
 msgid "Timeline snapshots"
 msgstr ""
 
-#: prefs.js:337
+#: prefs.js:341
 msgid "One an hour, thinned out as they age"
 msgstr ""
 
-#: prefs.js:359
+#: prefs.js:363
 msgid "Keep a fixed number"
 msgstr ""
 
-#: prefs.js:360
+#: prefs.js:364
 msgid "For the pairs taken around installs and upgrades"
 msgstr ""
 
-#: prefs.js:369
+#: prefs.js:373
 msgid "How many of them survive the cleanup"
 msgstr ""
 
-#: prefs.js:369
+#: prefs.js:373
 msgid "Keep"
 msgstr ""
 
-#: prefs.js:370
+#: prefs.js:374
 msgid "Keep marked important"
 msgstr ""
 
-#: prefs.js:371
+#: prefs.js:375
 msgid ""
 "Counted separately, so a starred snapshot is not pushed out by ordinary ones"
 msgstr ""
 
-#: prefs.js:436
+#: prefs.js:440
 msgid ""
 "A number, or a range like 5-10 that snapper narrows as the filesystem fills "
 "up"
 msgstr ""
 
-#: prefs.js:472 prefs.js:481
+#: prefs.js:476 prefs.js:485
 msgid "Delete this config…"
 msgstr ""
 
-#: prefs.js:499
+#: prefs.js:503
 #, javascript-format
 msgid "Delete the %s config?"
 msgstr ""
 
-#: prefs.js:500
+#: prefs.js:504
 #, javascript-format
 msgid ""
 "This removes the config and the .snapshots subvolume it keeps, and every "
 "snapshot in it. %s itself is left alone. None of it can be undone."
 msgstr ""
 
-#: prefs.js:548
+#: prefs.js:552
 msgid ""
 "Command copied. Run it as root in a terminal; this window reloads once "
 "snapper has the change."
 msgstr ""
 
-#: prefs.js:594
+#: prefs.js:598
 msgid "Snapshots"
 msgstr ""
 
-#: prefs.js:600
+#: prefs.js:604
 msgid "Schedule"
 msgstr ""
 
-#: prefs.js:606
+#: prefs.js:610
 msgid "Storage"
 msgstr ""
 
-#: prefs.js:649
+#: prefs.js:653
 msgid "Appearance"
 msgstr ""
 
-#: prefs.js:653
+#: prefs.js:657
 msgid "Panel"
 msgstr ""
 
-#: prefs.js:657
+#: prefs.js:661
 msgid "Position"
 msgstr ""
 
-#: prefs.js:658
+#: prefs.js:662
 msgid "Which end of the top bar the indicator sits at"
 msgstr ""
 
-#: prefs.js:659
+#: prefs.js:663
 msgid "Centre"
 msgstr ""
 
-#: prefs.js:659
+#: prefs.js:663
 msgid "Left"
 msgstr ""
 
-#: prefs.js:659
+#: prefs.js:663
 msgid "Right"
 msgstr ""
 
-#: prefs.js:665
+#: prefs.js:669
 msgid "Place"
 msgstr ""
 
-#: prefs.js:666
+#: prefs.js:670
 msgid "Counted from that end. Zero is outermost"
 msgstr ""
 
-#: prefs.js:679
+#: prefs.js:683
 msgid "Show the indicator"
 msgstr ""
 
-#: prefs.js:680
+#: prefs.js:684
 msgid "Red or hidden while snapper is missing, not running or has no config"
 msgstr ""
 
-#: prefs.js:681
+#: prefs.js:685
 msgid "Always"
 msgstr ""
 
-#: prefs.js:681
+#: prefs.js:685
 msgid "When usable"
 msgstr ""
 
-#: prefs.js:687
+#: prefs.js:691
 msgid "Middle click"
 msgstr ""
 
-#: prefs.js:688
+#: prefs.js:692
 msgid "Uses the first config shown in the menu"
 msgstr ""
 
-#: prefs.js:689
+#: prefs.js:693
 msgid "Nothing"
 msgstr ""
 
-#: prefs.js:689
+#: prefs.js:693
 msgid "Open these settings"
 msgstr ""
 
-#: prefs.js:694
+#: prefs.js:698
 msgid "Menu"
 msgstr ""
 
-#: prefs.js:698
+#: prefs.js:702
 msgid "Snapshots listed"
 msgstr ""
 
-#: prefs.js:699
+#: prefs.js:703
 msgid "How many of the newest each config shows"
 msgstr ""
 
-#: prefs.js:712
+#: prefs.js:716
 msgid "Dates"
 msgstr ""
 
-#: prefs.js:713
+#: prefs.js:717
 msgid ""
 "An age reads faster; a date and time is what matches a snapshot against "
 "something else"
 msgstr ""
 
-#: prefs.js:714
+#: prefs.js:718
 msgid "Date and time"
 msgstr ""
 
-#: prefs.js:714
+#: prefs.js:718
 msgid "How long ago"
 msgstr ""
 
-#: prefs.js:720
+#: prefs.js:724
 msgid "Show the cleanup rule"
 msgstr ""
 
-#: prefs.js:721
+#: prefs.js:725
 msgid "What decides when snapper removes each snapshot on its own"
 msgstr ""
 
-#: prefs.js:729
+#: prefs.js:733
 msgid "Confirmations"
 msgstr ""
 
-#: prefs.js:730
+#: prefs.js:734
 msgid ""
 "For a snapshot taken or deleted and a command copied. A rollback or restored "
 "files always get a notification."
 msgstr ""
 
-#: prefs.js:735
+#: prefs.js:739
 msgid "Style"
 msgstr ""
 
-#: prefs.js:736
+#: prefs.js:740
 msgid "A pill shows under the panel for a few seconds"
 msgstr ""
 
-#: prefs.js:737
+#: prefs.js:741
 msgid "Notification"
 msgstr ""
 
-#: prefs.js:737
+#: prefs.js:741
 msgid "Pill"
 msgstr ""
 
-#: prefs.js:743
+#: prefs.js:747
 msgid "Lock"
 msgstr ""
 
-#: prefs.js:744
+#: prefs.js:748
 msgid ""
 "Asks for your password or fingerprint, through polkit, before the menu shows "
 "snapshots. Read access already granted to the account is not changed."
 msgstr ""
 
-#: prefs.js:749
+#: prefs.js:753
 msgid "Ask before showing the list"
 msgstr ""
 
-#: prefs.js:750
+#: prefs.js:754
 msgid "Nothing is read while locked"
 msgstr ""
 
-#: prefs.js:751
+#: prefs.js:755
 msgid "After a while"
 msgstr ""
 
-#: prefs.js:751
+#: prefs.js:755
 msgid "Every time"
 msgstr ""
 
-#: prefs.js:751 prefs.js:1266
+#: prefs.js:755 prefs.js:1294
 msgid "Never"
 msgstr ""
 
-#: prefs.js:758
+#: prefs.js:762
 msgid "Ask again after"
 msgstr ""
 
-#: prefs.js:759
+#: prefs.js:763
 msgid "Minutes since it was last unlocked"
 msgstr ""
 
-#: prefs.js:782
+#: prefs.js:786
 msgid ""
 "Not available here: polkit does not know the org.freedesktop.policykit.exec "
 "action it asks with."
 msgstr ""
 
-#: prefs.js:818
+#: prefs.js:822
 msgid "About"
 msgstr ""
 
-#: prefs.js:824
+#: prefs.js:841
 msgid "Snapper snapshots, from the top bar"
 msgstr ""
 
-#: prefs.js:827
+#: prefs.js:855
 msgid "Project page"
 msgstr ""
 
-#: prefs.js:838
+#: prefs.js:866
 msgid "Report a problem"
 msgstr ""
 
-#: prefs.js:839
+#: prefs.js:867
 msgid "Request a feature"
 msgstr ""
 
-#: prefs.js:845
+#: prefs.js:873
 msgid ""
 "Something it does wrong, or something it does not do yet - either one "
 "belongs in an issue."
 msgstr ""
 
-#: prefs.js:855
+#: prefs.js:883
 msgid "Support"
 msgstr ""
 
-#: prefs.js:856
+#: prefs.js:884
 msgid "The extension is free and stays free. If it earned a coffee ☕"
 msgstr ""
 
-#: prefs.js:859
+#: prefs.js:887
 msgid "GitHub Sponsors"
 msgstr ""
 
-#: prefs.js:860
+#: prefs.js:888
 msgid "Monthly or one time"
 msgstr ""
 
-#: prefs.js:861
+#: prefs.js:889
 msgid "PayPal"
 msgstr ""
 
-#: prefs.js:868
+#: prefs.js:896
 #, javascript-format
 msgid "Wisp %s"
 msgstr ""
 
-#: prefs.js:893
+#: prefs.js:921
 msgid "Cryptocurrency"
 msgstr ""
 
-#: prefs.js:899
+#: prefs.js:927
 msgid "Address"
 msgstr ""
 
-#: prefs.js:905
+#: prefs.js:933
 msgid "Copy the address"
 msgstr ""
 
-#: prefs.js:928
+#: prefs.js:956
 #, javascript-format
 msgid "The %s address as a QR code"
 msgstr ""
 
-#: prefs.js:936
+#: prefs.js:964
 #, javascript-format
 msgid "%s address copied"
 msgstr ""
 
-#: prefs.js:1016
+#: prefs.js:1044
 msgid "Could not read this"
 msgstr ""
 
-#: prefs.js:1054
+#: prefs.js:1082
 msgid "snapper is not installed"
 msgstr ""
 
-#: prefs.js:1055
+#: prefs.js:1083
 msgid ""
 "Wisp manages the snapshots snapper takes, and there is no snapper on this "
 "system taking any. Everything in this window waits on it."
 msgstr ""
 
-#: prefs.js:1065
+#: prefs.js:1093
 msgid "Configs"
 msgstr ""
 
-#: prefs.js:1066
+#: prefs.js:1094
 msgid ""
 "One config per subvolume, kept in /etc/snapper/configs. Everything here is "
 "readable without a password; changing it is root’s, so changes are collected "
 "into one command to run in a terminal."
 msgstr ""
 
-#: prefs.js:1071
+#: prefs.js:1099
 msgid "Set up a new config"
 msgstr ""
 
-#: prefs.js:1081
+#: prefs.js:1109
 msgid "snapper has no configs yet"
 msgstr ""
 
-#: prefs.js:1082
+#: prefs.js:1110
 msgid "Nothing is being snapshotted. The button above sets the first one up"
 msgstr ""
 
-#: prefs.js:1099
+#: prefs.js:1127
 msgid "Name"
 msgstr ""
 
-#: prefs.js:1101
+#: prefs.js:1129
 msgid "Subvolume"
 msgstr ""
 
-#: prefs.js:1106
+#: prefs.js:1134
 msgid "Pick a folder"
 msgstr ""
 
-#: prefs.js:1118
+#: prefs.js:1146
 msgid "New config"
 msgstr ""
 
-#: prefs.js:1119
+#: prefs.js:1147
 msgid ""
 "snapper takes snapshots of one subvolume per config, and keeps them in "
 "a .snapshots subvolume it makes underneath it."
 msgstr ""
 
-#: prefs.js:1123
+#: prefs.js:1151
 msgid "Create"
 msgstr ""
 
-#: prefs.js:1140
+#: prefs.js:1168
 msgid "A config name can hold letters, digits, dots, dashes and underscores."
 msgstr ""
 
-#: prefs.js:1146
+#: prefs.js:1174
 msgid "The subvolume has to be an absolute path, starting with /."
 msgstr ""
 
-#: prefs.js:1164
+#: prefs.js:1192
 msgid "Pick a subvolume"
 msgstr ""
 
-#: prefs.js:1188
+#: prefs.js:1216
 #, javascript-format
 msgid "Set up %s"
 msgstr ""
 
-#: prefs.js:1189
+#: prefs.js:1217
 msgid ""
 "Creating a config needs root. Run this as root in a terminal; this window "
 "reloads once snapper has it."
 msgstr ""
 
-#: prefs.js:1200
+#: prefs.js:1228
 msgid "snapper"
 msgstr ""
 
-#: prefs.js:1201
+#: prefs.js:1229
 msgid ""
 "snapper does nothing on a schedule by itself. These are the timers that make "
 "it, and the limits on the previous page are only enforced while the second "
 "one runs."
 msgstr ""
 
-#: prefs.js:1215
+#: prefs.js:1243
 #, javascript-format
 msgid "%s is not installed on this system"
 msgstr ""
 
-#: prefs.js:1223
+#: prefs.js:1251
 #, javascript-format
 msgid "%s is always on: the package does not let it be switched off"
 msgstr ""
 
-#: prefs.js:1237
+#: prefs.js:1265
 msgid "Run by cron"
 msgstr ""
 
-#: prefs.js:1238
+#: prefs.js:1266
 #, javascript-format
 msgid ""
 "snapper is also scheduled by %s. Wisp cannot change a cron job; the file "
 "itself is where that is done."
 msgstr ""
 
-#: prefs.js:1244 prefs.js:1251
+#: prefs.js:1272 prefs.js:1279
 msgid "Filesystem upkeep"
 msgstr ""
 
-#: prefs.js:1245
+#: prefs.js:1273
 msgid ""
 "Scrub, balance, defrag and trim are kept by btrfsmaintenance, which is a "
 "separate package and is not installed. snapper does not need it; these "
 "settings are all it would add."
 msgstr ""
 
-#: prefs.js:1252
+#: prefs.js:1280
 msgid ""
 "btrfsmaintenance keeps these, not snapper. Each one takes hours and runs in "
 "the background; how often is all there is to decide."
 msgstr ""
 
-#: prefs.js:1262
+#: prefs.js:1290
 msgid ""
 "Command copied. Run it as root in a terminal; the timers are rebuilt from "
 "the file on their own."
 msgstr ""
 
-#: prefs.js:1278
+#: prefs.js:1306
 #, javascript-format
 msgid "Set to %s, which this window leaves as it is"
 msgstr ""
 
-#: prefs.js:1379
+#: prefs.js:1407
 msgid "Nothing here is on btrfs"
 msgstr ""
 
-#: prefs.js:1380
+#: prefs.js:1408
 msgid ""
 "snapper can drive LVM thin volumes too, and this page only knows how to read "
 "btrfs"
 msgstr ""
 
-#: prefs.js:1382
+#: prefs.js:1410
 msgid "Cannot tell what this is on"
 msgstr ""
 
-#: prefs.js:1383
+#: prefs.js:1411
 msgid ""
 "findmnt, from util-linux, is what this page asks, and it is not installed"
 msgstr ""
 
-#: prefs.js:1398
+#: prefs.js:1426
 #, javascript-format
 msgid "%s - %s"
 msgstr ""
 
-#: prefs.js:1403
+#: prefs.js:1431
 msgid "Size"
 msgstr ""
 
-#: prefs.js:1404
+#: prefs.js:1432
 msgid "Handed out to chunks"
 msgstr ""
 
-#: prefs.js:1405
+#: prefs.js:1433
 msgid "Written"
 msgstr ""
 
-#: prefs.js:1409
+#: prefs.js:1437
 msgid "Free"
 msgstr ""
 
-#: prefs.js:1422
+#: prefs.js:1450
 msgid "Data"
 msgstr ""
 
-#: prefs.js:1423
+#: prefs.js:1451
 msgid "Metadata"
 msgstr ""
 
-#: prefs.js:1423
+#: prefs.js:1451
 msgid "System"
 msgstr ""
 
-#: prefs.js:1424
+#: prefs.js:1452
 #, javascript-format
 msgid "%s of %s"
 msgstr ""
 
-#: prefs.js:1453
+#: prefs.js:1481
 #, javascript-format
 msgid "Install the %s package for your distribution"
 msgstr ""
 
-#: prefs.js:1462
+#: prefs.js:1490
 msgid "Run as root in a terminal"
 msgstr ""
 
-#: prefs.js:1466
+#: prefs.js:1494
 msgid "Copy"
 msgstr ""
 
-#: prefs.js:1472
+#: prefs.js:1500
 msgid "Command copied."
 msgstr ""

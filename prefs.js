@@ -53,6 +53,10 @@ const WALLETS = [
 const QR_DIR = 'icons/qr';
 const QR_SIZE = 168;
 
+// The panel icon, drawn large at the top of the About page.
+const LOGO = 'icons/hicolor/scalable/actions/wisp-symbolic.svg';
+const LOGO_SIZE = 96;
+
 /**
  * @param {string} key - one of Configs.TIMELINE_LIMITS
  * @returns {string} how often that many are kept
@@ -819,10 +823,34 @@ export default class WispPreferences extends ExtensionPreferences {
             icon_name: 'help-about-symbolic',
         });
 
-        const about = new Adw.PreferencesGroup({
-            title: _('Wisp'),
-            description: _('Snapper snapshots, from the top bar'),
+        const header = new Gtk.Box({
+            orientation: Gtk.Orientation.VERTICAL,
+            spacing: 6,
         });
+        // Symbolic, so it takes the text colour in both styles.
+        header.append(new Gtk.Image({
+            gicon: Gio.icon_new_for_string(`${this.path}/${LOGO}`),
+            pixel_size: LOGO_SIZE,
+            margin_bottom: 12,
+        }));
+        header.append(new Gtk.Label({
+            label: _('Wisp'),
+            css_classes: ['title-1'],
+        }));
+        header.append(new Gtk.Label({
+            label: _('Snapper snapshots, from the top bar'),
+            justify: Gtk.Justification.CENTER,
+            wrap: true,
+            css_classes: ['dim-label'],
+        }));
+
+        // A group only puts rows in its list; anything else goes under it, so
+        // the header needs a group of its own to stay above the link.
+        const top = new Adw.PreferencesGroup();
+        top.add(header);
+        page.add(top);
+
+        const about = new Adw.PreferencesGroup();
         page.add(about);
         about.add(this._linkRow(_('Project page'), PROJECT_URL, PROJECT_URL));
 
