@@ -222,11 +222,18 @@ class SnapshotItem extends PopupMenu.PopupBaseMenuItem {
     }
 
     /**
-     * @returns {void} nothing; what went wrong is said in a notification,
-     *   since by this point the menu the row was in has been closed
+     * @returns {void} nothing; the answer is said in a pill or a
+     *   notification, since by this point the menu the row was in has been
+     *   closed and the row going from it would be seen by nobody
      */
     _delete_now() {
-        this._snapper.delete(this._config, this._entry.numbers)
+        const numbers = this._entry.numbers;
+        this._snapper.delete(this._config, numbers)
+            .then(() => {
+                Toast.announce(numbers.length > 1
+                    ? _('Snapshots %d and %d deleted').format(...numbers)
+                    : _('Snapshot %d deleted').format(numbers[0]));
+            })
             .catch(error => {
                 Main.notifyError(_('Wisp'), isDenied(error)
                     ? _('Your account is not allowed to change the %s config.').format(this._config)

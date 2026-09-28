@@ -77,8 +77,9 @@
       <default>'pill'</default>
       <summary>How a finished action says so</summary>
       <description>
-        A snapshot taken and a command copied are answers to something asked a
-        moment earlier, and the pill under the panel says them and is gone.
+        A snapshot taken or deleted and a command copied are answers to
+        something asked a moment earlier, and the pill under the panel says
+        them and is gone.
         Notifications stay in the message list instead, which is worth having
         where the answer is wanted later or where the pill is missed.
         Notifications about something that changed on disk - a rollback, files

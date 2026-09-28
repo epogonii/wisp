@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wisp 1.0.10\n"
 "Report-Msgid-Bugs-To: https://github.com/epogonii/wisp/issues\n"
-"POT-Creation-Date: 2026-09-28 08:49+0300\n"
+"POT-Creation-Date: 2026-09-28 09:16+0300\n"
 "Last-Translator: NAME <EMAIL>\n"
 "Language-Team: none\n"
 "Language: \n"
@@ -56,58 +56,68 @@ msgstr ""
 msgid "Delete both"
 msgstr ""
 
-#: extension.js:231 extension.js:387 lib/toast.js:58 prefs.js:823
+#: extension.js:234 lib/details.js:329
+#, javascript-format
+msgid "Snapshots %d and %d deleted"
+msgstr ""
+
+#: extension.js:235 lib/details.js:330
+#, javascript-format
+msgid "Snapshot %d deleted"
+msgstr ""
+
+#: extension.js:238 extension.js:394 lib/toast.js:58 prefs.js:823
 msgid "Wisp"
 msgstr ""
 
-#: extension.js:232
+#: extension.js:239
 #, javascript-format
 msgid "Your account is not allowed to change the %s config."
 msgstr ""
 
-#: extension.js:266 prefs.js:689
+#: extension.js:273 prefs.js:689
 msgid "Take a snapshot"
 msgstr ""
 
-#: extension.js:366
+#: extension.js:373
 msgid "Click to copy"
 msgstr ""
 
-#: extension.js:378 lib/command.js:52 lib/compare.js:322
+#: extension.js:385 lib/command.js:52 lib/compare.js:322
 msgid "Command copied"
 msgstr ""
 
-#: extension.js:478
+#: extension.js:485
 msgid "Something went wrong while reading the snapshots."
 msgstr ""
 
-#: extension.js:540
+#: extension.js:547
 msgid "Unlock to see the snapshots"
 msgstr ""
 
-#: extension.js:665
+#: extension.js:672
 #, javascript-format
 msgid "No snapshots of %s yet."
 msgstr ""
 
-#: extension.js:692
+#: extension.js:699
 #, javascript-format
 msgid "%d older snapshot"
 msgid_plural "%d older snapshots"
 msgstr[0] ""
 msgstr[1] ""
 
-#: extension.js:701
+#: extension.js:708
 msgid "Show fewer"
 msgstr ""
 
-#: extension.js:730
+#: extension.js:737
 msgid ""
 "These snapshots belong to root. Run this once as root to give your account "
 "access:"
 msgstr ""
 
-#: extension.js:753
+#: extension.js:760
 msgid "Settings"
 msgstr ""
 
@@ -292,7 +302,7 @@ msgstr ""
 msgid "Done"
 msgstr ""
 
-#: lib/details.js:131 lib/details.js:386
+#: lib/details.js:131 lib/details.js:389
 msgid "Description"
 msgstr ""
 
@@ -399,12 +409,12 @@ msgid ""
 "brings it back."
 msgstr ""
 
-#: lib/details.js:352
+#: lib/details.js:355
 #, javascript-format
 msgid "Roll back to snapshot %d?"
 msgstr ""
 
-#: lib/details.js:353
+#: lib/details.js:356
 #, javascript-format
 msgid ""
 "snapper takes a snapshot of the system as it is, makes a writable copy of "
@@ -412,7 +422,7 @@ msgid ""
 "restarted."
 msgstr ""
 
-#: lib/details.js:359
+#: lib/details.js:362
 msgid ""
 "/etc/fstab mounts this filesystem by subvolume name, which overrules the "
 "default subvolume snapper is about to set. The rollback will be reported as "
@@ -420,34 +430,34 @@ msgid ""
 "subvolumes by hand from a live image is the way round it."
 msgstr ""
 
-#: lib/details.js:379
+#: lib/details.js:382
 #, javascript-format
 msgid "Take a snapshot of %s"
 msgstr ""
 
-#: lib/details.js:380
+#: lib/details.js:383
 msgid ""
 "It records the subvolume as it is now. Nothing is copied, so it takes about "
 "a second and almost no disk until the files start to differ."
 msgstr ""
 
-#: lib/details.js:388
+#: lib/details.js:391
 msgid "Before I change something"
 msgstr ""
 
-#: lib/details.js:395 lib/dialog.js:629 prefs.js:1122
+#: lib/details.js:398 lib/dialog.js:629 prefs.js:1122
 msgid "Cancel"
 msgstr ""
 
-#: lib/details.js:400
+#: lib/details.js:403
 msgid "Take snapshot"
 msgstr ""
 
-#: lib/details.js:410
+#: lib/details.js:413
 msgid "Taken by hand"
 msgstr ""
 
-#: lib/details.js:418
+#: lib/details.js:421
 #, javascript-format
 msgid "Snapshot %d taken"
 msgstr ""
@@ -827,8 +837,8 @@ msgstr ""
 
 #: prefs.js:730
 msgid ""
-"For a snapshot taken or a command copied. A rollback or restored files "
-"always get a notification."
+"For a snapshot taken or deleted and a command copied. A rollback or restored "
+"files always get a notification."
 msgstr ""
 
 #: prefs.js:735
