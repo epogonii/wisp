@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.13
+
+- The subvolume swap 1.0.12 handed over for rolling back is gone again, and
+  where snapper refuses to roll back the dialog says so, as in 1.0.11.
+  extensions.gnome.org counts a command handed over to run as root the same
+  as the extension running it, and a script of renames is too much of that.
+  The swap is to come back as a separate app, installed on its own, with Wisp
+  in front of it.
+
 ## 1.0.12
 
 - Rolling back works where snapper refuses, on a layout like Fedora's. The
