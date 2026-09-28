@@ -103,8 +103,8 @@ sets up a config, and the timers are switches on the Schedule page.
 - Everything that has changed since a snapshot, searchable, and for a package
   transaction exactly what the transaction changed
 - Put chosen files back, or roll the root filesystem back, by handing over the
-  command to run as root - with a word first when the system is not set up for
-  rollback or `/etc/fstab` is going to overrule it
+  command to run as root - a swap of subvolumes where snapper cannot roll back,
+  and a word first when `/etc/fstab` is going to overrule it
 - Timeline limits per config, a new config or the removal of one, snapper's
   timers, btrfsmaintenance's jobs, and what btrfs has handed out to chunks
 - Reads a config without asking for a password once the account is added to it,
@@ -170,8 +170,12 @@ API, which asks polkit itself.
 effect at the next boot - and does nothing at all if `/etc/fstab` names the
 subvolume it mounts at `/`. Where that is the case Wisp says so instead of
 letting the reboot say it. It also needs the default subvolume to be one of
-snapper's snapshots already, which it is not on a layout like Fedora's; snapper
-refuses there, and Wisp says so rather than hand over the command.
+snapper's snapshots already, which it is not on a layout like Fedora's. There
+the root is mounted by subvolume name, and Wisp hands over a command that
+renames instead: it mounts the top of the filesystem, puts a writable copy of
+the snapshot in the root's place under the same name, moves the snapshots
+across and keeps the old root under a name with the date in it. Where neither
+works, Wisp says so rather than hand over a command.
 
 ---
 

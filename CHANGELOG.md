@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.0.12
+
+- Rolling back works where snapper refuses, on a layout like Fedora's. The
+  root there is mounted by subvolume name, so the command handed over renames
+  instead: a writable copy of the snapshot takes the root's name, the
+  snapshots move across to it, and the system as it was is kept under a name
+  with the date and time in it. Where /boot is a filesystem of its own and the
+  snapshot lacks the modules of a kernel there, the command sets one whose
+  modules it has as the default with grubby, or the dialog names the one to
+  pick at boot. The command ends by saying to restart.
+
 ## 1.0.11
 
 - The panel icon turns red while snapper is missing, not running or has no
