@@ -16,6 +16,9 @@
   that worked could not be told from one that did not. (#1)
 - The cleanup rules in the menu, when shown, line up. Each one sat right
   against the age after it, and the ages are of different lengths.
+- A snapshot dated ahead of the clock shows its date and time. It said "just
+  now" until the clock caught up: hours, for one taken at boot on a machine
+  whose hardware clock keeps local time.
 - Rolling back where the system is not set up for it says so, with no command
   to copy. snapper refuses when the default subvolume is not one of its
   snapshots, as on Fedora as installed, and the dialog used to hand over the

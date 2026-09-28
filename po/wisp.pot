@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wisp 1.0.11\n"
 "Report-Msgid-Bugs-To: https://github.com/epogonii/wisp/issues\n"
-"POT-Creation-Date: 2026-09-28 12:41+0300\n"
+"POT-Creation-Date: 2026-09-28 13:11+0300\n"
 "Last-Translator: NAME <EMAIL>\n"
 "Language-Team: none\n"
 "Language: \n"
@@ -473,32 +473,32 @@ msgstr ""
 msgid "Snapshot %d taken"
 msgstr ""
 
-#: lib/format.js:25
+#: lib/format.js:29
 msgid "just now"
 msgstr ""
 
-#: lib/format.js:28
+#: lib/format.js:32
 #, javascript-format
 msgid "%d minute ago"
 msgid_plural "%d minutes ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/format.js:32
+#: lib/format.js:36
 #, javascript-format
 msgid "%d hour ago"
 msgid_plural "%d hours ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/format.js:36
+#: lib/format.js:40
 #, javascript-format
 msgid "%d day ago"
 msgid_plural "%d days ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/format.js:50
+#: lib/format.js:54
 msgid "unknown"
 msgstr ""
 
