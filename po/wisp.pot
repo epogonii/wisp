@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wisp 1.0.11\n"
 "Report-Msgid-Bugs-To: https://github.com/epogonii/wisp/issues\n"
-"POT-Creation-Date: 2026-09-28 14:25+0300\n"
+"POT-Creation-Date: 2026-09-28 14:43+0300\n"
 "Last-Translator: NAME <EMAIL>\n"
 "Language-Team: none\n"
 "Language: \n"
@@ -459,8 +459,8 @@ msgstr ""
 #: lib/details.js:406
 #, javascript-format
 msgid ""
-"The system as it is now is kept as subvolume %s. Restart once the command is "
-"done."
+"The system as it is now is kept as snapshot %d, to be deleted like any other "
+"once it is not needed. Restart once the command is done."
 msgstr ""
 
 #: lib/details.js:410

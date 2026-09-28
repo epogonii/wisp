@@ -174,8 +174,9 @@ snapper's snapshots already, which it is not on a layout like Fedora's. There
 the root is mounted by subvolume name, and Wisp hands over a command that
 renames instead: it mounts the top of the filesystem, puts a writable copy of
 the snapshot in the root's place under the same name, moves the snapshots
-across and keeps the old root under a name with the date in it. Where neither
-works, Wisp says so rather than hand over a command.
+across and makes the old root one of them, as the backup `snapper rollback`
+keeps, so it can be deleted from the menu. Where neither works, Wisp says so
+rather than hand over a command.
 
 ---
 
