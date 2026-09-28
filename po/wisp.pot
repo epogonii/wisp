@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wisp 1.0.11\n"
 "Report-Msgid-Bugs-To: https://github.com/epogonii/wisp/issues\n"
-"POT-Creation-Date: 2026-09-28 12:38+0300\n"
+"POT-Creation-Date: 2026-09-28 12:41+0300\n"
 "Last-Translator: NAME <EMAIL>\n"
 "Language-Team: none\n"
 "Language: \n"
@@ -125,7 +125,7 @@ msgstr ""
 msgid "Wisp does not run commands as root. Run this one as root in a terminal."
 msgstr ""
 
-#: lib/command.js:43 lib/compare.js:254 prefs.js:217
+#: lib/command.js:43 lib/compare.js:254 lib/details.js:385 prefs.js:217
 msgid "Close"
 msgstr ""
 
@@ -302,7 +302,7 @@ msgstr ""
 msgid "Done"
 msgstr ""
 
-#: lib/details.js:131 lib/details.js:389
+#: lib/details.js:131 lib/details.js:412
 msgid "Description"
 msgstr ""
 
@@ -409,12 +409,12 @@ msgid ""
 "brings it back."
 msgstr ""
 
-#: lib/details.js:355
+#: lib/details.js:363
 #, javascript-format
 msgid "Roll back to snapshot %d?"
 msgstr ""
 
-#: lib/details.js:356
+#: lib/details.js:364
 #, javascript-format
 msgid ""
 "snapper takes a snapshot of the system as it is, makes a writable copy of "
@@ -422,7 +422,7 @@ msgid ""
 "restarted."
 msgstr ""
 
-#: lib/details.js:362
+#: lib/details.js:370
 msgid ""
 "/etc/fstab mounts this filesystem by subvolume name, which overrules the "
 "default subvolume snapper is about to set. The rollback will be reported as "
@@ -431,33 +431,44 @@ msgid ""
 msgstr ""
 
 #: lib/details.js:382
+msgid "This system is not set up for rollback"
+msgstr ""
+
+#: lib/details.js:383
+msgid ""
+"snapper only rolls back a system whose default btrfs subvolume is one of its "
+"snapshots. Here it is not, so snapper refuses. Files can still be put back "
+"from the list of what changed."
+msgstr ""
+
+#: lib/details.js:405
 #, javascript-format
 msgid "Take a snapshot of %s"
 msgstr ""
 
-#: lib/details.js:383
+#: lib/details.js:406
 msgid ""
 "It records the subvolume as it is now. Nothing is copied, so it takes about "
 "a second and almost no disk until the files start to differ."
 msgstr ""
 
-#: lib/details.js:391
+#: lib/details.js:414
 msgid "Before I change something"
 msgstr ""
 
-#: lib/details.js:398 lib/dialog.js:629 prefs.js:1150
+#: lib/details.js:421 lib/dialog.js:629 prefs.js:1150
 msgid "Cancel"
 msgstr ""
 
-#: lib/details.js:403
+#: lib/details.js:426
 msgid "Take snapshot"
 msgstr ""
 
-#: lib/details.js:413
+#: lib/details.js:436
 msgid "Taken by hand"
 msgstr ""
 
-#: lib/details.js:421
+#: lib/details.js:444
 #, javascript-format
 msgid "Snapshot %d taken"
 msgstr ""

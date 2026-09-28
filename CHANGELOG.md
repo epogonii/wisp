@@ -16,6 +16,10 @@
   that worked could not be told from one that did not. (#1)
 - The cleanup rules in the menu, when shown, line up. Each one sat right
   against the age after it, and the ages are of different lengths.
+- Rolling back where the system is not set up for it says so, with no command
+  to copy. snapper refuses when the default subvolume is not one of its
+  snapshots, as on Fedora as installed, and the dialog used to hand over the
+  command anyway, with a warning about /etc/fstab.
 - The settings say less. Two choices were cut off in their rows, "Only when
   snapper is set up" and "A pill under the panel", and the descriptions of the
   messages and the lock ran to four lines. Messages is now called
