@@ -109,13 +109,14 @@ class SnapshotItem extends PopupMenu.PopupBaseMenuItem {
             }));
         }
 
-        this.add_child(new St.Label({
+        this.age = new St.Label({
             text: dateStyle === 'absolute'
                 ? Format.fullDate(entry.dateTime)
                 : Format.ago(entry.dateTime),
             style_class: 'wisp-age',
             y_align: Clutter.ActorAlign.CENTER,
-        }));
+        });
+        this.add_child(this.age);
 
         // Reactive, so the press lands on the button and not on the row: a
         // delete that also opened what it was deleting would be a poor button.
@@ -633,6 +634,7 @@ class Indicator extends PanelMenu.Button {
             this._addLocked(part, config, error);
         else
             this._addSnapshots(part, config, entries);
+        this._alignAges();
 
         // Arrow keys walk the selection down the list, and a row below the
         // fold has to bring itself into view when it takes the focus, or the
@@ -714,6 +716,28 @@ class Indicator extends PanelMenu.Button {
             });
             section.addMenuItem(fewer);
         }
+    }
+
+    /**
+     * Gives every age in the list the width of the longest one, so the
+     * cleanup rules in front of them line up. Without the rules there is
+     * nothing to line up, and the ages stay flush right.
+     */
+    _alignAges() {
+        if (!this._settings.get_boolean('show-cleanup'))
+            return;
+
+        // Across all the configs, and reset first: a section filled again
+        // for its older snapshots can change which age is the widest.
+        const ages = this._list.box.get_children()
+            .flatMap(part => part.get_children())
+            .filter(row => row instanceof SnapshotItem)
+            .map(row => row.age);
+        for (const age of ages)
+            age.set_width(-1);
+        const width = Math.max(...ages.map(age => age.get_preferred_width(-1)[1]));
+        for (const age of ages)
+            age.set_width(width);
     }
 
     /**

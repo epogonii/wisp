@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wisp 1.0.11\n"
 "Report-Msgid-Bugs-To: https://github.com/epogonii/wisp/issues\n"
-"POT-Creation-Date: 2026-09-28 12:11+0300\n"
+"POT-Creation-Date: 2026-09-28 12:38+0300\n"
 "Last-Translator: NAME <EMAIL>\n"
 "Language-Team: none\n"
 "Language: \n"
@@ -30,94 +30,94 @@ msgstr ""
 msgid "kept"
 msgstr ""
 
-#: extension.js:82 extension.js:214 lib/details.js:103
+#: extension.js:82 extension.js:215 lib/details.js:103
 msgid "no description"
 msgstr ""
 
-#: extension.js:208 lib/details.js:317
+#: extension.js:209 lib/details.js:317
 #, javascript-format
 msgid "Delete snapshots %d and %d?"
 msgstr ""
 
-#: extension.js:209 lib/details.js:318
+#: extension.js:210 lib/details.js:318
 #, javascript-format
 msgid "Delete snapshot %d?"
 msgstr ""
 
-#: extension.js:216
+#: extension.js:217
 msgid "There is no undoing this."
 msgstr ""
 
-#: extension.js:218 lib/details.js:323
+#: extension.js:219 lib/details.js:323
 msgid "Delete"
 msgstr ""
 
-#: extension.js:218
+#: extension.js:219
 msgid "Delete both"
 msgstr ""
 
-#: extension.js:234 lib/details.js:329
+#: extension.js:235 lib/details.js:329
 #, javascript-format
 msgid "Snapshots %d and %d deleted"
 msgstr ""
 
-#: extension.js:235 lib/details.js:330
+#: extension.js:236 lib/details.js:330
 #, javascript-format
 msgid "Snapshot %d deleted"
 msgstr ""
 
-#: extension.js:238 extension.js:394 lib/toast.js:63 prefs.js:837
+#: extension.js:239 extension.js:395 lib/toast.js:63 prefs.js:837
 msgid "Wisp"
 msgstr ""
 
-#: extension.js:239
+#: extension.js:240
 #, javascript-format
 msgid "Your account is not allowed to change the %s config."
 msgstr ""
 
-#: extension.js:273 prefs.js:693
+#: extension.js:274 prefs.js:693
 msgid "Take a snapshot"
 msgstr ""
 
-#: extension.js:373
+#: extension.js:374
 msgid "Click to copy"
 msgstr ""
 
-#: extension.js:385 lib/command.js:52 lib/compare.js:322
+#: extension.js:386 lib/command.js:52 lib/compare.js:322
 msgid "Command copied"
 msgstr ""
 
-#: extension.js:486
+#: extension.js:487
 msgid "Something went wrong while reading the snapshots."
 msgstr ""
 
-#: extension.js:548
+#: extension.js:549
 msgid "Unlock to see the snapshots"
 msgstr ""
 
-#: extension.js:673
+#: extension.js:675
 #, javascript-format
 msgid "No snapshots of %s yet."
 msgstr ""
 
-#: extension.js:700
+#: extension.js:702
 #, javascript-format
 msgid "%d older snapshot"
 msgid_plural "%d older snapshots"
 msgstr[0] ""
 msgstr[1] ""
 
-#: extension.js:709
+#: extension.js:711
 msgid "Show fewer"
 msgstr ""
 
-#: extension.js:738
+#: extension.js:762
 msgid ""
 "These snapshots belong to root. Run this once as root to give your account "
 "access:"
 msgstr ""
 
-#: extension.js:761
+#: extension.js:785
 msgid "Settings"
 msgstr ""
 

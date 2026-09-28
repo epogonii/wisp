@@ -14,6 +14,8 @@
 - A deleted snapshot gets the same pill, or notification, as a taken one. The
   menu and the details window both closed on a delete and said nothing, so one
   that worked could not be told from one that did not. (#1)
+- The cleanup rules in the menu, when shown, line up. Each one sat right
+  against the age after it, and the ages are of different lengths.
 - The settings say less. Two choices were cut off in their rows, "Only when
   snapper is set up" and "A pill under the panel", and the descriptions of the
   messages and the lock ran to four lines. Messages is now called
