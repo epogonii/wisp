@@ -677,7 +677,7 @@ export default class WispPreferences extends ExtensionPreferences {
 
         panel.add(this._combo({
             title: _('Show the indicator'),
-            subtitle: _('Hidden while snapper is missing, not running or has no config'),
+            subtitle: _('Red or hidden while snapper is missing, not running or has no config'),
             labels: [_('Always'), _('When usable')],
             key: 'indicator-visibility',
             values: VISIBILITY,

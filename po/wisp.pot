@@ -87,37 +87,37 @@ msgstr ""
 msgid "Command copied"
 msgstr ""
 
-#: extension.js:485
+#: extension.js:486
 msgid "Something went wrong while reading the snapshots."
 msgstr ""
 
-#: extension.js:547
+#: extension.js:548
 msgid "Unlock to see the snapshots"
 msgstr ""
 
-#: extension.js:672
+#: extension.js:673
 #, javascript-format
 msgid "No snapshots of %s yet."
 msgstr ""
 
-#: extension.js:699
+#: extension.js:700
 #, javascript-format
 msgid "%d older snapshot"
 msgid_plural "%d older snapshots"
 msgstr[0] ""
 msgstr[1] ""
 
-#: extension.js:708
+#: extension.js:709
 msgid "Show fewer"
 msgstr ""
 
-#: extension.js:737
+#: extension.js:738
 msgid ""
 "These snapshots belong to root. Run this once as root to give your account "
 "access:"
 msgstr ""
 
-#: extension.js:760
+#: extension.js:761
 msgid "Settings"
 msgstr ""
 
@@ -766,7 +766,7 @@ msgid "Show the indicator"
 msgstr ""
 
 #: prefs.js:680
-msgid "Hidden while snapper is missing, not running or has no config"
+msgid "Red or hidden while snapper is missing, not running or has no config"
 msgstr ""
 
 #: prefs.js:681

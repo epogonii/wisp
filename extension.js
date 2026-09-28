@@ -439,9 +439,10 @@ class Indicator extends PanelMenu.Button {
             // worth doing for one here - building rows nobody is looking at
             // costs a round trip to snapperd every hour, and snapperd stops
             // itself when nothing asks it anything. The exception is an
-            // indicator hidden for having nothing to show, where noticing
-            // that it now has something is the only thing that brings it back.
-            if (this.menu.isOpen || !this.visible)
+            // indicator hidden or tinted for having nothing to show, where
+            // noticing that it now has something is the only thing that
+            // brings it back.
+            if (this.menu.isOpen || !this._usable)
                 this._rebuild();
         });
 
@@ -787,14 +788,19 @@ class Indicator extends PanelMenu.Button {
 
     /**
      * Hides the indicator when there is nothing it could show, if that is
-     * what it has been asked to do. It is only ever hidden, never destroyed:
-     * snapper being installed, or answering, or given its first config is a
-     * thing that happens while the session is running, and the indicator has
-     * to be there to notice.
+     * what it has been asked to do, and tints it otherwise, so that one left
+     * showing does not look like one that works. It is only ever hidden,
+     * never destroyed: snapper being installed, or answering, or given its
+     * first config is a thing that happens while the session is running, and
+     * the indicator has to be there to notice.
      */
     _applyVisibility() {
         this.visible = this._usable ||
             this._settings.get_string('indicator-visibility') === 'always';
+        if (this._usable)
+            this.remove_style_class_name('wisp-unusable');
+        else
+            this.add_style_class_name('wisp-unusable');
     }
 
     /**

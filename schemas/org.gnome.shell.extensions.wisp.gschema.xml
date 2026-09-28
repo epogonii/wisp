@@ -51,9 +51,10 @@
       <default>'always'</default>
       <summary>When to show the indicator at all</summary>
       <description>
-        Always, or only once there is something to show: snapper installed,
-        answering, and with at least one config. Hidden this way the indicator
-        comes back on its own as soon as that changes.
+        Always, in red while there is nothing to show, or only once there is
+        something to show: snapper installed, answering, and with at least one
+        config. Hidden this way the indicator comes back on its own as soon as
+        that changes.
       </description>
     </key>
     <key name="middle-click"

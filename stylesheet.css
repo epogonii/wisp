@@ -19,6 +19,13 @@
     margin: 0 1px;
 }
 
+/* Red while there is nothing to list, so an indicator left showing does not
+   pass for one that works. The panel is dark in the light style too, so the
+   colour is the same in both variants and carries no sh-var mark. */
+.wisp-indicator.wisp-unusable .system-status-icon {
+    color: #ff938c;
+}
+
 /* ---- the menu ---- */
 
 /* A config's worth of hourly snapshots is a long list, and the shell's own

@@ -86,10 +86,10 @@ Then one config for whatever should be snapshotted:
 sudo snapper -c root create-config /
 ```
 
-None of that has to be remembered. When snapper is missing the menu says so and
-hands over the install command for the distribution it is running on, the
-settings window builds the command that sets up a config, and the timers are
-switches on the Schedule page.
+None of that has to be remembered. When snapper is missing the panel icon
+turns red, the menu says so and hands over the install command for the
+distribution it is running on, the settings window builds the command that
+sets up a config, and the timers are switches on the Schedule page.
 
 ---
 
