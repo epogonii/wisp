@@ -3,7 +3,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Wisp 1.0.10\n"
+"Project-Id-Version: Wisp 1.0.11\n"
 "Report-Msgid-Bugs-To: https://github.com/epogonii/wisp/issues\n"
 "POT-Creation-Date: 2026-09-28 09:17+0300\n"
 "Last-Translator: NAME <EMAIL>\n"

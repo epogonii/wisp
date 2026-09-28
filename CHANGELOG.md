@@ -1,5 +1,27 @@
 # Changelog
 
+## 1.0.11
+
+- The panel icon turns red while snapper is missing, not running or has no
+  config. Left showing, which is the default, it looked the same as an icon
+  with snapshots behind it. The choice to hide it instead is still there. (#1)
+- The first question to snapperd waits until the connection to it is made.
+  Asked before, it took the moment after login for snapperd not answering,
+  which the menu could show on its first opening.
+- snapperd is tried again each time the menu opens. A start that failed at
+  login held until the next one, and with dbus-broker the menu asked for a
+  config to be made instead of saying snapperd was not answering.
+- A deleted snapshot gets the same pill, or notification, as a taken one. The
+  menu and the details window both closed on a delete and said nothing, so one
+  that worked could not be told from one that did not. (#1)
+- The settings say less. Two choices were cut off in their rows, "Only when
+  snapper is set up" and "A pill under the panel", and the descriptions of the
+  messages and the lock ran to four lines. Messages is now called
+  Confirmations. (#1)
+- GNOME Shell 51 is back on the supported list. extensions.gnome.org takes
+  it now that the port guide for 51 is out. Nothing in the extension changed
+  for it; what 1.0.6 says still holds.
+
 ## 1.0.10
 
 - The commands Wisp hands over no longer start with `sudo`. extensions.gnome.org
