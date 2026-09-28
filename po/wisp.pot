@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wisp 1.0.11\n"
 "Report-Msgid-Bugs-To: https://github.com/epogonii/wisp/issues\n"
-"POT-Creation-Date: 2026-09-28 14:43+0300\n"
+"POT-Creation-Date: 2026-09-28 15:47+0300\n"
 "Last-Translator: NAME <EMAIL>\n"
 "Language-Team: none\n"
 "Language: \n"
@@ -386,7 +386,7 @@ msgid "Roll back to this snapshot"
 msgstr ""
 
 #: lib/details.js:229
-msgid "Asks snapper to boot from it next time"
+msgid "Boots from it next time"
 msgstr ""
 
 #: lib/details.js:250
