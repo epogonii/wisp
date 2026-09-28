@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wisp 1.0.10\n"
 "Report-Msgid-Bugs-To: https://github.com/epogonii/wisp/issues\n"
-"POT-Creation-Date: 2026-09-28 09:16+0300\n"
+"POT-Creation-Date: 2026-09-28 09:17+0300\n"
 "Last-Translator: NAME <EMAIL>\n"
 "Language-Team: none\n"
 "Language: \n"
@@ -66,7 +66,7 @@ msgstr ""
 msgid "Snapshot %d deleted"
 msgstr ""
 
-#: extension.js:238 extension.js:394 lib/toast.js:58 prefs.js:823
+#: extension.js:238 extension.js:394 lib/toast.js:63 prefs.js:823
 msgid "Wisp"
 msgstr ""
 
