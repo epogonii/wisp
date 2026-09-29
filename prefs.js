@@ -328,10 +328,12 @@ class ConfigRow extends Adw.ExpanderRow {
                 if (this._helper === 'ready') {
                     button.sensitive = false;
                     Helper.grantAccess(this._config.name).catch(error => {
+                        if (this._closed())
+                            return;
                         button.sensitive = true;
                         const message = Helper.complaint(error);
                         if (message)
-                            this._window.add_toast?.(new Adw.Toast({title: message, timeout: 6}));
+                            this._toast(message);
                     });
                     return;
                 }
