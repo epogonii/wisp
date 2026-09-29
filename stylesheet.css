@@ -128,7 +128,7 @@
    screen is a worse answer than a row two lines tall. */
 .wisp-description {
     padding-left: 12px;
-    max-width: 22em;
+    max-width: 16em;
 }
 
 .wisp-age {
