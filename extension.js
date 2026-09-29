@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 import Clutter from 'gi://Clutter';
+import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import St from 'gi://St';
@@ -18,6 +19,7 @@ import {check} from './lib/requirements.js';
 import {commandLine} from './lib/command.js';
 import {setConfigArgv, withUser} from './lib/configs.js';
 import {Lock} from './lib/authorization.js';
+import * as Helper from './lib/helper.js';
 import * as Icon from './lib/icon.js';
 import * as Toast from './lib/toast.js';
 import * as Compare from './lib/compare.js';
@@ -570,6 +572,14 @@ class Indicator extends PanelMenu.Button {
                 return;
         }
 
+        // Only a config this account is refused has anything to ask the
+        // helper for.
+        if (listings.some(({error}) => isDenied(error))) {
+            this._helper = await Helper.state();
+            if (generation !== this._generation)
+                return;
+        }
+
         this._first = shown[0] ?? null;
 
         this.menu.removeAll();
@@ -754,6 +764,16 @@ class Indicator extends PanelMenu.Button {
             return;
         }
 
+        // With wisp-helper this is a click, after polkit asks for the password.
+        if (this._helper === 'ready') {
+            section.addMenuItem(new Advice(_('These snapshots belong to root.'), null));
+            const item = new PopupMenu.PopupImageMenuItem(
+                _('Give This Account Access'), 'changes-allow-symbolic');
+            item.connect('activate', () => this._grantAccess(config));
+            section.addMenuItem(item);
+            return;
+        }
+
         // SYNC_ACL puts an ACL on .snapshots for the allowed users, without
         // which the snapshots are listed but their files cannot be opened.
         // snapperd reports the change, and the menu rebuilds on its own.
@@ -764,6 +784,26 @@ class Indicator extends PanelMenu.Button {
                 ALLOW_USERS: withUser(allowUsers),
                 SYNC_ACL: 'yes',
             }))));
+
+        const item = new PopupMenu.PopupImageMenuItem(this._helper === 'old'
+            ? _('Update Wisp Helper')
+            : _('Install Wisp Helper'), 'system-software-install-symbolic');
+        item.connect('activate', () => Gio.AppInfo.launch_default_for_uri(
+            Helper.INSTALL_URL, global.create_app_launch_context(0, -1)));
+        section.addMenuItem(item);
+    }
+
+    /**
+     * @param {string} config - the config to add this account to
+     */
+    _grantAccess(config) {
+        Helper.grantAccess(config)
+            .then(() => Toast.announce(_('This account may now use %s').format(config)))
+            .catch(error => {
+                const message = Helper.complaint(error);
+                if (message)
+                    Main.notifyError(_('Wisp'), message);
+            });
     }
 
     _addSettings() {

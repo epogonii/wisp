@@ -24,6 +24,7 @@ import {ExtensionPreferences, gettext as _} from 'resource:///org/gnome/Shell/Ex
 
 import * as Btrfs from './lib/btrfs.js';
 import * as Configs from './lib/configs.js';
+import * as Helper from './lib/helper.js';
 import * as Units from './lib/units.js';
 import {commandLine, have} from './lib/exec.js';
 import {available as canLock} from './lib/authorization.js';
@@ -240,13 +241,14 @@ function showCommand(window, {heading, body, argv, destructive = false}) {
  */
 const ConfigRow = GObject.registerClass(
 class ConfigRow extends Adw.ExpanderRow {
-    _init({config, settings, window, closed}) {
+    _init({config, settings, window, closed, helper}) {
         super._init({
             title: config.name,
             subtitle: config.subvolume,
         });
 
         this._config = config;
+        this._helper = helper;
         this._settings = settings;
         this._window = window;
         this._closed = closed;
@@ -322,6 +324,17 @@ class ConfigRow extends Adw.ExpanderRow {
                 valign: Gtk.Align.CENTER,
             });
             button.connect('clicked', () => {
+                // The page is filled again when snapperd reports the change.
+                if (this._helper === 'ready') {
+                    button.sensitive = false;
+                    Helper.grantAccess(this._config.name).catch(error => {
+                        button.sensitive = true;
+                        const message = Helper.complaint(error);
+                        if (message)
+                            this._window.add_toast?.(new Adw.Toast({title: message, timeout: 6}));
+                    });
+                    return;
+                }
                 this._set('ALLOW_USERS', Configs.withUser(values['ALLOW_USERS']));
                 this._set('SYNC_ACL', 'yes');
                 button.sensitive = false;
@@ -1086,6 +1099,12 @@ export default class WispPreferences extends ExtensionPreferences {
         }
 
         const configs = await Configs.listConfigs();
+        // Asked only when some config has this account's button to offer.
+        const me = GLib.get_user_name();
+        const helper = configs.some(({values}) =>
+            !Configs.allowedUsers(values['ALLOW_USERS']).includes(me))
+            ? await Helper.state()
+            : null;
         if (this._stale(generation))
             return;
 
@@ -1118,6 +1137,7 @@ export default class WispPreferences extends ExtensionPreferences {
                 settings: this._settings,
                 window: this._window,
                 closed: () => this._closed,
+                helper,
             }));
         }
     }

@@ -26,6 +26,7 @@ lib/details.js
 lib/dialog.js
 lib/exec.js
 lib/format.js
+lib/helper.js
 lib/icon.js
 lib/keys.js
 lib/packages.js
