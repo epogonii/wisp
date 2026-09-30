@@ -8,6 +8,7 @@ import St from 'gi://St';
 
 import {Extension, gettext as _, ngettext} from 'resource:///org/gnome/shell/extensions/extension.js';
 import {ensureActorVisibleInScrollView} from 'resource:///org/gnome/shell/misc/animationUtils.js';
+import * as SystemActions from 'resource:///org/gnome/shell/misc/systemActions.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
@@ -581,8 +582,11 @@ class Indicator extends PanelMenu.Button {
         }
 
         this._first = shown[0] ?? null;
+        this._root = details.find(({subvolume}) => subvolume === '/')?.name;
 
         this.menu.removeAll();
+        if (Helper.waitsForRestart())
+            this._addRestart();
 
         // The list of snapshots is the one part of the menu that can outgrow
         // the screen. PanelMenu.Button caps the menu at the height of the work
@@ -760,7 +764,10 @@ class Indicator extends PanelMenu.Button {
      */
     _addLocked(section, config, error) {
         if (!isDenied(error)) {
-            section.addMenuItem(new Advice(error.message, null));
+            // After a swap the root's snapshots are in the new root.
+            section.addMenuItem(new Advice(config === this._root && Helper.waitsForRestart()
+                ? _('A rollback is done already and waits for the machine to restart.')
+                : error.message, null));
             return;
         }
 
@@ -806,6 +813,20 @@ class Indicator extends PanelMenu.Button {
                 if (message)
                     Main.notifyError(_('Wisp'), message);
             });
+    }
+
+    _addRestart() {
+        const actions = SystemActions.getDefault();
+        if (actions.canRestart) {
+            const item = new PopupMenu.PopupImageMenuItem(
+                _('Restart to Finish the Rollback'), 'system-reboot-symbolic');
+            item.connect('activate', () => actions.activateRestart());
+            this.menu.addMenuItem(item);
+        } else {
+            this.menu.addMenuItem(new Advice(
+                _('A rollback is done already and waits for the machine to restart.'), null));
+        }
+        this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
     }
 
     _addSettings() {
