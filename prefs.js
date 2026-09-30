@@ -866,7 +866,7 @@ export default class WispPreferences extends ExtensionPreferences {
 
         const messages = new Adw.PreferencesGroup({
             title: _('Confirmations'),
-            description: _('For a snapshot taken or deleted and a command copied. A rollback or restored files always get a notification.'),
+            description: _('For a snapshot taken or deleted, access given and a command copied. A rollback or a restore through wisp-helper reports back in its own dialog.'),
         });
         page.add(messages);
 
