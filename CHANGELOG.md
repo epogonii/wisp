@@ -19,6 +19,10 @@
 - While wisp-helper is missing or too old, the settings window opens with a
   line at the top that links to its install page, and on Fedora and openSUSE
   gives the commands to copy. Closed, it stays closed.
+- Descriptions and file names outside ASCII show as they were typed, and such
+  files open from the list of changes. snapperd sends every byte over 127 as
+  an escape, and that is what was shown. A description with a backslash in it
+  is taken now too.
 
 ## 1.0.13
 
