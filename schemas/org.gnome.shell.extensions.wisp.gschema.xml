@@ -144,5 +144,14 @@
         about is shown while this is empty.
       </description>
     </key>
+    <key name="show-helper-banner" type="b">
+      <default>true</default>
+      <summary>Point at wisp-helper in the settings window</summary>
+      <description>
+        While wisp-helper is missing or older than this Wisp needs, a line at
+        the top of the settings window links to its install page and gives the
+        commands that install it. Closing the line turns this off.
+      </description>
+    </key>
   </schema>
 </schemalist>

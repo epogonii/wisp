@@ -61,6 +61,30 @@ const QR_SIZE = 168;
 const LOGO = 'icons/hicolor/scalable/actions/wisp-symbolic.svg';
 const LOGO_SIZE = 96;
 
+// Drawn like GNOME Software's upgrade banner. Adw.Banner has room for one
+// button and none to close it with.
+const BANNER_CSS = `
+.wisp-banner {
+    background-image: linear-gradient(to right, #26a269, #1c71d8);
+    border-radius: 12px;
+    padding: 6px 6px 6px 18px;
+}
+
+.wisp-banner, .wisp-banner button {
+    color: white;
+}
+
+.wisp-commands {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 3px 3px 3px 12px;
+    margin: 0 12px 12px 0;
+}`;
+
+// The window can be opened again in the same process, and the style is the
+// display's, not the window's.
+let bannerStyled = false;
+
 /**
  * @param {string} key - one of Configs.TIMELINE_LIMITS
  * @returns {string} how often that many are kept
@@ -788,6 +812,7 @@ export default class WispPreferences extends ExtensionPreferences {
             title: _('Appearance'),
             icon_name: 'preferences-desktop-appearance-symbolic',
         });
+        page.add(this._helperBanner());
 
         const panel = new Adw.PreferencesGroup({title: _('Panel')});
         page.add(panel);
@@ -924,6 +949,120 @@ export default class WispPreferences extends ExtensionPreferences {
         }
 
         return page;
+    }
+
+    /**
+     * The line at the top of the first page while wisp-helper is missing or
+     * too old, with the commands that install it where it has a package.
+     * Closing it is for good.
+     *
+     * @returns {Adw.PreferencesGroup} a group with no title, hidden until the
+     *   helper has been asked
+     */
+    _helperBanner() {
+        if (!bannerStyled) {
+            const style = new Gtk.CssProvider();
+            style.load_from_string(BANNER_CSS);
+            Gtk.StyleContext.add_provider_for_display(Gdk.Display.get_default(),
+                style, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+            bannerStyled = true;
+        }
+
+        const box = new Gtk.Box({
+            orientation: Gtk.Orientation.VERTICAL,
+            spacing: 6,
+            css_classes: ['wisp-banner'],
+        });
+        const top = new Gtk.Box({spacing: 12});
+        box.append(top);
+
+        const text = new Gtk.Label({
+            hexpand: true,
+            xalign: 0,
+            wrap: true,
+            css_classes: ['heading'],
+        });
+        top.append(text);
+
+        const button = this._pill(_('Install'), Helper.INSTALL_URL);
+        button.valign = Gtk.Align.CENTER;
+        top.append(button);
+
+        const close = new Gtk.Button({
+            icon_name: 'window-close-symbolic',
+            tooltip_text: _('Hide'),
+            css_classes: ['flat', 'circular'],
+            valign: Gtk.Align.CENTER,
+        });
+        top.append(close);
+
+        const how = new Gtk.Box({orientation: Gtk.Orientation.VERTICAL, spacing: 6});
+        how.append(new Gtk.Label({
+            label: _('Run as root in a terminal'),
+            xalign: 0,
+            css_classes: ['caption'],
+        }));
+        const commands = new Gtk.Box({
+            orientation: Gtk.Orientation.VERTICAL,
+            css_classes: ['wisp-commands'],
+        });
+        how.append(commands);
+        box.append(how);
+
+        const group = new Adw.PreferencesGroup({visible: false});
+        group.add(box);
+        close.connect('clicked', () => {
+            this._settings.set_boolean('show-helper-banner', false);
+            group.visible = false;
+        });
+
+        // Each reload asks the helper again, and says here what it heard.
+        this._showBanner = helper => {
+            const old = helper === 'old';
+            text.label = old ? _('Wisp Helper needs updating')
+                : _('Wisp Helper does what needs root');
+            button.label = old ? _('Update') : _('Install');
+
+            while (commands.get_first_child())
+                commands.remove(commands.get_first_child());
+            const lines = Helper.installCommands(old);
+            for (const line of lines)
+                commands.append(this._bannerCommand(line));
+            how.visible = lines.length > 0;
+
+            group.visible = helper !== 'ready' &&
+                this._settings.get_boolean('show-helper-banner');
+        };
+        return group;
+    }
+
+    /**
+     * @param {string} line - a command to run as root
+     * @returns {Gtk.Box} the command, and a button that copies it
+     */
+    _bannerCommand(line) {
+        const row = new Gtk.Box({spacing: 6});
+        row.append(new Gtk.Label({
+            label: line,
+            hexpand: true,
+            xalign: 0,
+            wrap: true,
+            wrap_mode: Pango.WrapMode.WORD_CHAR,
+            selectable: true,
+            css_classes: ['monospace'],
+        }));
+        const copy = new Gtk.Button({
+            icon_name: 'edit-copy-symbolic',
+            tooltip_text: _('Copy'),
+            valign: Gtk.Align.CENTER,
+            css_classes: ['flat', 'circular'],
+        });
+        copy.connect('clicked', () => {
+            this._window.get_clipboard().set(line);
+            this._toast(_('Command copied.'));
+        });
+        row.append(copy);
+        return row;
     }
 
     /**
@@ -1153,6 +1292,10 @@ export default class WispPreferences extends ExtensionPreferences {
         const generation = (this._generation ?? 0) + 1;
         this._generation = generation;
         this._helperState = Helper.state();
+        this._helperState.then(helper => {
+            if (!this._stale(generation))
+                this._showBanner(helper);
+        });
 
         this._fillConfigs(generation).catch(error => this._failed(this._configsPage, error));
         this._fillSchedule(generation).catch(error => this._failed(this._schedulePage, error));

@@ -16,6 +16,9 @@
 - With wisp-helper a new config is set up for one of the mounted btrfs
   subvolumes that has none yet, picked from a list, with the usual name filled
   in.
+- While wisp-helper is missing or too old, the settings window opens with a
+  line at the top that links to its install page, and on Fedora and openSUSE
+  gives the commands to copy. Closed, it stays closed.
 
 ## 1.0.13
 
