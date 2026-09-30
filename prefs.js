@@ -331,7 +331,9 @@ class ConfigRow extends Adw.ExpanderRow {
                         if (this._closed())
                             return;
                         button.sensitive = true;
-                        const message = Helper.complaint(error);
+                        const message = Helper.isPending(error)
+                            ? _('A rollback is done already and waits for the machine to restart.')
+                            : Helper.complaint(error);
                         if (message)
                             this._toast(message);
                     });

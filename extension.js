@@ -800,7 +800,9 @@ class Indicator extends PanelMenu.Button {
         Helper.grantAccess(config)
             .then(() => Toast.announce(_('This account may now use %s').format(config)))
             .catch(error => {
-                const message = Helper.complaint(error);
+                const message = Helper.isPending(error)
+                    ? _('A rollback is done already and waits for the machine to restart.')
+                    : Helper.complaint(error);
                 if (message)
                     Main.notifyError(_('Wisp'), message);
             });
