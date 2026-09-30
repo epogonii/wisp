@@ -11,6 +11,9 @@
 // run: the rows collect what they were told and hand over one command for the
 // user to run in a terminal, and the window reloads when snapper reports the
 // change.
+//
+// With wisp-helper installed the same goes to it instead, and it asks for the
+// password first.
 
 import Adw from 'gi://Adw';
 import Gdk from 'gi://Gdk';
@@ -148,16 +151,28 @@ const CONFIG_NAME = /^[A-Za-z0-9][A-Za-z0-9_.-]*$/;
 const NUMBER_OR_RANGE = /^\d+(-\d+)?$/;
 
 /**
+ * @param {Error} error - what a call to wisp-helper failed with
+ * @returns {?string} what to tell the user, or null when the password dialog
+ *   was closed
+ */
+function complaint(error) {
+    return Helper.isPending(error)
+        ? _('A rollback is done already and waits for the machine to restart.')
+        : Helper.complaint(error);
+}
+
+/**
  * A row of buttons at the foot of a group: what has been changed but not yet
  * written, and the command that writes it.
  *
  * snapper refuses every change to a config for anyone but root, and this
  * window does not run anything as root. So the rows remember what they were
  * told, and this row hands it over as one command to run in a terminal.
+ * With wisp-helper it hands it all to the helper instead, for one password.
  */
 const ApplyRow = GObject.registerClass(
 class ApplyRow extends Adw.ActionRow {
-    _init({onRevert, onCopy}) {
+    _init({helper, onRevert, onCopy, onApply}) {
         super._init({title: _('Not saved yet')});
 
         this._revert = new Gtk.Button({
@@ -166,6 +181,19 @@ class ApplyRow extends Adw.ActionRow {
         });
         this._revert.connect('clicked', () => onRevert());
         this.add_suffix(this._revert);
+
+        this._helper = helper;
+        if (helper === 'ready') {
+            this._apply = new Gtk.Button({
+                label: _('Apply'),
+                valign: Gtk.Align.CENTER,
+                css_classes: ['suggested-action'],
+            });
+            this._apply.connect('clicked', () => onApply());
+            this.add_suffix(this._apply);
+            this.visible = false;
+            return;
+        }
 
         this._copy = new Gtk.Button({
             label: _('Copy Command'),
@@ -184,10 +212,22 @@ class ApplyRow extends Adw.ActionRow {
      */
     update(keys) {
         this.visible = keys.length > 0;
+        if (this._helper === 'ready') {
+            this.subtitle = keys.join(', ');
+            return;
+        }
         this.subtitle = keys.length > 0
             // Translators: the list is snapper's own setting names.
             ? _('Needs root, run the copied command: %s').format(keys.join(', '))
             : '';
+    }
+
+    /**
+     * @param {boolean} busy - whether a save is on its way
+     */
+    setBusy(busy) {
+        this._revert.sensitive = !busy;
+        this._apply.sensitive = !busy;
     }
 });
 
@@ -262,8 +302,10 @@ class ConfigRow extends Adw.ExpanderRow {
         this._addNumber();
 
         this._apply = new ApplyRow({
+            helper,
             onRevert: () => this._revert(),
             onCopy: () => this._copy(),
+            onApply: () => this._save(),
         });
         this.add_row(this._apply);
 
@@ -331,9 +373,7 @@ class ConfigRow extends Adw.ExpanderRow {
                         if (this._closed())
                             return;
                         button.sensitive = true;
-                        const message = Helper.isPending(error)
-                            ? _('A rollback is done already and waits for the machine to restart.')
-                            : Helper.complaint(error);
+                        const message = complaint(error);
                         if (message)
                             this._toast(message);
                     });
@@ -569,6 +609,31 @@ class ConfigRow extends Adw.ExpanderRow {
         this._toast(_('Command copied. Run it as root in a terminal; this window reloads once snapper has the change.'));
     }
 
+    async _save() {
+        const values = Object.fromEntries(this._dirty);
+        this._apply.setBusy(true);
+        try {
+            await Helper.setConfig(this._config.name, values);
+        } catch (error) {
+            if (this._closed())
+                return;
+            this._apply.setBusy(false);
+            const message = complaint(error);
+            if (message)
+                this._toast(message);
+            return;
+        }
+        if (this._closed())
+            return;
+
+        // snapperd's signal fills the page again soon after.
+        Object.assign(this._config.values, values);
+        this._dirty.clear();
+        this._apply.update([]);
+        this._apply.setBusy(false);
+        this._toast(_('Saved'));
+    }
+
     _toast(message) {
         if (this._closed())
             return;
@@ -581,6 +646,8 @@ export default class WispPreferences extends ExtensionPreferences {
     fillPreferencesWindow(window) {
         this._settings = this.getSettings();
         this._window = window;
+        // A reload after a save would fold up the row it was saved from.
+        this._expanded = new Set();
 
         // Filling this window means asking snapper and btrfs for things they
         // take their time over, and a row written to after the window is gone
@@ -1034,6 +1101,7 @@ export default class WispPreferences extends ExtensionPreferences {
         // the page.
         const generation = (this._generation ?? 0) + 1;
         this._generation = generation;
+        this._helperState = Helper.state();
 
         this._fillConfigs(generation).catch(error => this._failed(this._configsPage, error));
         this._fillSchedule(generation).catch(error => this._failed(this._schedulePage, error));
@@ -1103,12 +1171,7 @@ export default class WispPreferences extends ExtensionPreferences {
         }
 
         const configs = await Configs.listConfigs();
-        // Asked only when some config has this account's button to offer.
-        const me = GLib.get_user_name();
-        const helper = configs.some(({values}) =>
-            !Configs.allowedUsers(values['ALLOW_USERS']).includes(me))
-            ? await Helper.state()
-            : null;
+        const helper = await this._helperState;
         if (this._stale(generation))
             return;
 
@@ -1116,6 +1179,8 @@ export default class WispPreferences extends ExtensionPreferences {
             title: _('Configs'),
             description: _('One config per subvolume, kept in /etc/snapper/configs. Everything here is readable without a password; changing it is root’s, so changes are collected into one command to run in a terminal.'),
         });
+        if (helper === 'ready')
+            group.description = _('One config per subvolume, kept in /etc/snapper/configs. Reading them needs no password; changing them goes through wisp-helper, which asks for it first.');
 
         const add = new Gtk.Button({
             icon_name: 'list-add-symbolic',
@@ -1136,13 +1201,21 @@ export default class WispPreferences extends ExtensionPreferences {
         }
 
         for (const config of configs) {
-            group.add(new ConfigRow({
+            const row = new ConfigRow({
                 config,
                 settings: this._settings,
                 window: this._window,
                 closed: () => this._closed,
                 helper,
-            }));
+            });
+            row.expanded = this._expanded.has(config.name);
+            row.connect('notify::expanded', () => {
+                if (row.expanded)
+                    this._expanded.add(config.name);
+                else
+                    this._expanded.delete(config.name);
+            });
+            group.add(row);
         }
     }
 
@@ -1299,6 +1372,10 @@ export default class WispPreferences extends ExtensionPreferences {
             return;
         }
 
+        const helper = await this._helperState;
+        if (this._stale(generation))
+            return;
+
         const upkeep = new Adw.PreferencesGroup({
             title: _('Filesystem upkeep'),
             description: _('btrfsmaintenance keeps these, not snapper. Each one takes hours and runs in the background; how often is all there is to decide.'),
@@ -1307,7 +1384,9 @@ export default class WispPreferences extends ExtensionPreferences {
 
         const pending = new Map();
         const apply = new ApplyRow({
+            helper,
             onRevert: () => this._reload(),
+            onApply: () => this._saveMaintenance(apply, Object.fromEntries(pending)),
             onCopy: () => {
                 this._window.get_clipboard().set(
                     commandLine(Btrfs.setMaintenanceArgv(Object.fromEntries(pending))));
@@ -1350,6 +1429,28 @@ export default class WispPreferences extends ExtensionPreferences {
         }
 
         upkeep.add(apply);
+    }
+
+    /**
+     * @param {ApplyRow} apply - the row it was asked from
+     * @param {object} values - the periods being changed
+     */
+    async _saveMaintenance(apply, values) {
+        apply.setBusy(true);
+        try {
+            await Helper.setMaintenance(values);
+        } catch (error) {
+            if (this._closed)
+                return;
+            apply.setBusy(false);
+            const message = complaint(error);
+            if (message)
+                this._toast(message);
+            return;
+        }
+        this._toast(_('Saved'));
+        // The file is watched as well, unless the watch could not be made.
+        this._reload();
     }
 
     /**
