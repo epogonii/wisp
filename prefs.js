@@ -748,8 +748,8 @@ export default class WispPreferences extends ExtensionPreferences {
         window.add(this._storagePage);
         window.add(this._aboutPage());
 
-        // A change that needs root is run by the user in a terminal, so the
-        // window hears about it from snapperd rather than from a reply.
+        // A change can come from wisp-helper or from a terminal, and snapperd
+        // reports both.
         this._snapperSignal = Gio.DBus.system.signal_subscribe(
             'org.opensuse.Snapper', 'org.opensuse.Snapper', null,
             '/org/opensuse/Snapper', null, Gio.DBusSignalFlags.NONE,

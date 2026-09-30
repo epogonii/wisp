@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.1.0
+
+- With wisp-helper installed, what needs root goes through it: a separate
+  package on the system bus that asks polkit for the password first. That is
+  access to a config, its settings, a new config or the removal of one,
+  restoring files, rolling back, and btrfsmaintenance's schedule. Without it
+  Wisp shows the commands to run as root as before, and the menu links to the
+  helper's install page.
+- Rolling back through wisp-helper works on a layout like Fedora's too. The
+  confirmation says what will happen, and after it a dialog offers the
+  restart; the menu keeps a row for it until then.
+- Restoring files through wisp-helper keeps the list open and says what came
+  back. Closed before it is done, it leaves a notification instead.
+- With wisp-helper a new config is set up for one of the mounted btrfs
+  subvolumes that has none yet, picked from a list, with the usual name filled
+  in.
+
 ## 1.0.13
 
 - The subvolume swap 1.0.12 handed over for rolling back is gone again, and

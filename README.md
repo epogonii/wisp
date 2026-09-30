@@ -69,7 +69,7 @@ What snapper is set to keep, and what is left on the filesystem it keeps it on:
 | `polkit` | The optional lock in front of the menu, and switching snapper's timers |
 | `util-linux`, `btrfs-progs` | The Storage page |
 | `btrfsmaintenance` | Balance, scrub, defrag and trim on the Schedule page. snapper does not need it |
-| [`wisp-helper`](https://github.com/epogonii/wisp-helper) | Giving this account access to a config from the menu |
+| [`wisp-helper`](https://github.com/epogonii/wisp-helper) | Whatever needs root: access to a config, its settings, a new config or the removal of one, restoring files, rolling back, and btrfsmaintenance's schedule |
 
 GNOME Shell 46 or newer, Wayland or X11. polkit and util-linux are on
 practically every desktop install already; snapper usually is not.
@@ -81,7 +81,8 @@ sudo pacman -S snapper         # Arch
 sudo zypper install snapper    # openSUSE, where it is there from the start
 ```
 
-Then one config for whatever should be snapshotted:
+Then one config for whatever should be snapshotted. With wisp-helper that is a
+button on the Snapshots page; without it:
 
 ```sh
 sudo snapper -c root create-config /
@@ -89,8 +90,9 @@ sudo snapper -c root create-config /
 
 None of that has to be remembered. When snapper is missing the panel icon
 turns red, the menu says so and hands over the install command for the
-distribution it is running on, the settings window builds the command that
-sets up a config, and the timers are switches on the Schedule page.
+distribution it is running on, the settings window sets up a config through
+wisp-helper or builds the command that does it, and the timers are switches on
+the Schedule page.
 
 ---
 
@@ -103,14 +105,14 @@ sets up a config, and the timers are switches on the Schedule page.
 - Rename it, mark it important, change its cleanup rule, and turn read-only off
 - Everything that has changed since a snapshot, searchable, and for a package
   transaction exactly what the transaction changed
-- Put chosen files back, or roll the root filesystem back, by handing over the
-  command to run as root - with a word first when the system is not set up for
-  rollback or `/etc/fstab` is going to overrule it
+- Put chosen files back, or roll the root filesystem back, through wisp-helper
+  or by handing over the command to run as root - with a word first on what the
+  rollback will do, or why this system cannot have one
 - Timeline limits per config, a new config or the removal of one, snapper's
   timers, btrfsmaintenance's jobs, and what btrfs has handed out to chunks
 - Reads a config without asking for a password once the account is added to it,
-  with the command for that in the menu; an optional polkit lock in front of the
-  menu if you want one
+  with a row for that in the menu; an optional polkit lock in front of the menu
+  if you want one
 - Live, whoever changed the snapshots; whatever is missing gets named with the
   line that installs it; follows the light and dark theme
 
@@ -150,11 +152,12 @@ snapperd does not use polkit. Each config carries its own `ALLOW_USERS` and
 `ALLOW_GROUPS` in `/etc/snapper/configs/<name>`, both empty until somebody fills
 them in, so a fresh install tells an ordinary account nothing at all.
 
-Wisp runs nothing as root. For a config the account is not on, the menu adds
-it through [wisp-helper](https://github.com/epogonii/wisp-helper), a small
-system service that asks polkit for the password first. Without the helper the
-menu shows the command that does it, to run once as root in a terminal, and
-links to the helper's install page:
+Wisp runs nothing as root. What needs root goes through
+[wisp-helper](https://github.com/epogonii/wisp-helper), a small system service
+that asks polkit for the password first. Without the helper Wisp shows the
+command instead, to run as root in a terminal, and the menu links to the
+helper's install page. For a config the account is not on, the menu adds it
+through the helper, or shows the command that adds it, to run once as root:
 
 ```sh
 sudo snapper -c <config> set-config ALLOW_USERS=<you> SYNC_ACL=yes
@@ -166,9 +169,9 @@ change and the menu fills in on its own.
 
 Everything after that goes straight to snapperd over D-Bus as the user.
 Restoring files, rolling back, the settings in `/etc/snapper/configs` and
-btrfsmaintenance's file are root's either way: Wisp shows the command and copies
-it for you to run. The systemd timers are switched through systemd's own D-Bus
-API, which asks polkit itself.
+btrfsmaintenance's file are root's either way, and go through wisp-helper;
+without it Wisp shows the command and copies it for you to run. The systemd
+timers are switched through systemd's own D-Bus API, which asks polkit itself.
 
 `snapper rollback` points btrfs at a different default subvolume, so it takes
 effect at the next boot - and does nothing at all if `/etc/fstab` names the
@@ -176,6 +179,12 @@ subvolume it mounts at `/`. Where that is the case Wisp says so instead of
 letting the reboot say it. It also needs the default subvolume to be one of
 snapper's snapshots already, which it is not on a layout like Fedora's; snapper
 refuses there, and Wisp says so rather than hand over the command.
+
+wisp-helper gets further. On openSUSE it runs the same `snapper rollback`. On a
+layout like Fedora's, where `/etc/fstab` names the subvolume mounted at `/`, a
+writable copy of the snapshot takes its place instead, and the system as it was
+is kept as a snapshot of its own. Wisp says which it will be before anything is
+done, and where neither works, why.
 
 ---
 
