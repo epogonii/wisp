@@ -276,6 +276,19 @@ function showCommand(window, {heading, body, argv, destructive = false}) {
 }
 
 /**
+ * @param {string} subvolume - what the config would take snapshots of
+ * @returns {string} the name snapper's own examples would give it
+ */
+function configName(subvolume) {
+    if (subvolume === '/')
+        return 'root';
+    return subvolume.split('/').pop()
+        .replace(/[^A-Za-z0-9_.-]/g, '_')
+        .replace(/^[_.-]+/, '')
+        .slice(0, 64);
+}
+
+/**
  * One snapper config: what it takes snapshots of, who may use it, how many of
  * them it keeps, and the way to be rid of it.
  */
@@ -556,12 +569,50 @@ class ConfigRow extends Adw.ExpanderRow {
     }
 
     _confirmDelete() {
+        if (this._helper === 'ready') {
+            this._askDelete();
+            return;
+        }
+
         showCommand(this._window, {
             heading: _('Delete the %s config?').format(this._config.name),
             body: _('This removes the config and the .snapshots subvolume it keeps, and every snapshot in it. %s itself is left alone. None of it can be undone.').format(this._config.subvolume),
             argv: Configs.deleteConfigArgv(this._config.name),
             destructive: true,
         });
+    }
+
+    _askDelete() {
+        const dialog = new Adw.AlertDialog({
+            heading: _('Delete the %s config?').format(this._config.name),
+            body: _('This removes the config and the .snapshots subvolume it keeps, and every snapshot in it. %s itself is left alone. None of it can be undone.').format(this._config.subvolume),
+        });
+        dialog.add_response('cancel', _('Cancel'));
+        dialog.add_response('delete', _('Delete'));
+        dialog.set_response_appearance('delete', Adw.ResponseAppearance.DESTRUCTIVE);
+        dialog.set_close_response('cancel');
+        dialog.connect('response', (_dialog, response) => {
+            if (response === 'delete')
+                this._delete();
+        });
+        dialog.present(this._window);
+    }
+
+    async _delete() {
+        this.sensitive = false;
+        try {
+            await Helper.deleteConfig(this._config.name);
+        } catch (error) {
+            if (this._closed())
+                return;
+            this.sensitive = true;
+            const message = complaint(error);
+            if (message)
+                this._toast(message);
+            return;
+        }
+        // snapperd reports it, and the page is filled again without it.
+        this._toast(_('The %s config is deleted').format(this._config.name));
     }
 
     /**
@@ -1188,7 +1239,12 @@ export default class WispPreferences extends ExtensionPreferences {
             css_classes: ['flat'],
             valign: Gtk.Align.CENTER,
         });
-        add.connect('clicked', () => this._newConfig());
+        add.connect('clicked', () => {
+            if (helper === 'ready')
+                this._newConfigFromList(configs.map(({name}) => name));
+            else
+                this._newConfig();
+        });
         group.set_header_suffix(add);
         this._configsPage.add(group);
 
@@ -1314,6 +1370,93 @@ export default class WispPreferences extends ExtensionPreferences {
             body: _('Creating a config needs root. Run this as root in a terminal; this window reloads once snapper has it.'),
             argv: Configs.createConfigArgv(name, subvolume),
         });
+    }
+
+    /**
+     * Asks for a name and one of the subvolumes wisp-helper would set up.
+     *
+     * @param {string[]} taken - the names in use already
+     */
+    async _newConfigFromList(taken) {
+        let subvolumes;
+        try {
+            subvolumes = await Helper.listSubvolumes();
+        } catch (error) {
+            const message = complaint(error);
+            if (message)
+                this._toast(message);
+            return;
+        }
+        if (this._closed)
+            return;
+        if (subvolumes.length === 0) {
+            this._toast(_('Every mounted btrfs subvolume has a config already.'));
+            return;
+        }
+
+        const name = new Adw.EntryRow({title: _('Name')});
+        const path = new Adw.ComboRow({
+            title: _('Subvolume'),
+            model: new Gtk.StringList({strings: subvolumes}),
+        });
+        // The usual name for each, until one is typed in.
+        let suggested = '';
+        const suggest = () => {
+            if (name.text !== suggested)
+                return;
+            suggested = configName(subvolumes[path.selected]);
+            name.text = suggested;
+        };
+        suggest();
+        path.connect('notify::selected', suggest);
+
+        const group = new Adw.PreferencesGroup();
+        group.add(name);
+        group.add(path);
+
+        const dialog = new Adw.AlertDialog({
+            heading: _('New config'),
+            body: _('snapper takes snapshots of one subvolume per config, and keeps them in a .snapshots subvolume it makes underneath it.'),
+            extra_child: group,
+        });
+        dialog.add_response('cancel', _('Cancel'));
+        dialog.add_response('create', _('Create'));
+        dialog.set_response_appearance('create', Adw.ResponseAppearance.SUGGESTED);
+        dialog.set_default_response('create');
+        dialog.set_close_response('cancel');
+
+        dialog.connect('response', (_dialog, response) => {
+            if (response !== 'create')
+                return;
+            const chosen = name.text.trim();
+            if (chosen.length === 0)
+                return;
+            // The helper checks the name too, in words that are not
+            // translated.
+            if (!CONFIG_NAME.test(chosen)) {
+                this._toast(_('A config name can hold letters, digits, dots, dashes and underscores.'));
+                return;
+            }
+            if (taken.includes(chosen)) {
+                this._toast(_('There is a config called %s already.').format(chosen));
+                return;
+            }
+            this._setUpConfig(chosen, subvolumes[path.selected]);
+        });
+        dialog.present(this._window);
+    }
+
+    async _setUpConfig(name, subvolume) {
+        try {
+            await Helper.createConfig(name, subvolume);
+        } catch (error) {
+            const message = complaint(error);
+            if (message)
+                this._toast(message);
+            return;
+        }
+        // snapperd reports the new config, and the page is filled again.
+        this._toast(_('The %s config is set up').format(name));
     }
 
     /** The timers that make snapper act on its own, and the housekeeping the
