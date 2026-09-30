@@ -10,3 +10,6 @@ po/*.mo
 
 # Left behind by the python helpers in tools/.
 __pycache__/
+
+# What Finder leaves behind on macOS.
+.DS_Store
