@@ -69,6 +69,7 @@ What snapper is set to keep, and what is left on the filesystem it keeps it on:
 | `polkit` | The optional lock in front of the menu, and switching snapper's timers |
 | `util-linux`, `btrfs-progs` | The Storage page |
 | `btrfsmaintenance` | Balance, scrub, defrag and trim on the Schedule page. snapper does not need it |
+| [`wisp-helper`](https://github.com/epogonii/wisp-helper) | Giving this account access to a config from the menu |
 
 GNOME Shell 46 or newer, Wayland or X11. polkit and util-linux are on
 practically every desktop install already; snapper usually is not.
@@ -149,8 +150,11 @@ snapperd does not use polkit. Each config carries its own `ALLOW_USERS` and
 `ALLOW_GROUPS` in `/etc/snapper/configs/<name>`, both empty until somebody fills
 them in, so a fresh install tells an ordinary account nothing at all.
 
-Wisp runs nothing as root. For a config the account is not on, the menu shows
-the command that adds it, to run once as root in a terminal:
+Wisp runs nothing as root. For a config the account is not on, the menu adds
+it through [wisp-helper](https://github.com/epogonii/wisp-helper), a small
+system service that asks polkit for the password first. Without the helper the
+menu shows the command that does it, to run once as root in a terminal, and
+links to the helper's install page:
 
 ```sh
 sudo snapper -c <config> set-config ALLOW_USERS=<you> SYNC_ACL=yes
